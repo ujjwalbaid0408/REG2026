@@ -1,0 +1,48 @@
+# Data (distributed by organizers; huge)
+Data/
+Documents/
+
+# Environments / build
+venv/
+.env_tools/
+.conda_pkgs/
+*.egg-info/
+__pycache__/
+*.pyc
+
+# Third-party encoder clone (install separately per README)
+repo_conch/
+
+# Large artifacts (regenerate via scripts)
+artifacts/embeddings/
+artifacts/*/conch_weights/
+*.npy
+*.tiff
+*.tif
+
+# Trained weights -> distribute as a GitHub Release, not in-tree
+artifacts/mil/*/mil_head.pt
+
+# Logs / scratch
+logs/
+results/
+*.log
+slurm-*.out
+
+# LaTeX build intermediates (keep main.pdf)
+report/*.aux
+report/*.log
+report/*.out
+report/*.bbl
+report/*.blg
+report/*.toc
+report/b*.log
+
+# Nested challenge repo internals + provided test data (large; not ours to redistribute)
+repo_template/.git/
+repo_template/submission_evaluation_code/data/
+repo_template/**/test/input/
+repo_template/**/test/output/
+repo_template/media/
+*.mha
+*.tif

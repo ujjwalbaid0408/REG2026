@@ -1,0 +1,93 @@
+{
+  "name": "r1_reg",
+  "overall": {
+    "workflow": 0.794,
+    "dx_acc": 0.6911,
+    "val_n": 2253
+  },
+  "per_organ": {
+    "Prostate": {
+      "workflow": 0.7783,
+      "n": 490,
+      "organ_acc": 0.992
+    },
+    "Breast": {
+      "workflow": 0.7775,
+      "n": 427,
+      "organ_acc": 0.991
+    },
+    "Colon": {
+      "workflow": 0.8031,
+      "n": 366,
+      "organ_acc": 0.945
+    },
+    "Stomach": {
+      "workflow": 0.7954,
+      "n": 341,
+      "organ_acc": 0.985
+    },
+    "Urinary bladder": {
+      "workflow": 0.8234,
+      "n": 211,
+      "organ_acc": 0.991
+    },
+    "Lung": {
+      "workflow": 0.7993,
+      "n": 192,
+      "organ_acc": 0.927
+    },
+    "Uterine cervix": {
+      "workflow": 0.82,
+      "n": 178,
+      "organ_acc": 0.961
+    },
+    "Rectum": {
+      "workflow": 0.778,
+      "n": 47,
+      "organ_acc": 0.106
+    },
+    "Nipple": {
+      "workflow": 0.5765,
+      "n": 1,
+      "organ_acc": 0.0
+    }
+  },
+  "samples": [
+    {
+      "id": "PIT_01_00029_01.tiff",
+      "gt_organ": "Breast",
+      "pred_organ": "Breast",
+      "pred_dx": "Invasive carcinoma of no special type, grade II",
+      "workflow": 0.908,
+      "edge_f1": 1.0,
+      "mess": 0.895
+    },
+    {
+      "id": "PIT_01_00039_01.tiff",
+      "gt_organ": "Breast",
+      "pred_organ": "Breast",
+      "pred_dx": "Invasive carcinoma of no special type, grade II",
+      "workflow": 0.911,
+      "edge_f1": 1.0,
+      "mess": 0.895
+    },
+    {
+      "id": "PIT_01_00041_01.tiff",
+      "gt_organ": "Breast",
+      "pred_organ": "Breast",
+      "pred_dx": "Invasive carcinoma of no special type, grade II",
+      "workflow": 0.698,
+      "edge_f1": 0.809,
+      "mess": 0.615
+    },
+    {
+      "id": "PIT_01_00068_01.tiff",
+      "gt_organ": "Breast",
+      "pred_organ": "Breast",
+      "pred_dx": "Fibroepithelial tumor",
+      "workflow": 0.802,
+      "edge_f1": 1.0,
+      "mess": 0.909
+    }
+  ]
+}

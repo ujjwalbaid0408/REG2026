@@ -1,0 +1,1917 @@
+[
+  {
+    "question": "is there any neoplasm present",
+    "count": 14995,
+    "n_answers": 2,
+    "top_answers": [
+      [
+        "Yes, there is a neoplasm.",
+        14552
+      ],
+      [
+        "No, there is no neoplasm.",
+        443
+      ]
+    ]
+  },
+  {
+    "question": "is there any abnormality present",
+    "count": 13366,
+    "n_answers": 2,
+    "top_answers": [
+      [
+        "Yes, there is an abnormality.",
+        11954
+      ],
+      [
+        "No, there is no abnormality.",
+        1412
+      ]
+    ]
+  },
+  {
+    "question": "what is the organ",
+    "count": 12299,
+    "n_answers": 10,
+    "top_answers": [
+      [
+        "Prostate",
+        2418
+      ],
+      [
+        "Breast",
+        2212
+      ],
+      [
+        "Urinary bladder",
+        2158
+      ],
+      [
+        "Stomach",
+        1757
+      ],
+      [
+        "Colon",
+        1751
+      ],
+      [
+        "Lung",
+        945
+      ],
+      [
+        "Uterine cervix",
+        812
+      ],
+      [
+        "Rectum",
+        244
+      ]
+    ]
+  },
+  {
+    "question": "what is the procedure",
+    "count": 12299,
+    "n_answers": 21,
+    "top_answers": [
+      [
+        "Biopsy",
+        3363
+      ],
+      [
+        "Core needle biopsy",
+        2172
+      ],
+      [
+        "Transurethral resection",
+        2158
+      ],
+      [
+        "Endoscopic biopsy",
+        1736
+      ],
+      [
+        "Colonoscopic biopsy",
+        1537
+      ],
+      [
+        "Colposcopic biopsy",
+        507
+      ],
+      [
+        "Colonoscopic polypectomy",
+        348
+      ],
+      [
+        "Punch biopsy",
+        297
+      ]
+    ]
+  },
+  {
+    "question": "what is the #1 diagnosis",
+    "count": 11220,
+    "n_answers": 133,
+    "top_answers": [
+      [
+        "Acinar adenocarcinoma",
+        1595
+      ],
+      [
+        "Tubular adenoma",
+        1057
+      ],
+      [
+        "No tumor present",
+        901
+      ],
+      [
+        "Adenocarcinoma, moderately differentiated",
+        788
+      ],
+      [
+        "Invasive carcinoma of no special type, grade II",
+        730
+      ],
+      [
+        "Adenocarcinoma",
+        388
+      ],
+      [
+        "Low-grade squamous intraepithelial lesion (LSIL; CIN 1)",
+        357
+      ],
+      [
+        "Ductal carcinoma in situ",
+        339
+      ]
+    ]
+  },
+  {
+    "question": "what is the final pathology report",
+    "count": 11220,
+    "n_answers": 699,
+    "top_answers": [
+      [
+        "Prostate, biopsy;\\n  No tumor present",
+        811
+      ],
+      [
+        "Stomach, endoscopic biopsy;\\n  Tubular adenoma with low grade dysplasia",
+        449
+      ],
+      [
+        "Lung, biopsy;\\n  Adenocarcinoma",
+        388
+      ],
+      [
+        "Breast, core needle biopsy;\\n  Invasive carcinoma of no special type, grade II (Tubule formation: 3, Nuclear grade: 2, Mitoses: 1)",
+        387
+      ],
+      [
+        "Colon, colonoscopic biopsy;\\n  Adenocarcinoma, moderately differentiated",
+        348
+      ],
+      [
+        "Stomach, endoscopic biopsy;\\n  Adenocarcinoma, moderately differentiated",
+        305
+      ],
+      [
+        "Colon, colonoscopic biopsy;\\n  Tubular adenoma with low grade dysplasia",
+        275
+      ],
+      [
+        "Colon, colonoscopic biopsy;\\n  Chronic nonspecific inflammation",
+        231
+      ]
+    ]
+  },
+  {
+    "question": "what is the number of diagnoses to includes",
+    "count": 11215,
+    "n_answers": 5,
+    "top_answers": [
+      [
+        "1",
+        10581
+      ],
+      [
+        "2",
+        566
+      ],
+      [
+        "3",
+        63
+      ],
+      [
+        "4",
+        4
+      ],
+      [
+        "Papillary neoplasm",
+        1
+      ]
+    ]
+  },
+  {
+    "question": "what is the histologic type of neoplasm",
+    "count": 10955,
+    "n_answers": 46,
+    "top_answers": [
+      [
+        "Acinar adenocarcinoma",
+        3190
+      ],
+      [
+        "Adenocarcinoma",
+        1858
+      ],
+      [
+        "Squamous intraepithelial lesion",
+        1372
+      ],
+      [
+        "Invasive breast carcinoma of no special type",
+        1076
+      ],
+      [
+        "Tubular adenoma",
+        1057
+      ],
+      [
+        "Invasive urothelial carcinoma",
+        455
+      ],
+      [
+        "Non-invasive papillary urothelial carcinoma",
+        443
+      ],
+      [
+        "Squamous cell carcinoma",
+        254
+      ]
+    ]
+  },
+  {
+    "question": "what is the primary of neoplasm",
+    "count": 8541,
+    "n_answers": 14,
+    "top_answers": [
+      [
+        "Colorectal",
+        1655
+      ],
+      [
+        "Prostate",
+        1595
+      ],
+      [
+        "Gastric",
+        1266
+      ],
+      [
+        "Mammary",
+        1256
+      ],
+      [
+        "Urothelial",
+        998
+      ],
+      [
+        "Cervical",
+        770
+      ],
+      [
+        "Pulmonary",
+        727
+      ],
+      [
+        "Hematolymphoid",
+        151
+      ]
+    ]
+  },
+  {
+    "question": "what is the grading system",
+    "count": 8135,
+    "n_answers": 4,
+    "top_answers": [
+      [
+        "Gleason grading system",
+        4785
+      ],
+      [
+        "Nottingham combined histologic grade",
+        3228
+      ],
+      [
+        "2-tier grading system",
+        121
+      ],
+      [
+        "3-tier grading system",
+        1
+      ]
+    ]
+  },
+  {
+    "question": "what is the behavior of neoplasm",
+    "count": 7276,
+    "n_answers": 3,
+    "top_answers": [
+      [
+        "Malignant",
+        5144
+      ],
+      [
+        "Benign",
+        1793
+      ],
+      [
+        "In situ",
+        339
+      ]
+    ]
+  },
+  {
+    "question": "is there any additional finding present",
+    "count": 7066,
+    "n_answers": 2,
+    "top_answers": [
+      [
+        "No, there is no additional finding.",
+        6593
+      ],
+      [
+        "Yes, there is an additional finding.",
+        473
+      ]
+    ]
+  },
+  {
+    "question": "is there any invasion present",
+    "count": 3493,
+    "n_answers": 3,
+    "top_answers": [
+      [
+        "No, there is no invasion.",
+        1773
+      ],
+      [
+        "Yes, there is an invasion.",
+        1265
+      ],
+      [
+        "Yes, there is a invasion.",
+        455
+      ]
+    ]
+  },
+  {
+    "question": "is there any proliferative lesion present",
+    "count": 2584,
+    "n_answers": 2,
+    "top_answers": [
+      [
+        "Yes, there is a proliferative lesion.",
+        2362
+      ],
+      [
+        "No, there is no proliferative lesion.",
+        222
+      ]
+    ]
+  },
+  {
+    "question": "what is the grade of neoplasm",
+    "count": 2514,
+    "n_answers": 7,
+    "top_answers": [
+      [
+        "Moderately differentiated",
+        796
+      ],
+      [
+        "Grade II",
+        729
+      ],
+      [
+        "Well differentiated",
+        338
+      ],
+      [
+        "Poorly differentiated",
+        290
+      ],
+      [
+        "Grade I",
+        213
+      ],
+      [
+        "Grade III",
+        134
+      ],
+      [
+        "Grade 1",
+        14
+      ]
+    ]
+  },
+  {
+    "question": "what is the gleason score",
+    "count": 2172,
+    "n_answers": 9,
+    "top_answers": [
+      [
+        "7 (3+4)",
+        650
+      ],
+      [
+        "6 (3+3)",
+        603
+      ],
+      [
+        "7 (4+3)",
+        504
+      ],
+      [
+        "8 (4+4)",
+        293
+      ],
+      [
+        "9 (4+5)",
+        77
+      ],
+      [
+        "9 (5+4)",
+        23
+      ],
+      [
+        "10 (5+5)",
+        19
+      ],
+      [
+        "8 (3+5)",
+        2
+      ]
+    ]
+  },
+  {
+    "question": "is there any microcalcification present",
+    "count": 2146,
+    "n_answers": 2,
+    "top_answers": [
+      [
+        "No, there is no microcalcification.",
+        1963
+      ],
+      [
+        "Yes, there is a microcalcification.",
+        183
+      ]
+    ]
+  },
+  {
+    "question": "what is the histologic subtype of neoplasm",
+    "count": 1942,
+    "n_answers": 15,
+    "top_answers": [
+      [
+        "Adenocarcinoma, not otherwise specified",
+        674
+      ],
+      [
+        "Tubular adenocarcinoma",
+        640
+      ],
+      [
+        "Conventional urothelial carcinoma",
+        427
+      ],
+      [
+        "Mixed adenocarcinoma",
+        102
+      ],
+      [
+        "Urothelial carcinoma with squamous differentiation,",
+        27
+      ],
+      [
+        "Poorly cohesive carcinoma, signet-ring cell type",
+        19
+      ],
+      [
+        "Mucinous adenocarcinoma",
+        11
+      ],
+      [
+        "Endocervical adenocarcinoma in situ, HPV-associated",
+        10
+      ]
+    ]
+  },
+  {
+    "question": "what is the histologic type of lesion",
+    "count": 1766,
+    "n_answers": 30,
+    "top_answers": [
+      [
+        "Ductal carcinoma in situ",
+        1195
+      ],
+      [
+        "Papillary neoplasm",
+        173
+      ],
+      [
+        "Fibroepithelial tumor",
+        59
+      ],
+      [
+        "Columnar cell lesion",
+        49
+      ],
+      [
+        "Fibroepithelial tumor, favor fibroadenoma",
+        37
+      ],
+      [
+        "Atypical ductal hyperplasia",
+        34
+      ],
+      [
+        "Usual ductal hyperplasia",
+        33
+      ],
+      [
+        "Fibroadenoma",
+        25
+      ]
+    ]
+  },
+  {
+    "question": "what is the grade of dysplasia",
+    "count": 1634,
+    "n_answers": 2,
+    "top_answers": [
+      [
+        "Low grade",
+        1133
+      ],
+      [
+        "High grade",
+        501
+      ]
+    ]
+  },
+  {
+    "question": "is there any gleason pattern 3 present",
+    "count": 1595,
+    "n_answers": 2,
+    "top_answers": [
+      [
+        "Yes, there is Gleason pattern 3.",
+        1202
+      ],
+      [
+        "No, there is no Gleason pattern 3.",
+        393
+      ]
+    ]
+  },
+  {
+    "question": "is there any gleason pattern 4 present",
+    "count": 1595,
+    "n_answers": 2,
+    "top_answers": [
+      [
+        "Yes, there is Gleason pattern 4.",
+        974
+      ],
+      [
+        "No, there is no Gleason pattern 4.",
+        621
+      ]
+    ]
+  },
+  {
+    "question": "is there any gleason pattern 5 present",
+    "count": 1595,
+    "n_answers": 2,
+    "top_answers": [
+      [
+        "No, there is no Gleason pattern 5.",
+        1473
+      ],
+      [
+        "Yes, there is Gleason pattern 5.",
+        122
+      ]
+    ]
+  },
+  {
+    "question": "what is the pridominant pattern",
+    "count": 1595,
+    "n_answers": 3,
+    "top_answers": [
+      [
+        "Gleason pattern 3",
+        930
+      ],
+      [
+        "Gleason pattern 4",
+        622
+      ],
+      [
+        "Gleason pattern 5",
+        43
+      ]
+    ]
+  },
+  {
+    "question": "what is the secondary pattern constituting more than 5% of tumor",
+    "count": 1595,
+    "n_answers": 4,
+    "top_answers": [
+      [
+        "Not identified",
+        922
+      ],
+      [
+        "Gleason pattern 4",
+        348
+      ],
+      [
+        "Gleason pattern 3",
+        255
+      ],
+      [
+        "Gleason pattern 5",
+        70
+      ]
+    ]
+  },
+  {
+    "question": "what is the worst grade pattern",
+    "count": 1595,
+    "n_answers": 3,
+    "top_answers": [
+      [
+        "Gleason pattern 4",
+        870
+      ],
+      [
+        "Gleason pattern 3",
+        603
+      ],
+      [
+        "Gleason pattern 5",
+        122
+      ]
+    ]
+  },
+  {
+    "question": "what is the grade group",
+    "count": 1595,
+    "n_answers": 5,
+    "top_answers": [
+      [
+        "Grade group 1",
+        603
+      ],
+      [
+        "Grade group 2",
+        325
+      ],
+      [
+        "Grade group 4",
+        296
+      ],
+      [
+        "Grade group 3",
+        252
+      ],
+      [
+        "Grade group 5",
+        119
+      ]
+    ]
+  },
+  {
+    "question": "what is the tumor volume",
+    "count": 1595,
+    "n_answers": 34,
+    "top_answers": [
+      [
+        "90%",
+        190
+      ],
+      [
+        "100%",
+        183
+      ],
+      [
+        "50%",
+        136
+      ],
+      [
+        "80%",
+        136
+      ],
+      [
+        "70%",
+        124
+      ],
+      [
+        "20%",
+        120
+      ],
+      [
+        "10%",
+        119
+      ],
+      [
+        "30%",
+        114
+      ]
+    ]
+  },
+  {
+    "question": "is there any neuroendocrine morphology present",
+    "count": 1530,
+    "n_answers": 2,
+    "top_answers": [
+      [
+        "No, there is no neuroendocrine morphology.",
+        1452
+      ],
+      [
+        "Yes, there is a neuroendocrine morphology.",
+        78
+      ]
+    ]
+  },
+  {
+    "question": "what is the grading system of dysplasia",
+    "count": 1513,
+    "n_answers": 1,
+    "top_answers": [
+      [
+        "2-tier grading system",
+        1513
+      ]
+    ]
+  },
+  {
+    "question": "what is the grading system of neoplasm",
+    "count": 1437,
+    "n_answers": 2,
+    "top_answers": [
+      [
+        "3-tier grading system",
+        1423
+      ],
+      [
+        "WHO grading system of neuroendocrine neoplasms",
+        14
+      ]
+    ]
+  },
+  {
+    "question": "is there any dysplasia present",
+    "count": 1254,
+    "n_answers": 2,
+    "top_answers": [
+      [
+        "Yes, there is a dysplasia.",
+        1183
+      ],
+      [
+        "No, there is no dysplasia.",
+        71
+      ]
+    ]
+  },
+  {
+    "question": "what is the histologic group of lesion",
+    "count": 1097,
+    "n_answers": 6,
+    "top_answers": [
+      [
+        "Intraductal proliferative lesion",
+        661
+      ],
+      [
+        "Papillary neoplasm",
+        232
+      ],
+      [
+        "Fibroepithelial tumor",
+        150
+      ],
+      [
+        "Adenosis",
+        28
+      ],
+      [
+        "Non-invasive lobular neoplasia",
+        24
+      ],
+      [
+        "Mesenchymal tumor",
+        2
+      ]
+    ]
+  },
+  {
+    "question": "is there any muscularis propria present",
+    "count": 1079,
+    "n_answers": 2,
+    "top_answers": [
+      [
+        "Yes, there is a muscularis propria.",
+        831
+      ],
+      [
+        "No, there is no muscularis propria.",
+        248
+      ]
+    ]
+  },
+  {
+    "question": "what is the score for tubular differentiation",
+    "count": 1076,
+    "n_answers": 3,
+    "top_answers": [
+      [
+        "3",
+        890
+      ],
+      [
+        "2",
+        159
+      ],
+      [
+        "1",
+        27
+      ]
+    ]
+  },
+  {
+    "question": "what is the score for nuclear pleomorphism",
+    "count": 1076,
+    "n_answers": 3,
+    "top_answers": [
+      [
+        "2",
+        749
+      ],
+      [
+        "3",
+        257
+      ],
+      [
+        "1",
+        70
+      ]
+    ]
+  },
+  {
+    "question": "what is the score for mitotic rate",
+    "count": 1076,
+    "n_answers": 3,
+    "top_answers": [
+      [
+        "1",
+        849
+      ],
+      [
+        "2",
+        199
+      ],
+      [
+        "3",
+        28
+      ]
+    ]
+  },
+  {
+    "question": "what is the overall score",
+    "count": 1076,
+    "n_answers": 7,
+    "top_answers": [
+      [
+        "6",
+        526
+      ],
+      [
+        "7",
+        203
+      ],
+      [
+        "5",
+        169
+      ],
+      [
+        "8",
+        114
+      ],
+      [
+        "4",
+        39
+      ],
+      [
+        "9",
+        20
+      ],
+      [
+        "3",
+        5
+      ]
+    ]
+  },
+  {
+    "question": "is there any serration present",
+    "count": 947,
+    "n_answers": 2,
+    "top_answers": [
+      [
+        "No, there is no serration.",
+        696
+      ],
+      [
+        "Yes, there is a serration.",
+        251
+      ]
+    ]
+  },
+  {
+    "question": "is there any active inflammation present",
+    "count": 923,
+    "n_answers": 3,
+    "top_answers": [
+      [
+        "No, there is no active inflammation.",
+        491
+      ],
+      [
+        "Yes, there is an active inflammation.",
+        378
+      ],
+      [
+        "Yes, there is active inflammation.",
+        54
+      ]
+    ]
+  },
+  {
+    "question": "is there any monotonous cell population present",
+    "count": 893,
+    "n_answers": 2,
+    "top_answers": [
+      [
+        "Yes, there is a monotonous cell population.",
+        576
+      ],
+      [
+        "No, there is no monotonous cell population.",
+        317
+      ]
+    ]
+  },
+  {
+    "question": "is there any morphological adenocarcinoma pattern present",
+    "count": 726,
+    "n_answers": 2,
+    "top_answers": [
+      [
+        "Yes, there is a morphological adenocarcinoma pattern.",
+        406
+      ],
+      [
+        "No, there is no morphological adenocarcinoma pattern.",
+        320
+      ]
+    ]
+  },
+  {
+    "question": "is there any morphological squamous cell pattern present",
+    "count": 726,
+    "n_answers": 2,
+    "top_answers": [
+      [
+        "No, there is no morphological squamous cell pattern.",
+        547
+      ],
+      [
+        "Yes, there is a morphological squamous cell pattern.",
+        179
+      ]
+    ]
+  },
+  {
+    "question": "is there any villous component present",
+    "count": 696,
+    "n_answers": 2,
+    "top_answers": [
+      [
+        "No, there no villous component.",
+        575
+      ],
+      [
+        "Yes, there is a villous component.",
+        121
+      ]
+    ]
+  },
+  {
+    "question": "what is the grading system of atypia",
+    "count": 686,
+    "n_answers": 1,
+    "top_answers": [
+      [
+        "3-tier grading system",
+        686
+      ]
+    ]
+  },
+  {
+    "question": "what is the grade of atypia",
+    "count": 686,
+    "n_answers": 3,
+    "top_answers": [
+      [
+        "Grade 1",
+        357
+      ],
+      [
+        "Grade 3",
+        180
+      ],
+      [
+        "Grade 2",
+        149
+      ]
+    ]
+  },
+  {
+    "question": "is there any glandular involvement present",
+    "count": 686,
+    "n_answers": 2,
+    "top_answers": [
+      [
+        "No, there is no glandular involvement.",
+        635
+      ],
+      [
+        "Yes, there is a glandular involvement.",
+        51
+      ]
+    ]
+  },
+  {
+    "question": "is there any papillary lesion present",
+    "count": 676,
+    "n_answers": 2,
+    "top_answers": [
+      [
+        "Yes, there is a papillary lesion.",
+        451
+      ],
+      [
+        "No, there is no papillary lesion.",
+        225
+      ]
+    ]
+  },
+  {
+    "question": "what is the #2 diagnosis",
+    "count": 631,
+    "n_answers": 30,
+    "top_answers": [
+      [
+        "Ductal carcinoma in situ",
+        193
+      ],
+      [
+        "Urothelial carcinoma in situ",
+        133
+      ],
+      [
+        "Microcalcification",
+        129
+      ],
+      [
+        "Chronic granulomatous inflammation with foreign body reaction",
+        43
+      ],
+      [
+        "Lobular carcinoma in situ",
+        17
+      ],
+      [
+        "Apocrine metaplasia",
+        17
+      ],
+      [
+        "Chronic inflammation with organizing fibrosis",
+        16
+      ],
+      [
+        "Usual ductal hyperplasia",
+        13
+      ]
+    ]
+  },
+  {
+    "question": "what is the percentage of gleason pattern 4",
+    "count": 577,
+    "n_answers": 20,
+    "top_answers": [
+      [
+        "10%",
+        108
+      ],
+      [
+        "20%",
+        64
+      ],
+      [
+        "40%",
+        63
+      ],
+      [
+        "30%",
+        61
+      ],
+      [
+        "60%",
+        61
+      ],
+      [
+        "80%",
+        58
+      ],
+      [
+        "90%",
+        57
+      ],
+      [
+        "70%",
+        56
+      ]
+    ]
+  },
+  {
+    "question": "is there any focus measuring more than 2 mm in contiguous extent present",
+    "count": 561,
+    "n_answers": 2,
+    "top_answers": [
+      [
+        "Yes, there is a focus measuring more than 2 mm in contiguous extent.",
+        527
+      ],
+      [
+        "No, there is no focus measuring more than 2 mm in contiguous extent.",
+        34
+      ]
+    ]
+  },
+  {
+    "question": "what is the extent of invasion",
+    "count": 455,
+    "n_answers": 2,
+    "top_answers": [
+      [
+        "Invades subepithelial connective tissue",
+        302
+      ],
+      [
+        "Invades muscularis propria",
+        153
+      ]
+    ]
+  },
+  {
+    "question": "is there any mucinous feature present",
+    "count": 406,
+    "n_answers": 2,
+    "top_answers": [
+      [
+        "No, there is no mucinous feature.",
+        388
+      ],
+      [
+        "Yes, there is a mucinous feature.",
+        18
+      ]
+    ]
+  },
+  {
+    "question": "is there any necrosis present",
+    "count": 402,
+    "n_answers": 2,
+    "top_answers": [
+      [
+        "Yes, there is a necrosis.",
+        203
+      ],
+      [
+        "No, there is no necrosis.",
+        199
+      ]
+    ]
+  },
+  {
+    "question": "what is the architectural pattern of lesion",
+    "count": 339,
+    "n_answers": 11,
+    "top_answers": [
+      [
+        "Solid",
+        186
+      ],
+      [
+        "Cribriform",
+        107
+      ],
+      [
+        "Micropapillary",
+        13
+      ],
+      [
+        "Cribriform and solid",
+        8
+      ],
+      [
+        "Cribriform and papillary",
+        6
+      ],
+      [
+        "Solid and cribriform",
+        6
+      ],
+      [
+        "Papillary",
+        5
+      ],
+      [
+        "Solid and micropapillary",
+        3
+      ]
+    ]
+  },
+  {
+    "question": "what is the nuclear grade of lesion",
+    "count": 339,
+    "n_answers": 3,
+    "top_answers": [
+      [
+        "Intermediate",
+        163
+      ],
+      [
+        "High",
+        131
+      ],
+      [
+        "Low",
+        45
+      ]
+    ]
+  },
+  {
+    "question": "is there any inflammation present",
+    "count": 281,
+    "n_answers": 3,
+    "top_answers": [
+      [
+        "Yes, there is an inflammation.",
+        171
+      ],
+      [
+        "Yes, there is inflammation.",
+        66
+      ],
+      [
+        "No, there is no inflammation.",
+        44
+      ]
+    ]
+  },
+  {
+    "question": "is there any polyp present",
+    "count": 277,
+    "n_answers": 2,
+    "top_answers": [
+      [
+        "No, there is no polyp.",
+        268
+      ],
+      [
+        "Yes, there is a polyp.",
+        9
+      ]
+    ]
+  },
+  {
+    "question": "is there any lymphoid aggregate present",
+    "count": 215,
+    "n_answers": 2,
+    "top_answers": [
+      [
+        "No, there is no lymphoid aggregate.",
+        173
+      ],
+      [
+        "Yes, there is a lymphoid aggregate.",
+        42
+      ]
+    ]
+  },
+  {
+    "question": "is there any ulceration present",
+    "count": 215,
+    "n_answers": 2,
+    "top_answers": [
+      [
+        "No, there is no ulceration.",
+        184
+      ],
+      [
+        "Yes, there is an ulceration.",
+        31
+      ]
+    ]
+  },
+  {
+    "question": "is there any intestinal metaplasia present",
+    "count": 215,
+    "n_answers": 2,
+    "top_answers": [
+      [
+        "Yes, there is an intestinal metaplasia.",
+        138
+      ],
+      [
+        "No, there is no intestinal metaplasia.",
+        77
+      ]
+    ]
+  },
+  {
+    "question": "is there any foveolar epithelial hyperplasia present",
+    "count": 215,
+    "n_answers": 2,
+    "top_answers": [
+      [
+        "No, there is no foveolar epithelial hyperplasia.",
+        195
+      ],
+      [
+        "Yes, there is a foveolar epithelial hyperplasia.",
+        20
+      ]
+    ]
+  },
+  {
+    "question": "is there any associated epithelial lesion present",
+    "count": 169,
+    "n_answers": 2,
+    "top_answers": [
+      [
+        "Yes, there is an associated epithelial lesion.",
+        133
+      ],
+      [
+        "No, there is no associated epithelial lesion.",
+        36
+      ]
+    ]
+  },
+  {
+    "question": "what is the type of necrosis",
+    "count": 166,
+    "n_answers": 3,
+    "top_answers": [
+      [
+        "Comedo-type necrosis",
+        91
+      ],
+      [
+        "Focal necrosis",
+        73
+      ],
+      [
+        "Necrosis",
+        2
+      ]
+    ]
+  },
+  {
+    "question": "",
+    "count": 150,
+    "n_answers": 6,
+    "top_answers": [
+      [
+        "Non-small cell carcinoma, favor squamous cell carcinoma",
+        66
+      ],
+      [
+        "Non-small cell carcinoma, favor adenocarcinoma",
+        60
+      ],
+      [
+        "Non-small cell carcinoma, not otherwise specified",
+        15
+      ],
+      [
+        "1",
+        4
+      ],
+      [
+        "",
+        4
+      ],
+      [
+        "2",
+        1
+      ]
+    ]
+  },
+  {
+    "question": "what is the proportion of villous component",
+    "count": 121,
+    "n_answers": 1,
+    "top_answers": [
+      [
+        "25% to 75%",
+        121
+      ]
+    ]
+  },
+  {
+    "question": "is there any granuloma present",
+    "count": 109,
+    "n_answers": 3,
+    "top_answers": [
+      [
+        "Yes, there is a granuloma.",
+        52
+      ],
+      [
+        "No, there is no granuloma.",
+        46
+      ],
+      [
+        "Yes, there is granuloma.",
+        11
+      ]
+    ]
+  },
+  {
+    "question": "what is the number of distinct histological components",
+    "count": 102,
+    "n_answers": 2,
+    "top_answers": [
+      [
+        "2",
+        101
+      ],
+      [
+        "3",
+        1
+      ]
+    ]
+  },
+  {
+    "question": "what is the histological subtype of #1 component",
+    "count": 102,
+    "n_answers": 1,
+    "top_answers": [
+      [
+        "Tubular adenocarcinoma",
+        102
+      ]
+    ]
+  },
+  {
+    "question": "what is the histological subtype of #2 component",
+    "count": 102,
+    "n_answers": 3,
+    "top_answers": [
+      [
+        "Poorly cohesive carcinoma, not otherwise specified",
+        98
+      ],
+      [
+        "Poorly cohesive carcinoma, signet-ring cell type",
+        3
+      ],
+      [
+        "Mucinous adenocarcinoma",
+        1
+      ]
+    ]
+  },
+  {
+    "question": "what is histologic type of lesion",
+    "count": 83,
+    "n_answers": 11,
+    "top_answers": [
+      [
+        "Apocrine metaplasia",
+        26
+      ],
+      [
+        "Duct ectasia",
+        18
+      ],
+      [
+        "Pseudoangiomatous stromal hyperplasia",
+        11
+      ],
+      [
+        "Usual ductal hyperplasia",
+        9
+      ],
+      [
+        "Foreign body reaction",
+        6
+      ],
+      [
+        "Granulomatous lobular mastitis",
+        3
+      ],
+      [
+        "Fat necrosis",
+        3
+      ],
+      [
+        "Fibrocystic change",
+        3
+      ]
+    ]
+  },
+  {
+    "question": "is there any fungal organism present",
+    "count": 80,
+    "n_answers": 2,
+    "top_answers": [
+      [
+        "No, there is no fungal organism.",
+        72
+      ],
+      [
+        "Yes, there is a fungal organism.",
+        8
+      ]
+    ]
+  },
+  {
+    "question": "is there any metaplasia present",
+    "count": 74,
+    "n_answers": 2,
+    "top_answers": [
+      [
+        "No, there is no metaplasia.",
+        48
+      ],
+      [
+        "Yes, there is a metaplasia.",
+        26
+      ]
+    ]
+  },
+  {
+    "question": "is there any stromal change present",
+    "count": 74,
+    "n_answers": 2,
+    "top_answers": [
+      [
+        "No, there is no stromal change.",
+        62
+      ],
+      [
+        "Yes, there is a stromal change.",
+        12
+      ]
+    ]
+  },
+  {
+    "question": "what is the #3 diagnosis",
+    "count": 66,
+    "n_answers": 8,
+    "top_answers": [
+      [
+        "Microcalcification",
+        51
+      ],
+      [
+        "Chronic granulomatous inflammation with foreign body reaction",
+        5
+      ],
+      [
+        "Apocrine metaplasia",
+        4
+      ],
+      [
+        "Pseudoangiomatous stromal hyperplasia",
+        2
+      ],
+      [
+        "Columnar cell lesion",
+        1
+      ],
+      [
+        "Sclerosing adenosis",
+        1
+      ],
+      [
+        "Usual ductal hyperplasia",
+        1
+      ],
+      [
+        "Fibrocystic change",
+        1
+      ]
+    ]
+  },
+  {
+    "question": "what is the histologic type of inflammation",
+    "count": 60,
+    "n_answers": 4,
+    "top_answers": [
+      [
+        "Chronic granulomatous inflammation with foreign body reaction",
+        48
+      ],
+      [
+        "Chronic granulomatous inflammation without necrosis",
+        8
+      ],
+      [
+        "Chronic granulomatous inflammation with necrosis",
+        3
+      ],
+      [
+        "Acute prostatitis",
+        1
+      ]
+    ]
+  },
+  {
+    "question": "what is the histologic type",
+    "count": 54,
+    "n_answers": 2,
+    "top_answers": [
+      [
+        "Chronic active colitis",
+        53
+      ],
+      [
+        "Inflammatory polyp",
+        1
+      ]
+    ]
+  },
+  {
+    "question": "is there any lymphoid follicle present",
+    "count": 42,
+    "n_answers": 2,
+    "top_answers": [
+      [
+        "No, there is no lymphoid follicle.",
+        41
+      ],
+      [
+        "Yes, there is a lymphoid follicle.",
+        1
+      ]
+    ]
+  },
+  {
+    "question": "what is the depth of ulceration",
+    "count": 31,
+    "n_answers": 2,
+    "top_answers": [
+      [
+        "Confined to the mucosa",
+        24
+      ],
+      [
+        "Extend through the muscularis mucosae",
+        7
+      ]
+    ]
+  },
+  {
+    "question": "is there any tdlu involving more than half of acini present",
+    "count": 24,
+    "n_answers": 2,
+    "top_answers": [
+      [
+        "Yes, there is a TDLU involving more than half of acini.",
+        23
+      ],
+      [
+        "No, there is no TDLU involving more than half of acini.",
+        1
+      ]
+    ]
+  },
+  {
+    "question": "is there any organizing fibrosis present",
+    "count": 23,
+    "n_answers": 2,
+    "top_answers": [
+      [
+        "Yes, there is an organizing fibrosis.",
+        16
+      ],
+      [
+        "No, there is no organizing fibrosis.",
+        7
+      ]
+    ]
+  },
+  {
+    "question": "is there any type ii pneumocyte hyperplasia present",
+    "count": 23,
+    "n_answers": 2,
+    "top_answers": [
+      [
+        "No, there is no type II pneumocyte hyperplasia.",
+        16
+      ],
+      [
+        "Yes, there is a type II pneumocyte hyperplasia.",
+        7
+      ]
+    ]
+  },
+  {
+    "question": "is there any myoepithelial cell in fibrovascular core present",
+    "count": 15,
+    "n_answers": 1,
+    "top_answers": [
+      [
+        "Yes, there is a myoepithelial cell in fibrovascular core.",
+        15
+      ]
+    ]
+  },
+  {
+    "question": "is there any focus measuring more than 3 mm in contiguous extent present",
+    "count": 15,
+    "n_answers": 2,
+    "top_answers": [
+      [
+        "Yes, there is a focus measuring more than 3 mm in contiguous extent.",
+        10
+      ],
+      [
+        "No, there is no focus measuring more than 3 mm in contiguous extent.",
+        5
+      ]
+    ]
+  },
+  {
+    "question": "is there any benign epithelial lesion present",
+    "count": 12,
+    "n_answers": 2,
+    "top_answers": [
+      [
+        "No, there is no benign epithelial lesion",
+        9
+      ],
+      [
+        "Yes, there is a benign epithelial lesion",
+        3
+      ]
+    ]
+  },
+  {
+    "question": "is there any acute inflammation present",
+    "count": 12,
+    "n_answers": 2,
+    "top_answers": [
+      [
+        "No, there is no acute inflammation.",
+        11
+      ],
+      [
+        "Yes, there is an acute inflammation.",
+        1
+      ]
+    ]
+  },
+  {
+    "question": "is there any squamous metaplasia present",
+    "count": 9,
+    "n_answers": 2,
+    "top_answers": [
+      [
+        "No, there is no squamous metaplasia",
+        6
+      ],
+      [
+        "Yes, there is a squamous metaplasia",
+        3
+      ]
+    ]
+  },
+  {
+    "question": "what is the morphologically consistent species",
+    "count": 8,
+    "n_answers": 2,
+    "top_answers": [
+      [
+        "Aspergillus spp.",
+        4
+      ],
+      [
+        "Cryptococcus spp.",
+        4
+      ]
+    ]
+  },
+  {
+    "question": "what is the histologic type of polyp",
+    "count": 8,
+    "n_answers": 2,
+    "top_answers": [
+      [
+        "Fundic gland polyp",
+        4
+      ],
+      [
+        "Hyperplastic polyp",
+        4
+      ]
+    ]
+  },
+  {
+    "question": "what is the additional finding",
+    "count": 4,
+    "n_answers": 3,
+    "top_answers": [
+      [
+        "Amyloid deposit",
+        2
+      ],
+      [
+        "CMV-infected cells",
+        1
+      ],
+      [
+        "Reactive atypia",
+        1
+      ]
+    ]
+  },
+  {
+    "question": "what is the histologic type of benign epithelial lesion",
+    "count": 3,
+    "n_answers": 3,
+    "top_answers": [
+      [
+        "Endocervical polyp with radiation change",
+        1
+      ],
+      [
+        "Microglandular hyperplasia",
+        1
+      ],
+      [
+        "Endocervical polyp",
+        1
+      ]
+    ]
+  },
+  {
+    "question": "what is the #4 diagnosis",
+    "count": 2,
+    "n_answers": 2,
+    "top_answers": [
+      [
+        "Apocrine metaplasia",
+        1
+      ],
+      [
+        "Microcalcification",
+        1
+      ]
+    ]
+  },
+  {
+    "question": "what is the histological subtype of #3 component",
+    "count": 1,
+    "n_answers": 1,
+    "top_answers": [
+      [
+        "Mucinous adenocarcinoma",
+        1
+      ]
+    ]
+  }
+]

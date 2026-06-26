@@ -1,0 +1,1339 @@
+[
+  {
+    "edge": [
+      "what is the organ",
+      "is there any abnormality present"
+    ],
+    "count": 11220
+  },
+  {
+    "edge": [
+      "what is the procedure",
+      "is there any abnormality present"
+    ],
+    "count": 11220
+  },
+  {
+    "edge": [
+      "what is the number of diagnoses to includes",
+      "what is the #1 diagnosis"
+    ],
+    "count": 11213
+  },
+  {
+    "edge": [
+      "what is the #1 diagnosis",
+      "what is the final pathology report"
+    ],
+    "count": 10589
+  },
+  {
+    "edge": [
+      "is there any abnormality present",
+      "is there any neoplasm present"
+    ],
+    "count": 7662
+  },
+  {
+    "edge": [
+      "is there any neoplasm present",
+      "what is the behavior of neoplasm"
+    ],
+    "count": 7276
+  },
+  {
+    "edge": [
+      "is there any neoplasm present",
+      "what is the primary of neoplasm"
+    ],
+    "count": 7276
+  },
+  {
+    "edge": [
+      "is there any additional finding present",
+      "what is the number of diagnoses to includes"
+    ],
+    "count": 6592
+  },
+  {
+    "edge": [
+      "what is the primary of neoplasm",
+      "what is the histologic type of neoplasm"
+    ],
+    "count": 5792
+  },
+  {
+    "edge": [
+      "what is the behavior of neoplasm",
+      "what is the histologic type of neoplasm"
+    ],
+    "count": 4187
+  },
+  {
+    "edge": [
+      "what is the histologic type of neoplasm",
+      "what is the grading system"
+    ],
+    "count": 2671
+  },
+  {
+    "edge": [
+      "is there any proliferative lesion present",
+      "is there any invasion present"
+    ],
+    "count": 2362
+  },
+  {
+    "edge": [
+      "is there any abnormality present",
+      "is there any proliferative lesion present"
+    ],
+    "count": 2146
+  },
+  {
+    "edge": [
+      "is there any abnormality present",
+      "is there any microcalcification present"
+    ],
+    "count": 2146
+  },
+  {
+    "edge": [
+      "is there any microcalcification present",
+      "what is the number of diagnoses to includes"
+    ],
+    "count": 2146
+  },
+  {
+    "edge": [
+      "what is the histologic type of neoplasm",
+      "what is the histologic subtype of neoplasm"
+    ],
+    "count": 2083
+  },
+  {
+    "edge": [
+      "what is the histologic type of neoplasm",
+      "is there any additional finding present"
+    ],
+    "count": 1615
+  },
+  {
+    "edge": [
+      "what is the histologic type of neoplasm",
+      "what is the tumor volume"
+    ],
+    "count": 1595
+  },
+  {
+    "edge": [
+      "what is the grading system",
+      "is there any gleason pattern 3 present"
+    ],
+    "count": 1595
+  },
+  {
+    "edge": [
+      "what is the grading system",
+      "is there any gleason pattern 4 present"
+    ],
+    "count": 1595
+  },
+  {
+    "edge": [
+      "what is the grading system",
+      "is there any gleason pattern 5 present"
+    ],
+    "count": 1595
+  },
+  {
+    "edge": [
+      "is there any gleason pattern 3 present",
+      "what is the pridominant pattern"
+    ],
+    "count": 1595
+  },
+  {
+    "edge": [
+      "is there any gleason pattern 4 present",
+      "what is the pridominant pattern"
+    ],
+    "count": 1595
+  },
+  {
+    "edge": [
+      "is there any gleason pattern 5 present",
+      "what is the pridominant pattern"
+    ],
+    "count": 1595
+  },
+  {
+    "edge": [
+      "what is the pridominant pattern",
+      "what is the secondary pattern constituting more than 5% of tumor"
+    ],
+    "count": 1595
+  },
+  {
+    "edge": [
+      "what is the secondary pattern constituting more than 5% of tumor",
+      "what is the worst grade pattern"
+    ],
+    "count": 1595
+  },
+  {
+    "edge": [
+      "what is the worst grade pattern",
+      "what is the gleason score"
+    ],
+    "count": 1595
+  },
+  {
+    "edge": [
+      "what is the gleason score",
+      "what is the grade group"
+    ],
+    "count": 1595
+  },
+  {
+    "edge": [
+      "what is the grade group",
+      "is there any additional finding present"
+    ],
+    "count": 1595
+  },
+  {
+    "edge": [
+      "what is the tumor volume",
+      "is there any additional finding present"
+    ],
+    "count": 1595
+  },
+  {
+    "edge": [
+      "what is the grading system of dysplasia",
+      "what is the grade of dysplasia"
+    ],
+    "count": 1513
+  },
+  {
+    "edge": [
+      "what is the grading system of neoplasm",
+      "what is the grade of neoplasm"
+    ],
+    "count": 1437
+  },
+  {
+    "edge": [
+      "is there any abnormality present",
+      "what is the number of diagnoses to includes"
+    ],
+    "count": 1412
+  },
+  {
+    "edge": [
+      "what is the behavior of neoplasm",
+      "is there any serration present"
+    ],
+    "count": 1365
+  },
+  {
+    "edge": [
+      "what is the grade of neoplasm",
+      "what is the number of diagnoses to includes"
+    ],
+    "count": 1336
+  },
+  {
+    "edge": [
+      "what is the histologic subtype of neoplasm",
+      "what is the grading system of neoplasm"
+    ],
+    "count": 1321
+  },
+  {
+    "edge": [
+      "is there any invasion present",
+      "what is the primary of neoplasm"
+    ],
+    "count": 1265
+  },
+  {
+    "edge": [
+      "what is the histologic type of neoplasm",
+      "is there any dysplasia present"
+    ],
+    "count": 1254
+  },
+  {
+    "edge": [
+      "what is the grade of dysplasia",
+      "what is the number of diagnoses to includes"
+    ],
+    "count": 1183
+  },
+  {
+    "edge": [
+      "is there any invasion present",
+      "what is the histologic group of lesion"
+    ],
+    "count": 1097
+  },
+  {
+    "edge": [
+      "what is the organ",
+      "is there any muscularis propria present"
+    ],
+    "count": 1079
+  },
+  {
+    "edge": [
+      "what is the procedure",
+      "is there any muscularis propria present"
+    ],
+    "count": 1079
+  },
+  {
+    "edge": [
+      "is there any muscularis propria present",
+      "what is the number of diagnoses to includes"
+    ],
+    "count": 1079
+  },
+  {
+    "edge": [
+      "what is the grading system",
+      "what is the score for tubular differentiation"
+    ],
+    "count": 1076
+  },
+  {
+    "edge": [
+      "what is the grading system",
+      "what is the score for nuclear pleomorphism"
+    ],
+    "count": 1076
+  },
+  {
+    "edge": [
+      "what is the grading system",
+      "what is the score for mitotic rate"
+    ],
+    "count": 1076
+  },
+  {
+    "edge": [
+      "what is the score for tubular differentiation",
+      "what is the overall score"
+    ],
+    "count": 1076
+  },
+  {
+    "edge": [
+      "what is the score for nuclear pleomorphism",
+      "what is the overall score"
+    ],
+    "count": 1076
+  },
+  {
+    "edge": [
+      "what is the score for mitotic rate",
+      "what is the overall score"
+    ],
+    "count": 1076
+  },
+  {
+    "edge": [
+      "what is the overall score",
+      "what is the grade of neoplasm"
+    ],
+    "count": 1076
+  },
+  {
+    "edge": [
+      "what is the grade of neoplasm",
+      "is there any additional finding present"
+    ],
+    "count": 1076
+  },
+  {
+    "edge": [
+      "is there any dysplasia present",
+      "what is the grading system of dysplasia"
+    ],
+    "count": 1062
+  },
+  {
+    "edge": [
+      "what is the behavior of neoplasm",
+      "is there any invasion present"
+    ],
+    "count": 998
+  },
+  {
+    "edge": [
+      "what is the primary of neoplasm",
+      "is there any invasion present"
+    ],
+    "count": 998
+  },
+  {
+    "edge": [
+      "what is the primary of neoplasm",
+      "is there any serration present"
+    ],
+    "count": 947
+  },
+  {
+    "edge": [
+      "what is the histologic group of lesion",
+      "is there any monotonous cell population present"
+    ],
+    "count": 893
+  },
+  {
+    "edge": [
+      "what is the primary of neoplasm",
+      "is there any neuroendocrine morphology present"
+    ],
+    "count": 804
+  },
+  {
+    "edge": [
+      "what is the histologic type of lesion",
+      "is there any additional finding present"
+    ],
+    "count": 749
+  },
+  {
+    "edge": [
+      "what is the behavior of neoplasm",
+      "is there any neuroendocrine morphology present"
+    ],
+    "count": 726
+  },
+  {
+    "edge": [
+      "is there any neuroendocrine morphology present",
+      "is there any morphological adenocarcinoma pattern present"
+    ],
+    "count": 726
+  },
+  {
+    "edge": [
+      "is there any neuroendocrine morphology present",
+      "is there any morphological squamous cell pattern present"
+    ],
+    "count": 726
+  },
+  {
+    "edge": [
+      "is there any morphological squamous cell pattern present",
+      "what is the histologic type of neoplasm"
+    ],
+    "count": 726
+  },
+  {
+    "edge": [
+      "is there any serration present",
+      "is there any villous component present"
+    ],
+    "count": 696
+  },
+  {
+    "edge": [
+      "what is the histologic type of neoplasm",
+      "what is the grading system of atypia"
+    ],
+    "count": 686
+  },
+  {
+    "edge": [
+      "what is the histologic type of neoplasm",
+      "is there any glandular involvement present"
+    ],
+    "count": 686
+  },
+  {
+    "edge": [
+      "what is the grading system of atypia",
+      "what is the grade of atypia"
+    ],
+    "count": 686
+  },
+  {
+    "edge": [
+      "what is the grade of atypia",
+      "is there any additional finding present"
+    ],
+    "count": 686
+  },
+  {
+    "edge": [
+      "is there any glandular involvement present",
+      "is there any additional finding present"
+    ],
+    "count": 686
+  },
+  {
+    "edge": [
+      "is there any invasion present",
+      "is there any papillary lesion present"
+    ],
+    "count": 676
+  },
+  {
+    "edge": [
+      "what is the #1 diagnosis",
+      "what is the #2 diagnosis"
+    ],
+    "count": 630
+  },
+  {
+    "edge": [
+      "what is the gleason score",
+      "what is the percentage of gleason pattern 4"
+    ],
+    "count": 577
+  },
+  {
+    "edge": [
+      "what is the percentage of gleason pattern 4",
+      "is there any additional finding present"
+    ],
+    "count": 577
+  },
+  {
+    "edge": [
+      "is there any villous component present",
+      "what is the histologic type of neoplasm"
+    ],
+    "count": 575
+  },
+  {
+    "edge": [
+      "what is the #2 diagnosis",
+      "what is the final pathology report"
+    ],
+    "count": 565
+  },
+  {
+    "edge": [
+      "is there any monotonous cell population present",
+      "is there any focus measuring more than 2 mm in contiguous extent present"
+    ],
+    "count": 561
+  },
+  {
+    "edge": [
+      "is there any focus measuring more than 2 mm in contiguous extent present",
+      "what is the histologic type of lesion"
+    ],
+    "count": 561
+  },
+  {
+    "edge": [
+      "what is the histologic subtype of neoplasm",
+      "is there any additional finding present"
+    ],
+    "count": 472
+  },
+  {
+    "edge": [
+      "is there any invasion present",
+      "what is the extent of invasion"
+    ],
+    "count": 455
+  },
+  {
+    "edge": [
+      "what is the extent of invasion",
+      "is there any additional finding present"
+    ],
+    "count": 455
+  },
+  {
+    "edge": [
+      "is there any papillary lesion present",
+      "what is the grading system of dysplasia"
+    ],
+    "count": 451
+  },
+  {
+    "edge": [
+      "what is the grade of dysplasia",
+      "what is the histologic type of neoplasm"
+    ],
+    "count": 451
+  },
+  {
+    "edge": [
+      "is there any morphological adenocarcinoma pattern present",
+      "is there any mucinous feature present"
+    ],
+    "count": 406
+  },
+  {
+    "edge": [
+      "is there any mucinous feature present",
+      "what is the histologic type of neoplasm"
+    ],
+    "count": 406
+  },
+  {
+    "edge": [
+      "what is the histologic type of neoplasm",
+      "what is the number of diagnoses to includes"
+    ],
+    "count": 351
+  },
+  {
+    "edge": [
+      "what is the histologic type of lesion",
+      "what is the architectural pattern of lesion"
+    ],
+    "count": 339
+  },
+  {
+    "edge": [
+      "what is the histologic type of lesion",
+      "what is the nuclear grade of lesion"
+    ],
+    "count": 339
+  },
+  {
+    "edge": [
+      "what is the histologic type of lesion",
+      "is there any necrosis present"
+    ],
+    "count": 339
+  },
+  {
+    "edge": [
+      "what is the architectural pattern of lesion",
+      "is there any additional finding present"
+    ],
+    "count": 339
+  },
+  {
+    "edge": [
+      "what is the nuclear grade of lesion",
+      "is there any additional finding present"
+    ],
+    "count": 339
+  },
+  {
+    "edge": [
+      "is there any morphological adenocarcinoma pattern present",
+      "what is the histologic type of neoplasm"
+    ],
+    "count": 320
+  },
+  {
+    "edge": [
+      "is there any monotonous cell population present",
+      "what is the histologic type of lesion"
+    ],
+    "count": 308
+  },
+  {
+    "edge": [
+      "is there any additional finding present",
+      "is there any proliferative lesion present"
+    ],
+    "count": 288
+  },
+  {
+    "edge": [
+      "is there any neoplasm present",
+      "is there any polyp present"
+    ],
+    "count": 277
+  },
+  {
+    "edge": [
+      "is there any serration present",
+      "what is the histologic type of neoplasm"
+    ],
+    "count": 251
+  },
+  {
+    "edge": [
+      "is there any necrosis present",
+      "is there any additional finding present"
+    ],
+    "count": 225
+  },
+  {
+    "edge": [
+      "is there any papillary lesion present",
+      "what is the histologic type of neoplasm"
+    ],
+    "count": 225
+  },
+  {
+    "edge": [
+      "is there any polyp present",
+      "is there any active inflammation present"
+    ],
+    "count": 215
+  },
+  {
+    "edge": [
+      "is there any active inflammation present",
+      "is there any lymphoid aggregate present"
+    ],
+    "count": 215
+  },
+  {
+    "edge": [
+      "is there any active inflammation present",
+      "is there any ulceration present"
+    ],
+    "count": 215
+  },
+  {
+    "edge": [
+      "is there any active inflammation present",
+      "is there any intestinal metaplasia present"
+    ],
+    "count": 215
+  },
+  {
+    "edge": [
+      "is there any active inflammation present",
+      "is there any foveolar epithelial hyperplasia present"
+    ],
+    "count": 215
+  },
+  {
+    "edge": [
+      "is there any intestinal metaplasia present",
+      "is there any additional finding present"
+    ],
+    "count": 215
+  },
+  {
+    "edge": [
+      "is there any foveolar epithelial hyperplasia present",
+      "is there any additional finding present"
+    ],
+    "count": 215
+  },
+  {
+    "edge": [
+      "is there any ulceration present",
+      "is there any additional finding present"
+    ],
+    "count": 184
+  },
+  {
+    "edge": [
+      "what is the histologic group of lesion",
+      "what is the histologic type of lesion"
+    ],
+    "count": 180
+  },
+  {
+    "edge": [
+      "is there any lymphoid aggregate present",
+      "is there any additional finding present"
+    ],
+    "count": 173
+  },
+  {
+    "edge": [
+      "is there any additional finding present",
+      "is there any associated epithelial lesion present"
+    ],
+    "count": 169
+  },
+  {
+    "edge": [
+      "is there any necrosis present",
+      "what is the type of necrosis"
+    ],
+    "count": 166
+  },
+  {
+    "edge": [
+      "what is the type of necrosis",
+      "is there any additional finding present"
+    ],
+    "count": 166
+  },
+  {
+    "edge": [
+      "",
+      "is there any additional finding present"
+    ],
+    "count": 141
+  },
+  {
+    "edge": [
+      "is there any associated epithelial lesion present",
+      "is there any invasion present"
+    ],
+    "count": 133
+  },
+  {
+    "edge": [
+      "is there any villous component present",
+      "what is the proportion of villous component"
+    ],
+    "count": 121
+  },
+  {
+    "edge": [
+      "what is the proportion of villous component",
+      "what is the histologic type of neoplasm"
+    ],
+    "count": 121
+  },
+  {
+    "edge": [
+      "is there any dysplasia present",
+      "what is the grading system"
+    ],
+    "count": 121
+  },
+  {
+    "edge": [
+      "what is the grading system",
+      "what is the grade of dysplasia"
+    ],
+    "count": 121
+  },
+  {
+    "edge": [
+      "what is the histologic subtype of neoplasm",
+      "what is the number of distinct histological components"
+    ],
+    "count": 102
+  },
+  {
+    "edge": [
+      "what is the number of distinct histological components",
+      "what is the histological subtype of #1 component"
+    ],
+    "count": 102
+  },
+  {
+    "edge": [
+      "what is the histological subtype of #1 component",
+      "what is the grading system of neoplasm"
+    ],
+    "count": 102
+  },
+  {
+    "edge": [
+      "what is the grade of neoplasm",
+      "what is the histological subtype of #2 component"
+    ],
+    "count": 102
+  },
+  {
+    "edge": [
+      "what is the histological subtype of #2 component",
+      "what is the number of diagnoses to includes"
+    ],
+    "count": 101
+  },
+  {
+    "edge": [
+      "what is histologic type of lesion",
+      "is there any additional finding present"
+    ],
+    "count": 83
+  },
+  {
+    "edge": [
+      "is there any neoplasm present",
+      "is there any fungal organism present"
+    ],
+    "count": 79
+  },
+  {
+    "edge": [
+      "is there any neuroendocrine morphology present",
+      "what is the histologic type of neoplasm"
+    ],
+    "count": 78
+  },
+  {
+    "edge": [
+      "is there any neoplasm present",
+      "is there any inflammation present"
+    ],
+    "count": 75
+  },
+  {
+    "edge": [
+      "is there any inflammation present",
+      "is there any granuloma present"
+    ],
+    "count": 75
+  },
+  {
+    "edge": [
+      "is there any proliferative lesion present",
+      "is there any inflammation present"
+    ],
+    "count": 74
+  },
+  {
+    "edge": [
+      "is there any proliferative lesion present",
+      "is there any metaplasia present"
+    ],
+    "count": 74
+  },
+  {
+    "edge": [
+      "is there any proliferative lesion present",
+      "is there any stromal change present"
+    ],
+    "count": 74
+  },
+  {
+    "edge": [
+      "is there any inflammation present",
+      "what is histologic type of lesion"
+    ],
+    "count": 74
+  },
+  {
+    "edge": [
+      "is there any metaplasia present",
+      "what is histologic type of lesion"
+    ],
+    "count": 74
+  },
+  {
+    "edge": [
+      "is there any stromal change present",
+      "what is histologic type of lesion"
+    ],
+    "count": 74
+  },
+  {
+    "edge": [
+      "is there any fungal organism present",
+      "is there any inflammation present"
+    ],
+    "count": 72
+  },
+  {
+    "edge": [
+      "is there any dysplasia present",
+      "what is the number of diagnoses to includes"
+    ],
+    "count": 71
+  },
+  {
+    "edge": [
+      "what is the #2 diagnosis",
+      "what is the #3 diagnosis"
+    ],
+    "count": 66
+  },
+  {
+    "edge": [
+      "what is the #3 diagnosis",
+      "what is the final pathology report"
+    ],
+    "count": 64
+  },
+  {
+    "edge": [
+      "is there any inflammation present",
+      "is there any active inflammation present"
+    ],
+    "count": 63
+  },
+  {
+    "edge": [
+      "is there any granuloma present",
+      "is there any necrosis present"
+    ],
+    "count": 63
+  },
+  {
+    "edge": [
+      "what is the histologic type of inflammation",
+      "what is the number of diagnoses to includes"
+    ],
+    "count": 60
+  },
+  {
+    "edge": [
+      "is there any polyp present",
+      "what is the histologic type"
+    ],
+    "count": 54
+  },
+  {
+    "edge": [
+      "is there any active inflammation present",
+      "what is the histologic type"
+    ],
+    "count": 54
+  },
+  {
+    "edge": [
+      "what is the histologic type",
+      "what is the number of diagnoses to includes"
+    ],
+    "count": 54
+  },
+  {
+    "edge": [
+      "is there any inflammation present",
+      "what is the histologic type of inflammation"
+    ],
+    "count": 48
+  },
+  {
+    "edge": [
+      "what is the histologic subtype of neoplasm",
+      "what is the number of diagnoses to includes"
+    ],
+    "count": 46
+  },
+  {
+    "edge": [
+      "is there any lymphoid aggregate present",
+      "is there any lymphoid follicle present"
+    ],
+    "count": 42
+  },
+  {
+    "edge": [
+      "is there any lymphoid follicle present",
+      "is there any additional finding present"
+    ],
+    "count": 42
+  },
+  {
+    "edge": [
+      "is there any associated epithelial lesion present",
+      "is there any inflammation present"
+    ],
+    "count": 36
+  },
+  {
+    "edge": [
+      "is there any ulceration present",
+      "what is the depth of ulceration"
+    ],
+    "count": 31
+  },
+  {
+    "edge": [
+      "what is the depth of ulceration",
+      "is there any additional finding present"
+    ],
+    "count": 31
+  },
+  {
+    "edge": [
+      "what is the histologic group of lesion",
+      "is there any tdlu involving more than half of acini present"
+    ],
+    "count": 24
+  },
+  {
+    "edge": [
+      "is there any tdlu involving more than half of acini present",
+      "what is the histologic type of lesion"
+    ],
+    "count": 24
+  },
+  {
+    "edge": [
+      "is there any granuloma present",
+      "is there any organizing fibrosis present"
+    ],
+    "count": 23
+  },
+  {
+    "edge": [
+      "is there any granuloma present",
+      "is there any type ii pneumocyte hyperplasia present"
+    ],
+    "count": 23
+  },
+  {
+    "edge": [
+      "is there any organizing fibrosis present",
+      "is there any additional finding present"
+    ],
+    "count": 23
+  },
+  {
+    "edge": [
+      "is there any type ii pneumocyte hyperplasia present",
+      "is there any additional finding present"
+    ],
+    "count": 23
+  },
+  {
+    "edge": [
+      "is there any monotonous cell population present",
+      "is there any myoepithelial cell in fibrovascular core present"
+    ],
+    "count": 15
+  },
+  {
+    "edge": [
+      "is there any myoepithelial cell in fibrovascular core present",
+      "is there any focus measuring more than 3 mm in contiguous extent present"
+    ],
+    "count": 15
+  },
+  {
+    "edge": [
+      "is there any focus measuring more than 3 mm in contiguous extent present",
+      "what is the histologic type of lesion"
+    ],
+    "count": 15
+  },
+  {
+    "edge": [
+      "what is the histologic type of neoplasm",
+      "what is the grading system of neoplasm"
+    ],
+    "count": 14
+  },
+  {
+    "edge": [
+      "is there any neoplasm present",
+      "is there any benign epithelial lesion present"
+    ],
+    "count": 12
+  },
+  {
+    "edge": [
+      "is there any inflammation present",
+      "is there any acute inflammation present"
+    ],
+    "count": 12
+  },
+  {
+    "edge": [
+      "is there any acute inflammation present",
+      "is there any granuloma present"
+    ],
+    "count": 11
+  },
+  {
+    "edge": [
+      "is there any necrosis present",
+      "what is the histologic type of inflammation"
+    ],
+    "count": 11
+  },
+  {
+    "edge": [
+      "is there any monotonous cell population present",
+      "what is histologic type of lesion"
+    ],
+    "count": 9
+  },
+  {
+    "edge": [
+      "is there any benign epithelial lesion present",
+      "is there any inflammation present"
+    ],
+    "count": 9
+  },
+  {
+    "edge": [
+      "is there any inflammation present",
+      "is there any squamous metaplasia present"
+    ],
+    "count": 9
+  },
+  {
+    "edge": [
+      "is there any active inflammation present",
+      "is there any additional finding present"
+    ],
+    "count": 9
+  },
+  {
+    "edge": [
+      "is there any squamous metaplasia present",
+      "is there any additional finding present"
+    ],
+    "count": 9
+  },
+  {
+    "edge": [
+      "is there any fungal organism present",
+      "what is the morphologically consistent species"
+    ],
+    "count": 8
+  },
+  {
+    "edge": [
+      "what is the morphologically consistent species",
+      "is there any additional finding present"
+    ],
+    "count": 8
+  },
+  {
+    "edge": [
+      "is there any polyp present",
+      "what is the histologic type of polyp"
+    ],
+    "count": 8
+  },
+  {
+    "edge": [
+      "what is the histologic type of polyp",
+      "what is the number of diagnoses to includes"
+    ],
+    "count": 8
+  },
+  {
+    "edge": [
+      "is there any additional finding present",
+      "is there any inflammation present"
+    ],
+    "count": 6
+  },
+  {
+    "edge": [
+      "",
+      "what is the #1 diagnosis"
+    ],
+    "count": 5
+  },
+  {
+    "edge": [
+      "is there any additional finding present",
+      "what is the additional finding"
+    ],
+    "count": 4
+  },
+  {
+    "edge": [
+      "what is the additional finding",
+      "what is the number of diagnoses to includes"
+    ],
+    "count": 4
+  },
+  {
+    "edge": [
+      "is there any benign epithelial lesion present",
+      "what is the histologic type of benign epithelial lesion"
+    ],
+    "count": 3
+  },
+  {
+    "edge": [
+      "what is the histologic type of benign epithelial lesion",
+      "is there any additional finding present"
+    ],
+    "count": 3
+  },
+  {
+    "edge": [
+      "is there any additional finding present",
+      "is there any neoplasm present"
+    ],
+    "count": 3
+  },
+  {
+    "edge": [
+      "is there any additional finding present",
+      "what is histologic type of lesion"
+    ],
+    "count": 2
+  },
+  {
+    "edge": [
+      "what is the #3 diagnosis",
+      "what is the #4 diagnosis"
+    ],
+    "count": 2
+  },
+  {
+    "edge": [
+      "what is the #4 diagnosis",
+      "what is the final pathology report"
+    ],
+    "count": 2
+  },
+  {
+    "edge": [
+      "is there any additional finding present",
+      "what is the #1 diagnosis"
+    ],
+    "count": 1
+  },
+  {
+    "edge": [
+      "what is the #1 diagnosis",
+      "what is the #1 diagnosis"
+    ],
+    "count": 1
+  },
+  {
+    "edge": [
+      "what is the number of diagnoses to includes",
+      "what is the number of diagnoses to includes"
+    ],
+    "count": 1
+  },
+  {
+    "edge": [
+      "what is the number of diagnoses to includes",
+      "what is the #2 diagnosis"
+    ],
+    "count": 1
+  },
+  {
+    "edge": [
+      "what is the histologic subtype of neoplasm",
+      "what is the grading system"
+    ],
+    "count": 1
+  },
+  {
+    "edge": [
+      "what is the grading system",
+      "what is the grade of neoplasm"
+    ],
+    "count": 1
+  },
+  {
+    "edge": [
+      "is there any additional finding present",
+      "is there any fungal organism present"
+    ],
+    "count": 1
+  },
+  {
+    "edge": [
+      "is there any acute inflammation present",
+      "what is the histologic type of inflammation"
+    ],
+    "count": 1
+  },
+  {
+    "edge": [
+      "what is the histological subtype of #2 component",
+      "what is the histological subtype of #3 component"
+    ],
+    "count": 1
+  },
+  {
+    "edge": [
+      "what is the histological subtype of #3 component",
+      "what is the number of diagnoses to includes"
+    ],
+    "count": 1
+  }
+]

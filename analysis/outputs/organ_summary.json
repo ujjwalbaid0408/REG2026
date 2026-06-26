@@ -1,0 +1,62 @@
+{
+  "Prostate": {
+    "cases": 2418,
+    "uniq_edges": 38,
+    "edges_per_case": 18.1,
+    "top10_coverage_pct": 44.1
+  },
+  "Breast": {
+    "cases": 2212,
+    "uniq_edges": 62,
+    "edges_per_case": 18.0,
+    "top10_coverage_pct": 51.2
+  },
+  "Stomach": {
+    "cases": 1757,
+    "uniq_edges": 49,
+    "edges_per_case": 12.7,
+    "top10_coverage_pct": 65.4
+  },
+  "Colon": {
+    "cases": 1751,
+    "uniq_edges": 37,
+    "edges_per_case": 12.4,
+    "top10_coverage_pct": 64.1
+  },
+  "Urinary bladder": {
+    "cases": 1079,
+    "uniq_edges": 34,
+    "edges_per_case": 17.5,
+    "top10_coverage_pct": 55.5
+  },
+  "Lung": {
+    "cases": 945,
+    "uniq_edges": 39,
+    "edges_per_case": 14.5,
+    "top10_coverage_pct": 63.5
+  },
+  "Uterine cervix": {
+    "cases": 812,
+    "uniq_edges": 30,
+    "edges_per_case": 14.2,
+    "top10_coverage_pct": 68.5
+  },
+  "Rectum": {
+    "cases": 244,
+    "uniq_edges": 31,
+    "edges_per_case": 11.8,
+    "top10_coverage_pct": 73.3
+  },
+  "Nipple": {
+    "cases": 1,
+    "uniq_edges": 14,
+    "edges_per_case": 14.0,
+    "top10_coverage_pct": 71.4
+  },
+  "Anus": {
+    "cases": 1,
+    "uniq_edges": 13,
+    "edges_per_case": 13.0,
+    "top10_coverage_pct": 76.9
+  }
+}

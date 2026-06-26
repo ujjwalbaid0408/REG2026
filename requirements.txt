@@ -1,0 +1,13 @@
+numpy
+tifffile
+imagecodecs
+openslide-python
+pillow
+h5py
+scikit-learn
+tqdm
+timm>=1.0
+einops
+open_clip_torch
+huggingface_hub
+tqdm

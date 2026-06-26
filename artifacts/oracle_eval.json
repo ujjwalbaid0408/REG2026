@@ -1,0 +1,30 @@
+{
+  "global_only": {
+    "total": 0.2392,
+    "bpv": 0.1136,
+    "edge_f1": 0.4465,
+    "mess": 0.1593,
+    "report": 0.1495
+  },
+  "oracle_organ": {
+    "total": 0.6744,
+    "bpv": 0.423,
+    "edge_f1": 0.7682,
+    "mess": 0.7779,
+    "report": 0.5707
+  },
+  "oracle_organ_dx": {
+    "total": 0.8894,
+    "bpv": 0.858,
+    "edge_f1": 0.974,
+    "mess": 0.9292,
+    "report": 0.8051
+  },
+  "oracle_organ_dx_report": {
+    "total": 0.9074,
+    "bpv": 0.858,
+    "edge_f1": 0.974,
+    "mess": 0.9292,
+    "report": 0.85
+  }
+}
