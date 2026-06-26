@@ -953,6 +953,25 @@ is rapid and the plateau is set by diagnosis separability, not optimization.}
 \label{fig:curves}
 \end{figure}
 
+\subsection{Hierarchical decoding, abstention, and full-data training}
+We evaluated three targeted enhancements. (i) \emph{Organ-conditioned (hierarchical) dx
+decoding}---masking the diagnosis logits to the predicted organ's classes at inference---moved
+the held-out workflow score marginally, from 0.794 to \textbf{0.797}: because organ accuracy is
+already 0.95 and the dx labels encode organ, the flat argmax is almost always in-organ, so
+masking rarely changes the prediction (and for the rectum$\rightarrow$colon cases it can force a
+wrong in-organ diagnosis, offsetting the gain). We note in passing that applying the same mask
+\emph{during training} with label smoothing is numerically unstable (smoothing places mass on the
+$-\infty$-masked classes), so the mask is applied at inference only. (ii) \emph{Confidence-based
+abstention}---backing off to the organ template when the diagnosis softmax confidence is below a
+tuned threshold---selected $\tau=0$ on the validation split, i.e.\ never abstaining helped: a
+same-organ but imperfect diagnosis still scores better than the organ-only fallback under this
+metric. (iii) \emph{Training on all 11{,}220 slides} produces the deployment model used in the
+container; we report its held-out-style number only as a fitting sanity check (it is optimistic,
+since that split is now within training) and rely on the clean 80/20 held-out scores above for
+all claims. These are deliberately reported as honest neutral results: they confirm that, with a
+\emph{frozen} encoder, the remaining headroom is representational and is not recoverable by
+decoding tricks---motivating the grading-head and fine-tuning directions of Section~\ref{sec:future}.
+
 % =====================================================================
 \section{Sample Predictions (Qualitative)}
 \label{sec:qual}

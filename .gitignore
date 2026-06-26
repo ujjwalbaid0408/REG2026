@@ -46,3 +46,7 @@ repo_template/**/test/output/
 repo_template/media/
 *.mha
 *.tif
+
+# Submission model artifacts (assembled by prepare_model.sh; large)
+repo_template/**/model/
+repo_template/**/*.tar.gz

@@ -1,0 +1,452 @@
+{
+  "uploads": [
+    {
+      "case": {
+        "title": "000000"
+      },
+      "display_set": {
+        "pk": "000000",
+        "title": "000000",
+        "values": [
+          {
+            "pk": 1000000,
+            "interface": {
+              "slug": "visual-context-question"
+            }
+          },
+          {
+            "pk": 1000001,
+            "interface": {
+              "slug": "histopathology-region-of-interest-thumbnail"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "case": {
+        "title": "000001"
+      },
+      "display_set": {
+        "pk": "000001",
+        "title": "000001",
+        "values": [
+          {
+            "pk": 1000100,
+            "interface": {
+              "slug": "visual-context-question"
+            }
+          },
+          {
+            "pk": 1000101,
+            "interface": {
+              "slug": "histopathology-region-of-interest-thumbnail"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "case": {
+        "title": "000002"
+      },
+      "display_set": {
+        "pk": "000002",
+        "title": "000002",
+        "values": [
+          {
+            "pk": 1000200,
+            "interface": {
+              "slug": "visual-context-question"
+            }
+          },
+          {
+            "pk": 1000201,
+            "interface": {
+              "slug": "histopathology-region-of-interest-thumbnail"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "case": {
+        "title": "000003"
+      },
+      "display_set": {
+        "pk": "000003",
+        "title": "000003",
+        "values": [
+          {
+            "pk": 1000300,
+            "interface": {
+              "slug": "visual-context-question"
+            }
+          },
+          {
+            "pk": 1000301,
+            "interface": {
+              "slug": "histopathology-region-of-interest-thumbnail"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "case": {
+        "title": "000004"
+      },
+      "display_set": {
+        "pk": "000004",
+        "title": "000004",
+        "values": [
+          {
+            "pk": 1000400,
+            "interface": {
+              "slug": "visual-context-question"
+            }
+          },
+          {
+            "pk": 1000401,
+            "interface": {
+              "slug": "histopathology-region-of-interest-thumbnail"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "case": {
+        "title": "000005"
+      },
+      "display_set": {
+        "pk": "000005",
+        "title": "000005",
+        "values": [
+          {
+            "pk": 1000500,
+            "interface": {
+              "slug": "visual-context-question"
+            }
+          },
+          {
+            "pk": 1000501,
+            "interface": {
+              "slug": "histopathology-region-of-interest-thumbnail"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "case": {
+        "title": "000006"
+      },
+      "display_set": {
+        "pk": "000006",
+        "title": "000006",
+        "values": [
+          {
+            "pk": 1000600,
+            "interface": {
+              "slug": "visual-context-question"
+            }
+          },
+          {
+            "pk": 1000601,
+            "interface": {
+              "slug": "histopathology-region-of-interest-thumbnail"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "case": {
+        "title": "000007"
+      },
+      "display_set": {
+        "pk": "000007",
+        "title": "000007",
+        "values": [
+          {
+            "pk": 1000700,
+            "interface": {
+              "slug": "visual-context-question"
+            }
+          },
+          {
+            "pk": 1000701,
+            "interface": {
+              "slug": "histopathology-region-of-interest-thumbnail"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "case": {
+        "title": "000008"
+      },
+      "display_set": {
+        "pk": "000008",
+        "title": "000008",
+        "values": [
+          {
+            "pk": 1000800,
+            "interface": {
+              "slug": "visual-context-question"
+            }
+          },
+          {
+            "pk": 1000801,
+            "interface": {
+              "slug": "histopathology-region-of-interest-thumbnail"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "case": {
+        "title": "000009"
+      },
+      "display_set": {
+        "pk": "000009",
+        "title": "000009",
+        "values": [
+          {
+            "pk": 1000900,
+            "interface": {
+              "slug": "visual-context-question"
+            }
+          },
+          {
+            "pk": 1000901,
+            "interface": {
+              "slug": "histopathology-region-of-interest-thumbnail"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "case": {
+        "title": "000010"
+      },
+      "display_set": {
+        "pk": "000010",
+        "title": "000010",
+        "values": [
+          {
+            "pk": 1001000,
+            "interface": {
+              "slug": "visual-context-question"
+            }
+          },
+          {
+            "pk": 1001001,
+            "interface": {
+              "slug": "histopathology-region-of-interest-thumbnail"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "case": {
+        "title": "000011"
+      },
+      "display_set": {
+        "pk": "000011",
+        "title": "000011",
+        "values": [
+          {
+            "pk": 1001100,
+            "interface": {
+              "slug": "visual-context-question"
+            }
+          },
+          {
+            "pk": 1001101,
+            "interface": {
+              "slug": "histopathology-region-of-interest-thumbnail"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "case": {
+        "title": "000012"
+      },
+      "display_set": {
+        "pk": "000012",
+        "title": "000012",
+        "values": [
+          {
+            "pk": 1001200,
+            "interface": {
+              "slug": "visual-context-question"
+            }
+          },
+          {
+            "pk": 1001201,
+            "interface": {
+              "slug": "histopathology-region-of-interest-thumbnail"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "case": {
+        "title": "000013"
+      },
+      "display_set": {
+        "pk": "000013",
+        "title": "000013",
+        "values": [
+          {
+            "pk": 1001300,
+            "interface": {
+              "slug": "visual-context-question"
+            }
+          },
+          {
+            "pk": 1001301,
+            "interface": {
+              "slug": "histopathology-region-of-interest-thumbnail"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "case": {
+        "title": "000014"
+      },
+      "display_set": {
+        "pk": "000014",
+        "title": "000014",
+        "values": [
+          {
+            "pk": 1001400,
+            "interface": {
+              "slug": "visual-context-question"
+            }
+          },
+          {
+            "pk": 1001401,
+            "interface": {
+              "slug": "histopathology-region-of-interest-thumbnail"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "case": {
+        "title": "000015"
+      },
+      "display_set": {
+        "pk": "000015",
+        "title": "000015",
+        "values": [
+          {
+            "pk": 1001500,
+            "interface": {
+              "slug": "visual-context-question"
+            }
+          },
+          {
+            "pk": 1001501,
+            "interface": {
+              "slug": "histopathology-region-of-interest-thumbnail"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "case": {
+        "title": "000016"
+      },
+      "display_set": {
+        "pk": "000016",
+        "title": "000016",
+        "values": [
+          {
+            "pk": 1001600,
+            "interface": {
+              "slug": "visual-context-question"
+            }
+          },
+          {
+            "pk": 1001601,
+            "interface": {
+              "slug": "histopathology-region-of-interest-thumbnail"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "case": {
+        "title": "000017"
+      },
+      "display_set": {
+        "pk": "000017",
+        "title": "000017",
+        "values": [
+          {
+            "pk": 1001700,
+            "interface": {
+              "slug": "visual-context-question"
+            }
+          },
+          {
+            "pk": 1001701,
+            "interface": {
+              "slug": "histopathology-region-of-interest-thumbnail"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "case": {
+        "title": "PIT_01_00020_01"
+      },
+      "display_set": {
+        "pk": "PIT_01_00020_01",
+        "title": "PIT_01_00020_01",
+        "values": [
+          {
+            "pk": 2000000,
+            "interface": {
+              "slug": "whole-slide-image"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "case": {
+        "title": "PIT_02_00019_01"
+      },
+      "display_set": {
+        "pk": "PIT_02_00019_01",
+        "title": "PIT_02_00019_01",
+        "values": [
+          {
+            "pk": 2000100,
+            "interface": {
+              "slug": "whole-slide-image"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

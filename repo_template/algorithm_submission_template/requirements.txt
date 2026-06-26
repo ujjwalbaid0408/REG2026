@@ -1,0 +1,14 @@
+# Base image (pytorch/pytorch:2.9.1-cuda12.6-cudnn9-runtime) already provides torch/torchvision.
+# WSI I/O
+Pillow
+numpy
+tifffile
+imagecodecs
+openslide-python
+# CONCH tile encoder (the `conch` package is vendored under ./conch; these are its deps)
+open_clip_torch
+timm
+einops
+ftfy
+regex
+huggingface_hub
