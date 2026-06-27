@@ -30,6 +30,15 @@ WSI ─► bounded-budget tiler ─► CONCH encoder (512-d) ─► gated-attent
 ROI ─► Otsu tissue/background ─► visual-grounding response (Interface B)
 ```
 
+## Documentation
+
+| Doc | Contents |
+|---|---|
+| [`DATASET.md`](DATASET.md) | Dataset structure, splits, organ distribution, reasoning-graph + report statistics |
+| [`RESULTS.md`](RESULTS.md) | Leaderboard breakdown, oracle ceilings, MIL ablations, training curves (figures) |
+| [`docs/CONTAINER_BUILD.md`](docs/CONTAINER_BUILD.md) | Build/test/upload the submission container on a local Docker host |
+| `report/main.pdf` | Full scientific report (analysis, TikZ diagrams, confusion, qualitative) |
+
 ## Repository layout
 
 ```
