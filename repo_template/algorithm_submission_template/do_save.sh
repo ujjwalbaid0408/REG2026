@@ -46,7 +46,7 @@ echo "= STEP 3 = Packing the model"
 echo "This can take a while."
 output_tarball_name="${SCRIPT_DIR}/model.tar.gz"
 
-tar -czf $output_tarball_name -C "${SCRIPT_DIR}/model" .
+tar -czf "$output_tarball_name" -C "${SCRIPT_DIR}/model" .
 printf "Saved as: \e[32mmodel.tar.gz\e[0m\n"
 
 echo "==== Done"

@@ -50,3 +50,7 @@ repo_template/media/
 # Submission model artifacts (assembled by prepare_model.sh; large)
 repo_template/**/model/
 repo_template/**/*.tar.gz
+
+# Editor/template backups
+*.bak
+*.pre_emptyfix.bak

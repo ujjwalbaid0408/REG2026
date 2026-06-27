@@ -131,4 +131,13 @@ def apply_template(pred, templates):
                 break
         else:
             out[-1]["next_question"] = ""
+    # schema guard: GC rejects empty 'question'/'answer' ("should be non-empty").
+    # Repair any empty question from the incoming graph edge (prev next_question);
+    # never emit an empty required field, regardless of template provenance.
+    for i, s in enumerate(out):
+        if not (s["question"] or "").strip():
+            cand = (out[i - 1]["next_question"] or "").strip() if i > 0 else ""
+            s["question"] = cand or (s["answer"] or "").strip() or "What is the diagnosis?"
+        if not (s["answer"] or "").strip():
+            s["answer"] = "Not specified."
     return out

@@ -12,3 +12,9 @@ einops
 ftfy
 regex
 huggingface_hub
+# REQUIRED: vendored CONCH hard-imports transformers at load time
+# (conch/open_clip_custom/custom_tokenizer.py -> PreTrainedTokenizerFast).
+# Without it the conch import fails, the model load is swallowed, and inference
+# silently falls back to the baseline template (~0.25). Pinned to the version
+# validated in the built container.
+transformers==4.46.3

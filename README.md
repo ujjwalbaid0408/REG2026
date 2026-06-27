@@ -123,6 +123,24 @@ modal template, so the image is always valid.
 
 See `report/main.pdf` for the full analysis, ablations, and figures.
 
+## Leaderboard result (test phase 1)
+
+Official overall score **0.7449** (top-10). Component breakdown and the scoring weights
+(`Overall = 0.70·A + 0.30·B`, where `A = 0.05·BPV + 0.30·EdgeF1 + 0.25·MESS + 0.40·Report`):
+
+| Component | Score | | Component | Score |
+|---|---|---|---|---|
+| Visual Grounding | 0.975 | | Edge F1 | 0.796 |
+| Background Rejection | 1.000 | | MESS | 0.727 |
+| Cross-Region Consistency | 1.000 | | Report Score | 0.516 |
+| Input Sensitivity | 0.917 | | Binary Path Validity | 0.386 |
+
+**Binary Path Validity** is exact edge-set match (all-or-nothing per case, weight 0.05), so its
+absolute value is low by construction and contributes little. The highest-leverage future gain is
+**Report Score** (weight 0.40 within `A`), which currently uses the deterministic keyword template;
+a learned report generator is the main open lever, followed by fine-grained diagnosis accuracy
+(drives Edge F1 + MESS).
+
 ## License / data
 
 Code released for reproduction. Challenge data is distributed by the REG2026 organizers and is
