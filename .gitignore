@@ -20,8 +20,10 @@ artifacts/*/conch_weights/
 *.tiff
 *.tif
 
-# Trained weights -> distribute as a GitHub Release, not in-tree
-artifacts/mil/*/mil_head.pt
+# Trained MIL-head weights are small (3-17 MB) -> kept in-tree under artifacts/mil/<run>/mil_head.pt.
+# The large third-party FOUNDATION encoders (CONCH ~800 MB, UNI2-h ~2.6 GB) are NOT redistributed:
+artifacts/*/conch_weights/
+artifacts/*/uni2h_weights/
 
 # Logs / scratch
 logs/

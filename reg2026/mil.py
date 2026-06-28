@@ -49,6 +49,15 @@ class MILClassifier(nn.Module):
                                     nn.Dropout(c["dropout"]))
         self.head_organ = nn.Linear(c["hidden"], c["n_organ"])
         self.head_dx = nn.Linear(c["hidden"], c["n_dx"])
+        # Optional auxiliary grading heads: config["grading_dims"] = [(field, n_classes), ...].
+        # Sharpens shared features (better organ/dx) and predicts template-substitutable
+        # grading fields directly. Backward-compatible: absent -> no heads.
+        self.grading_dims = c.get("grading_dims")
+        if self.grading_dims:
+            self.head_grading = nn.ModuleDict(
+                {f: nn.Linear(c["hidden"], n) for f, n in self.grading_dims})
+        else:
+            self.head_grading = None
         # Hierarchical head: dx_organ[j] = organ index that diagnosis class j belongs to.
         # When present, dx logits are masked to the (predicted/true) organ's classes, turning
         # one 77-way problem into per-organ sub-problems and guaranteeing organ/dx consistency.
@@ -73,6 +82,8 @@ class MILClassifier(nn.Module):
         pooled, a = self.mil(x, mask)
         z = self.trunk(pooled)
         out = {"organ": self.head_organ(z), "dx": self.head_dx(z)}
+        if self.head_grading is not None:
+            out["grading"] = {f: head(z) for f, head in self.head_grading.items()}
         if return_attn:
             out["attn"] = a
         return out

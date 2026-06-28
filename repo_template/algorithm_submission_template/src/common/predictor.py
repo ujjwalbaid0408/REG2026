@@ -15,29 +15,40 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-_STATE = {"loaded": False, "model": None, "labels": None, "encoder": None, "device": None}
+_STATE = {"loaded": False, "model": None, "labels": None, "encoder": None,
+          "encoder2": None, "fusion": False, "device": None}
 
 
 def _try_load_model(model_path: Path):
-    """Attempt to load the trained classifier. Return True on success."""
+    """Attempt to load the trained classifier. Return True on success.
+
+    Supports both CONCH-only (in_dim 512) and CONCH+UNI2-h fusion (in_dim 2048) heads;
+    for fusion we also load the UNI2-h encoder so per-tile features can be concatenated
+    [CONCH | UNI2-h] exactly as in training.
+    """
     head = model_path / "mil_head.pt"
     labels = model_path / "label_maps.json"
     if not (head.exists() and labels.exists()):
         return False
     try:
         import torch
-        from .mil import MILClassifier, load_encoder  # local, added with training
+        from .mil import MILClassifier, load_encoder, load_uni2h_encoder
         _STATE["device"] = "cuda" if torch.cuda.is_available() else "cpu"
         _STATE["labels"] = json.loads(labels.read_text())
-        _STATE["encoder"] = load_encoder(model_path, _STATE["device"])
         ck = torch.load(head, map_location=_STATE["device"])
         model = MILClassifier.from_config(ck["config"])
         model.load_state_dict(ck["state_dict"])
         model.to(_STATE["device"]).eval()
         _STATE["model"] = model
+        _STATE["fusion"] = int(ck["config"].get("in_dim", 512)) == 2048
+        _STATE["encoder"] = load_encoder(model_path, _STATE["device"])      # CONCH (512)
+        if _STATE["fusion"]:
+            _STATE["encoder2"] = load_uni2h_encoder(model_path, _STATE["device"])  # UNI2-h (1536)
+            print("[predictor] fusion model loaded (CONCH+UNI2-h -> 2048)")
         return True
     except Exception as e:  # never crash inference on load failure -> use baseline
         print(f"[predictor] model load failed ({e}); using baseline prior")
+        _STATE["model"] = None
         return False
 
 
@@ -65,11 +76,32 @@ def predict_fields(wsi_path, model_path: Path, templates) -> dict:
         return {"organ": None}
     dev = _STATE["device"]
     enc = _STATE["encoder"]
+    enc2 = _STATE["encoder2"]
     model = _STATE["model"]
     labels = _STATE["labels"]
+    use_amp = dev == "cuda"
+
+    def _embed(encoder):
+        """Per-tile features, batched + autocast fp16 to match the offline extraction that
+        produced the embeddings the head was trained on. Returns (N, D) float32."""
+        out = []
+        for i in range(0, x.shape[0], 128):
+            xb = x[i:i + 128].to(dev, non_blocking=True)
+            if use_amp:
+                with torch.cuda.amp.autocast():
+                    f = encoder(xb)
+            else:
+                f = encoder(xb)
+            out.append(f.float().cpu())
+        return torch.cat(out)
+
     with torch.no_grad():
         x = torch.from_numpy(tiles).permute(0, 3, 1, 2).float().div_(255.0)
-        feats = enc(x.to(dev))                          # (N, 512), encoder applies CLIP norm
+        feats = _embed(enc)                             # (N, 512) CONCH, CLIP norm internal
+        if _STATE["fusion"]:
+            feats2 = _embed(enc2)                       # (N, 1536) UNI2-h, ImageNet norm
+            feats = torch.cat([feats, feats2], dim=1)   # (N, 2048) — order matches training
+        feats = feats.to(dev)
         logits = model(feats.unsqueeze(0))              # {"organ": (1,10), "dx": (1,77)}
         po_t = logits["organ"].argmax(-1)
         dx_masked = model.masked_dx_logits(logits["dx"], po_t)   # hierarchical: organ-conditioned

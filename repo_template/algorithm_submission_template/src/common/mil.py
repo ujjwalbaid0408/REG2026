@@ -16,6 +16,9 @@ import torch.nn as nn
 # OpenAI-CLIP normalization (CONCH's image tower is CLIP-initialized).
 _CLIP_MEAN = (0.48145466, 0.4578275, 0.40821073)
 _CLIP_STD = (0.26862954, 0.26130258, 0.27577711)
+# ImageNet normalization (UNI2-h's training transform; using CLIP std here degrades it).
+_IMAGENET_MEAN = (0.485, 0.456, 0.406)
+_IMAGENET_STD = (0.229, 0.224, 0.225)
 
 
 class GatedAttentionMIL(nn.Module):
@@ -96,3 +99,39 @@ def load_encoder(model_path, device):
             return self.m.encode_image(x, proj_contrast=False, normalize=False)
 
     return _Wrap(model).to(device)
+
+
+def load_uni2h_encoder(model_path, device):
+    """Load the bundled UNI2-h encoder for fusion models.
+
+    Returns a callable: (B,3,224,224) in [0,1] -> (B,1536), ImageNet-normalized internally.
+    Hub-free: builds the timm arch with explicit kwargs (no network/HF-cache lookup) and
+    loads the raw state-dict bundled at model/uni2h/pytorch_model.bin. The (arch + kwargs)
+    matches MahmoodLab/UNI2-h exactly (verified 0 missing/0 unexpected keys).
+    """
+    import timm
+    model_path = Path(model_path)
+    kw = dict(img_size=224, patch_size=14, depth=24, num_heads=24, init_values=1e-5,
+              embed_dim=1536, mlp_ratio=2.66667 * 2, num_classes=0, no_embed_class=True,
+              mlp_layer=timm.layers.SwiGLUPacked, act_layer=torch.nn.SiLU,
+              reg_tokens=8, dynamic_img_size=True)
+    m = timm.create_model("vit_giant_patch14_reg4_dinov2", pretrained=False, **kw)
+    cands = [model_path / "uni2h" / "pytorch_model.bin",
+             model_path / "uni2h_weights" / "pytorch_model.bin"]
+    binp = next((p for p in cands if p.exists()), None)
+    if binp is None:
+        raise FileNotFoundError(f"UNI2-h weights not found under {model_path}/uni2h/")
+    m.load_state_dict(torch.load(str(binp), map_location="cpu"), strict=True)
+    m.eval().to(device)
+    mean = torch.tensor(_IMAGENET_MEAN).view(1, 3, 1, 1).to(device)
+    std = torch.tensor(_IMAGENET_STD).view(1, 3, 1, 1).to(device)
+
+    class _Wrap(torch.nn.Module):
+        def __init__(self, mm):
+            super().__init__(); self.m = mm
+        @torch.no_grad()
+        def forward(self, x):                      # x in [0,1], (B,3,224,224)
+            x = (x - mean) / std
+            return self.m(x)
+
+    return _Wrap(m).to(device)

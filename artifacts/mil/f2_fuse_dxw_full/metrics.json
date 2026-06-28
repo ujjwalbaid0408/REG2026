@@ -1,0 +1,8 @@
+{
+  "workflow": 0.8763221891005221,
+  "workflow_noabstain": 0.8763221891005221,
+  "organ_acc": 1.0,
+  "dx_acc": 1.0,
+  "epoch": 52,
+  "abstain_tau": 0.0
+}

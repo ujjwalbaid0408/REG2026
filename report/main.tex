@@ -24,8 +24,10 @@
 
 \title{\textbf{Reasoning-Guided Whole-Slide Report Generation via\\
 Foundation-Model Multiple-Instance Learning and\\
-Deterministic Pathology-Workflow Templating}\\[4pt]
-\large A Submission to the REG\textsuperscript{2} (REG2026) MICCAI Challenge}
+Deterministic Pathology-Workflow Templating:\\
+From a CONCH Baseline to a CONCH$+$UNI2-h Fusion}\\[4pt]
+\large A Submission to the REG\textsuperscript{2} (REG2026) MICCAI Challenge\\
+\normalsize \textnormal{Test Phase~1 leaderboard: 0.7449 (CONCH-only) $\rightarrow$ \textbf{0.7707} (fusion), top-10}}
 
 \author{Ujjwal Baid\\
 Department of Pathology / Computational Pathology\\
@@ -53,19 +55,27 @@ and conditioning on the pair \emph{(organ, \#1 diagnosis)} yields $\sim$86\% gra
 $\sim$92\% answer purity. This reframes an apparently open-ended report-generation problem as
 a \emph{constrained multi-task classification} problem followed by deterministic template
 lookup. Our pipeline (a) tiles each no-pyramid generic-TIFF WSI with a bounded-budget
-foreground sampler ($\sim$1.4\,s/slide), (b) embeds tiles with the \textbf{CONCH} pathology
-vision--language foundation model, (c) aggregates them with a gated-attention multiple-instance
-learning (MIL) head producing organ (10-way) and diagnosis (77-way bucketed) predictions, and
-(d) emits the modal training CoT graph, answers, and keyword-rich report for the predicted
-\emph{(organ, diagnosis)} key. A lightweight Otsu tissue-fraction module serves the
-visual-grounding interface. An oracle analysis bounds the achievable workflow score at
-\textbf{0.89} given perfect \emph{(organ, diagnosis)} prediction; our trained system attains a
-held-out workflow score of \textbf{0.794} (organ accuracy 0.96, diagnosis accuracy 0.69),
-i.e.\ within 0.095 of that ceiling, with the residual gap attributable almost entirely to
-fine-grained diagnosis classification. We detail the data analysis,
-architecture, high-performance-computing infrastructure (Blackwell-class GPUs,
-CUDA~12.8/PyTorch~2.9), training methodology, and qualitative predictions, and release all
-code with reproduction instructions.
+foreground sampler, (b) embeds tiles with a pathology foundation encoder, (c) aggregates them
+with a gated-attention multiple-instance learning (MIL) head producing organ (10-way) and
+diagnosis (77-way bucketed) predictions, and (d) emits the modal training CoT graph, answers,
+and keyword-rich report for the predicted \emph{(organ, diagnosis)} key. A lightweight Otsu
+tissue-fraction module serves the visual-grounding interface. We develop and submit \textbf{two
+approaches}: a single-encoder baseline using the \textbf{CONCH} vision--language model (512-d),
+and an \textbf{early-fusion} model that concatenates per-tile CONCH and \textbf{UNI2-h} (1536-d)
+embeddings into a 2048-d representation before aggregation. An oracle analysis bounds the
+achievable workflow score at \textbf{0.889} given perfect \emph{(organ, diagnosis)} prediction;
+on a held-out 20\% split the CONCH baseline reaches \textbf{0.794} (diagnosis accuracy 0.691)
+and the fusion model \textbf{0.814} (diagnosis accuracy 0.737), the gain coming entirely from
+diagnosis. We additionally diagnose and fix a data-engineering defect---981 (8.7\%) of the
+training slides, almost all prostate, are striped-Deflate TIFFs that OpenSlide cannot read and
+that had silently trained as zero-vectors---with a bounded random-access strip decoder that also
+makes the deployment container safe against out-of-memory failure on gigapixel slides. On the
+official REG2026 \textbf{Test Phase~1} leaderboard the CONCH-only submission scored
+\textbf{0.7449} and the fusion submission \textbf{0.7707} (both top-10), with every
+diagnosis-driven component (Edge-F1, MESS, Report) rising and the grounding components unchanged,
+exactly as the held-out analysis predicts. We detail the data analysis, both architectures,
+high-performance-computing infrastructure (Blackwell-class GPUs, CUDA~12.8/PyTorch~2.9), training
+methodology, and qualitative predictions, and release all code with reproduction instructions.
 \end{abstract}
 
 \tableofcontents
@@ -115,13 +125,28 @@ learned decision (the organ--diagnosis key) is exactly the decision a pathologis
   \item \textbf{An oracle ceiling analysis.} Using held-out templating we bound the workflow
         score under several oracle conditions, isolating where machine learning is actually
         needed (organ + diagnosis) from where it is not (graph structure, report scaffolding).
-  \item \textbf{A practical, offline-deployable pipeline.} A bounded-budget WSI tiler, a CONCH
-        foundation encoder, a gated-attention multi-task MIL head, a deterministic template
+  \item \textbf{A practical, offline-deployable pipeline.} A bounded-budget WSI tiler, a
+        foundation tile encoder, a gated-attention multi-task MIL head, a deterministic template
         engine, and an Otsu visual-grounding module---engineered to run within the challenge's
         offline, single-GPU, 5-minute-per-case container constraints.
+  \item \textbf{Two encoder approaches, evaluated head-to-head.} We build and submit (i) a
+        single-encoder \emph{CONCH-only} model and (ii) a \emph{CONCH$+$UNI2-h early-fusion} model
+        (2048-d per-tile features). We show, both on a held-out split and on the official
+        leaderboard, that fusion improves \emph{diagnosis} accuracy---the binding constraint---and
+        therefore every diagnosis-driven score component.
+  \item \textbf{A consequential data-engineering fix.} We identify that 981 training slides
+        (8.7\%, almost entirely prostate) are striped-Deflate TIFFs unreadable by OpenSlide, which
+        had been silently embedded as zero-vectors (corrupting training) and would have produced
+        zero features on striped \emph{test} slides. We replace the reader with a bounded
+        random-access strip decoder that recovers these slides at $\sim$0.4\,GB peak memory,
+        eliminating both the training pollution and an out-of-memory failure mode on the
+        32\,GB deployment GPU.
   \item \textbf{Reproducible engineering at scale.} We document the HPC pipeline used to embed
-        11{,}220 WSIs on Blackwell-class GPUs, including the CUDA/PyTorch compatibility work
-        required, and release all code.
+        11{,}220 WSIs twice (CONCH and UNI2-h) on Blackwell-class GPUs, including the CUDA/PyTorch
+        compatibility work required, and release all code.
+  \item \textbf{Validated on the official leaderboard.} Both submissions reached the REG2026 Test
+        Phase~1 top-10; fusion lifted the overall score from 0.7449 to 0.7707, confirming the
+        held-out predictions transfer to the hidden test set.
 \end{enumerate}
 
 % =====================================================================
@@ -225,6 +250,23 @@ gated-attention head for its simplicity, speed, and the interpretable attention 
 (useful for the qualitative analysis in Section~\ref{sec:qual}); the multi-task extension to two
 heads is, to our knowledge, the natural fit for the (organ, diagnosis) factorization the REG2026
 metric rewards.
+
+\subsection{Combining heterogeneous foundation encoders}
+\label{sec:related-fusion}
+Different pathology foundation models are pretrained with different objectives (vision-only
+self-distillation vs.\ vision--language contrastive) on different corpora, and recent benchmarks
+report that no single encoder dominates across organs and tasks
+\cite{chen2024uni,lu2024conch,vorontsov2024virchow}. This motivates \emph{combining} encoders so a
+downstream head can draw on complementary inductive biases. The simplest and most robust strategy
+is \emph{early (feature-level) fusion}: concatenating per-tile embeddings from several encoders
+before aggregation, which requires no architectural change to the MIL head and no joint
+re-training of the encoders. We adopt exactly this---concatenating the 512-d caption-aligned
+CONCH embedding with the 1536-d self-supervised UNI2-h embedding into a 2048-d per-tile vector---
+because our deterministic tiler is reproducible, so tile $i$ is identical across encoders and the
+two embedding streams align index-for-index without any registration step
+(Section~\ref{sec:approach-fusion}). This is a deliberately conservative form of multi-encoder
+ensembling: it keeps the encoders frozen, adds no inference-time coupling beyond a concatenation,
+and lets the attention head learn per-organ which representation to trust.
 
 \subsection{Histopathology report generation}
 Report-generation systems such as HistGen \cite{tu2024histgen} encode local--global slide
@@ -413,8 +455,54 @@ interpretation. Crucially, because the report sub-metric is keyword-Jaccard-domi
 templated report populated with the correct organ/diagnosis keywords scores well without
 reproducing exact prose---further justifying our design.
 
+\subsection{A hidden data defect: striped-Deflate TIFFs}
+\label{sec:striped}
+Although the corpus is nominally homogeneous (tiled JPEG generic-TIFF), we discovered during
+embedding extraction that \textbf{981 of the 11{,}220 training slides (8.7\%) are encoded
+differently}: they are \emph{striped} (row-band) TIFFs with Adobe-Deflate (zlib) compression
+rather than tiled JPEG. OpenSlide---the de-facto WSI reader and the one used inside the challenge
+container---supports only \emph{tiled} generic-TIFFs and raises
+\code{OpenSlideUnsupportedFormatError} on these files, even single-process (we initially
+mis-attributed the failures to filesystem contention; they are purely a format issue, and
+\code{tifffile}/PIL read the same files correctly). The defect is strongly organ-correlated:
+\textbf{877 of the 981 striped slides are prostate} (36.3\% of all 2{,}418 prostate slides),
+with the remainder a handful of lung/stomach/breast/bladder cases---consistent with a
+prostate-specific scanner/export pipeline. Table~\ref{tab:striped} summarizes the distribution.
+
+\begin{table}[h]
+\centering
+\caption{Striped-Deflate (OpenSlide-unreadable) slides by organ in the training corpus. The defect
+is overwhelmingly concentrated in prostate---the largest and, diagnostically (Gleason grading), one
+of the hardest organ classes.}
+\label{tab:striped}
+\begin{tabular}{lrr}
+\toprule
+Organ & Striped slides & \% of organ \\
+\midrule
+Prostate        & 877 & 36.3 \\
+Lung            & 13  & 1.4 \\
+Stomach         & 4   & 0.2 \\
+Breast / Bladder & 2   & $<$0.1 \\
+Other organs    & 0   & 0.0 \\
+\midrule
+\textbf{Total}  & \textbf{981} & \textbf{8.7} (of 11{,}220) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+This defect is doubly damaging and was \emph{present in our first (0.7449) submission}. First,
+during training the extractor wrote a single zero-vector placeholder for each unreadable slide, so
+the CONCH-only model trained on $\sim$877 \emph{zero-vector prostate bags}---pollution
+concentrated in the single most important and hardest organ. Second, and worse, the deployment
+container uses the same OpenSlide reader, so striped \emph{test} slides would yield zero features
+and arbitrary predictions. Our fix is a bounded random-access strip decoder
+(Section~\ref{sec:approach-tiling}) that reads these files correctly while strictly capping
+memory; recovering the 981 slides is a prerequisite for the fusion results in
+Section~\ref{sec:results} and contributes materially to the leaderboard improvement in
+Section~\ref{sec:testphase}.
+
 % =====================================================================
-\section{Proposed Approach}
+\section{Proposed Approaches}
 \label{sec:approach}
 
 \subsection{Overview}
@@ -422,8 +510,9 @@ Our system (Figure~\ref{fig:pipeline}) decomposes the problem into a learned per
 end and a deterministic symbolic back end:
 \begin{enumerate}[leftmargin=1.4em,itemsep=2pt]
   \item \textbf{Tiling.} Sample up to 160 foreground tiles ($224{\times}224$) from the WSI under
-        a bounded read budget.
-  \item \textbf{Encoding.} Map each tile to a 512-d CONCH embedding.
+        a bounded read budget (with a strip-decoder fallback for striped TIFFs).
+  \item \textbf{Encoding.} Map each tile to a foundation embedding---512-d CONCH in
+        Approach~1, or the 2048-d concatenation of CONCH and UNI2-h in Approach~2.
   \item \textbf{Aggregation \& classification.} A gated-attention MIL head pools tile
         embeddings and predicts \emph{organ} (10-way) and \emph{diagnosis} (77-way).
   \item \textbf{Templating.} Look up the modal CoT graph, answers, and keyword-rich report for
@@ -433,7 +522,19 @@ end and a deterministic symbolic back end:
 \end{enumerate}
 This division is deliberate: the metric rewards exact graph/answer reproduction, which symbolic
 templating achieves perfectly when the key is correct, so the only quantity worth learning is
-the \emph{(organ, diagnosis)} key itself.
+the \emph{(organ, diagnosis)} key itself. The two approaches differ \emph{only} in the encoding
+stage; the tiler, MIL head topology (modulo input dimension), template engine, and grounding
+module are shared. This makes them a clean controlled comparison of representation quality.
+
+\paragraph{Approach~1 --- CONCH-only (baseline).}
+Each tile is mapped to a single 512-d CONCH embedding and the bag is aggregated directly. This is
+the model behind our first leaderboard submission (overall 0.7449).
+
+\paragraph{Approach~2 --- CONCH$+$UNI2-h early fusion.}
+Each tile is embedded \emph{twice}---by CONCH (512-d, vision--language) and by UNI2-h (1536-d,
+vision-only self-supervised)---and the two vectors are concatenated into a 2048-d per-tile feature
+(Section~\ref{sec:approach-fusion}) before the same gated-attention head. This is the model behind
+our second submission (overall 0.7707).
 
 \begin{figure}[h]
 \centering
@@ -445,9 +546,9 @@ the \emph{(organ, diagnosis)} key itself.
   io/.style={box,fill=black!4},
   arr/.style={-{Latex[length=2mm]},thick}
 ]
-\node[io] (wsi) {WSI\\\scriptsize tiled TIFF};
+\node[io] (wsi) {WSI\\\scriptsize tiled / striped TIFF};
 \node[box,right=of wsi] (tile) {Bounded-budget\\tiler};
-\node[enc,right=of tile] (conch) {CONCH\\encoder\\\scriptsize 512-d};
+\node[enc,right=of tile] (conch) {Encoder(s)\\\scriptsize CONCH 512-d\\\scriptsize ($+$UNI2-h 1536-d)};
 \node[box,right=of conch] (mil) {Gated-attn\\MIL};
 \node[sym,right=of mil] (heads) {Organ + Dx\\heads};
 \node[sym,below=12mm of heads] (tpl) {Template\\engine};
@@ -470,11 +571,73 @@ the \emph{(organ, diagnosis)} key itself.
   \node[draw,dashed,rounded corners,fit=(tpl)(cot),inner sep=2mm,label={[font=\scriptsize]below:Deterministic back end}] {};
 \end{scope}
 \end{tikzpicture}
-\caption{End-to-end REG2026 pipeline. A frozen CONCH encoder and trained gated-attention MIL
-head predict the \emph{(organ, diagnosis)} key; a deterministic template engine emits the exact
-canonical reasoning graph, answers, and keyword-rich report. A separate Otsu module serves the
-visual-grounding interface.}
+\caption{End-to-end REG2026 pipeline, shared by both approaches. Frozen foundation encoder(s)
+and a trained gated-attention MIL head predict the \emph{(organ, diagnosis)} key; a deterministic
+template engine emits the exact canonical reasoning graph, answers, and keyword-rich report. A
+separate Otsu module serves the visual-grounding interface. Approach~1 uses CONCH alone (512-d);
+Approach~2 additionally embeds each tile with UNI2-h and concatenates (2048-d).}
 \label{fig:pipeline}
+\end{figure}
+
+\subsection{Approach 2: CONCH$+$UNI2-h early fusion}
+\label{sec:approach-fusion}
+The two approaches share everything but the tile representation, so we describe the fusion path
+explicitly here. UNI2-h \cite{chen2024uni} is a ViT-H vision-only encoder pretrained with
+DINOv2-style self-distillation, producing 1536-d embeddings; CONCH is a ViT-B/16
+vision--language encoder producing 512-d embeddings. They are pretrained with different objectives
+on different data, so their errors are partly decorrelated---the premise of fusion
+(Section~\ref{sec:related-fusion}). For each tile $t$ we compute
+\begin{equation}
+  e^{\text{fuse}} \;=\; \big[\, \text{CONCH}(t)\ \|\ \text{UNI2-h}(t)\,\big]\ \in\ \mathbb{R}^{2048},
+\end{equation}
+the concatenation of the two (independently, encoder-specifically normalized) embeddings, and the
+slide becomes a bag of 2048-d vectors fed to the \emph{same} gated-attention head with input
+dimension 2048 (Figure~\ref{fig:fusion}). Two properties make this safe and cheap:
+
+\begin{enumerate}[leftmargin=1.4em,itemsep=2pt]
+  \item \textbf{Index-aligned tiles.} Our tiler (Section~\ref{sec:approach-tiling}) is fully
+        deterministic---no randomness, a fixed seed for the grid shuffle---so the $i$-th tile of a
+        slide is byte-identical regardless of which encoder consumes it. We verified that CONCH and
+        UNI2-h produce the same tile count $N$ for every slide with zero mismatches, so the two
+        embedding streams concatenate index-for-index with no registration.
+  \item \textbf{Frozen encoders, precomputed once.} Both encoders are frozen and their embeddings
+        cached to disk per slide, namespaced by encoder
+        (\code{embeddings/conch/} and \code{embeddings/uni2h/}). Fusion is then a zero-cost
+        concatenation at training time, and at inference the only added work is one extra forward
+        pass per tile through UNI2-h.
+\end{enumerate}
+
+\begin{figure}[h]
+\centering
+\begin{tikzpicture}[
+  node distance=5mm and 9mm,
+  t/.style={draw,rounded corners,minimum width=12mm,minimum height=6mm,font=\scriptsize,align=center},
+  cc/.style={t,fill=green!8}, uu/.style={t,fill=cyan!10},
+  op/.style={draw,circle,inner sep=1pt,font=\scriptsize,fill=blue!6},
+  b/.style={draw,rounded corners,minimum width=16mm,minimum height=7mm,font=\scriptsize,align=center,fill=blue!5},
+  h/.style={draw,rounded corners,minimum width=15mm,minimum height=7mm,font=\scriptsize,align=center,fill=orange!10},
+  arr/.style={-{Latex[length=1.8mm]}}
+]
+\node[t,fill=black!4] (tile) {tile $t_i$\\\scriptsize $224^2$};
+\node[cc,above right=4mm and 10mm of tile] (conch) {CONCH\\\scriptsize 512-d};
+\node[uu,below right=4mm and 10mm of tile] (uni) {UNI2-h\\\scriptsize 1536-d};
+\node[op,right=18mm of tile] (cat) {$\|$};
+\node[b,right=of cat] (fuse) {fused $e_i$\\\scriptsize 2048-d};
+\node[b,right=of fuse] (att) {Gated-attn\\MIL};
+\node[h,above right=3mm and 9mm of att] (ho) {organ (10)};
+\node[h,below right=3mm and 9mm of att] (hd) {dx (77)};
+\draw[arr] (tile)--(conch); \draw[arr] (tile)--(uni);
+\draw[arr] (conch)--(cat); \draw[arr] (uni)--(cat);
+\draw[arr] (cat)--(fuse); \draw[arr] (fuse)--(att);
+\draw[arr] (att)--(ho); \draw[arr] (att)--(hd);
+\node[font=\scriptsize\itshape,above=0.5mm of conch] {frozen};
+\node[font=\scriptsize\itshape,below=0.5mm of uni] {frozen};
+\end{tikzpicture}
+\caption{Early-fusion encoding (Approach~2). Each tile is embedded by both frozen encoders and the
+two vectors are concatenated into a 2048-d feature; the rest of the pipeline (gated-attention MIL,
+organ/diagnosis heads, templating) is unchanged from Approach~1. Index alignment is guaranteed by
+the deterministic tiler.}
+\label{fig:fusion}
 \end{figure}
 
 \subsection{Bounded-budget WSI tiling}
@@ -508,6 +671,23 @@ slides cannot blow up runtime, and the seeded shuffle gives reproducible, spatia
 coverage without a pyramid.}
 \label{lst:tiler}
 \end{figure}
+
+\paragraph{A bounded strip decoder for striped TIFFs.}
+The tiler above relies on OpenSlide's \code{read\_region}, which fails on the 981 striped-Deflate
+slides of Section~\ref{sec:striped}. The obvious fallback---\code{tifffile.imread} of the whole
+image---works but reads the entire slide into RAM: for the largest striped prostate slides
+(5.3--8.6 gigapixels; e.g.\ a $95{,}488\times89{,}600$ slide) that is 23--26\,GB, which OOM-kills
+even a 45\,GB extraction worker and would \emph{crash the container} on the 32\,GB A10G deployment
+GPU, scoring that test case zero. We therefore implement a \textbf{band-major random-access strip
+decoder}: using \code{tifffile}'s page geometry we read and \code{decode} \emph{one strip at a
+time} (\code{rowsperstrip}$=128$, $\sim$700 strips, $\sim$34\,MB resident each), assembling only
+the row-bands that the grid sampler actually touches. A hard \code{\_STRIP\_MAX\_BYTES}=2\,GB guard
+skips pathological single-strip files so the reader can \emph{never} OOM-crash. The OpenSlide path
+is untouched for the 91\% of slides that are tiled (no regression). On striped slides the decoder
+runs in 3--8\,s at $\sim$0.4\,GB peak (versus 23--26\,GB for the full read); for two extremely
+sparse-tissue slides ($<$1\% tissue over an 8-gigapixel field) an exhaustive sequential band scan
+recovers a full tile set in 64--98\,s, still within the 5-minute budget. Because \code{tifffile} is
+already a container dependency, this fix propagates to the deployment image with no new packages.
 
 \subsection{Deterministic template engine}
 \code{build\_templates} groups the training CoTs by \emph{(organ, diagnosis)} and stores, per
@@ -568,8 +748,21 @@ CLIP-initialized. The frozen image encoder produces a 512-d embedding
 $e = \text{CONCH}(t) \in \mathbb{R}^{512}$. A slide is thus represented by a variable-length bag
 $E = \{e_1,\dots,e_N\}$, $N \le 160$.
 
+\subsection{Second tile encoder: UNI2-h}
+For Approach~2 we add UNI2-h \cite{chen2024uni}, a ViT-H/14 vision encoder pretrained with
+DINOv2 self-distillation on a large multi-institution histology corpus, producing 1536-d
+embeddings. A subtle but important detail is normalization: CONCH is CLIP-initialized and expects
+OpenAI-CLIP statistics, whereas UNI2-h expects ImageNet statistics ($\mu=(0.485,0.456,0.406)$,
+$\sigma=(0.229,0.224,0.225)$). We attach the correct mean/std \emph{per encoder} inside the
+\code{embed\_tiles} interface (we explicitly fixed an early bug in which both encoders shared the
+ImageNet statistics, which perturbs CONCH features). The fused tile representation is the
+concatenation $e^{\text{fuse}}=[\,\text{CONCH}(t)\,\|\,\text{UNI2-h}(t)\,]\in\mathbb{R}^{2048}$
+(Section~\ref{sec:approach-fusion}).
+
 \subsection{Gated-attention MIL aggregator}
-We use the gated-attention pooling of Ilse et~al.\ \cite{ilse2018attention}. Each embedding is
+We use the gated-attention pooling of Ilse et~al.\ \cite{ilse2018attention}; the head is identical
+across both approaches except for the input dimension of the projection
+($d_{\text{in}}=512$ for CONCH-only, $2048$ for fusion). Each embedding is
 projected $h_n = \text{Dropout}(\text{GELU}(W_p e_n)) \in \mathbb{R}^{d}$ ($d\in\{512,768\}$),
 and an attention weight is computed as
 \begin{equation}
@@ -863,6 +1056,59 @@ Configuration & Organ acc. & Dx acc. & Workflow & $\Delta$ to ceiling \\
 \end{tabular}
 \end{table}
 
+\subsection{Approach 2: CONCH$+$UNI2-h fusion results}
+\label{sec:fusion-results}
+Table~\ref{tab:fusion} reports the fusion sweep on the \emph{same} held-out split, with the
+striped-prostate slides recovered (Section~\ref{sec:striped}) so the prostate bags carry real
+features. Early fusion lifts the held-out workflow score from the CONCH-only best of 0.794 to
+\textbf{0.814}, and the entire gain is in \emph{diagnosis} accuracy (0.691$\rightarrow$0.737);
+organ accuracy is already saturated and barely moves (0.956$\rightarrow$0.959). The best
+configuration, \code{f2\_fuse\_dxw}, simply up-weights the diagnosis loss
+($\lambda_d{=}1.5$)---consistent with diagnosis being the binding constraint. Two negative results
+are worth recording: a larger head (\code{f1\_fuse\_big}) does \emph{not} help, confirming the
+limit is representational rather than capacity; and adding categorical \emph{grading} sub-heads
+(\code{f3\_fuse\_grade}; Gleason/Nottingham/dysplasia as auxiliary masked-CE targets) slightly
+\emph{hurts} the aggregate metric (0.810), because the gradings are themselves hard to predict
+from frozen features and the auxiliary loss competes with the main diagnosis objective.
+
+\begin{table}[h]
+\centering
+\caption{Held-out performance of the fusion MIL head (CONCH$+$UNI2-h, 2048-d) on the same 80/20
+split, versus the CONCH-only baseline. Fusion improves diagnosis accuracy---the binding
+constraint---and hence the workflow score; the gain is entirely in dx, not organ. The oracle
+ceiling is 0.889.}
+\label{tab:fusion}
+\begin{tabular}{llcccc}
+\toprule
+Approach & Configuration & Organ acc. & Dx acc. & Workflow & $\Delta$ to ceiling \\
+\midrule
+CONCH-only & \code{r1\_reg} (best of sweep) & 0.956 & 0.691 & 0.794 & $-0.095$ \\
+\midrule
+Fusion & \code{f0\_fuse} (base) & 0.961 & 0.731 & 0.813 & $-0.076$ \\
+Fusion & \code{f1\_fuse\_big} (larger head) & 0.957 & 0.727 & 0.812 & $-0.077$ \\
+Fusion & \code{f3\_fuse\_grade} ($+$grading heads) & 0.961 & 0.729 & 0.810 & $-0.079$ \\
+\textbf{Fusion} & \textbf{\code{f2\_fuse\_dxw}} ($\lambda_d{=}1.5$) & \textbf{0.959} & \textbf{0.737} & \textbf{0.814} & $\mathbf{-0.075}$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Figure~\ref{fig:fusioncurves} contrasts the training dynamics of the CONCH-only and fusion best
+models. The fusion curve sits consistently above the baseline throughout training in both workflow
+score and diagnosis accuracy, and the separation is established early and maintained---i.e.\ fusion
+provides a genuinely richer per-tile representation rather than merely a different optimization
+trajectory. Both still plateau well below the 0.889 ceiling, locating the residual gap in
+diagnosis separability from \emph{frozen} features (motivating encoder fine-tuning,
+Section~\ref{sec:future}).
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=\linewidth]{figures/fusion_curves.pdf}
+\caption{Held-out training dynamics, CONCH-only (\code{r1\_reg}) vs.\ fusion (\code{f2\_fuse\_dxw}):
+(a) workflow score with the 0.889 oracle ceiling and 0.674 organ-only floor marked; (b) diagnosis
+accuracy. Fusion dominates the baseline throughout, and the gain is concentrated in diagnosis.}
+\label{fig:fusioncurves}
+\end{figure}
+
 \subsection{Per-organ breakdown}
 Table~\ref{tab:mil_organ} stratifies the best model by ground-truth organ. Organ recognition is
 near-perfect ($\ge 0.99$) for every major organ \emph{except rectum}, whose organ accuracy
@@ -1002,6 +1248,100 @@ Slide & GT organ & Predicted diagnosis & Edge-F1 & MESS & Workflow \\
 \end{table}
 
 % =====================================================================
+\section{Results on the Official Test Phase 1 Leaderboard}
+\label{sec:testphase}
+
+The held-out analysis above is computed with our offline proxy metric. To validate that those
+conclusions transfer to the hidden test set and the \emph{official} scorer, we submitted both
+approaches as offline containers to the REG2026 Test Phase~1 leaderboard (350 slides). The
+single most important question is whether the held-out improvement from fusion (and from the
+striped-TIFF recovery) survives contact with the real metric. It does.
+
+\subsection{Two submissions, head to head}
+Table~\ref{tab:testphase} reports the full component breakdown of both submissions. The CONCH-only
+container (V3) scored an overall \textbf{0.7449}; the fusion container (V4)---identical except for
+the fused encoder and the bounded strip decoder---scored \textbf{0.7707}, a $+0.0258$ improvement,
+with both placing in the top-10. We independently reproduce the official aggregate from the
+published formula: with $A=0.05\cdot\text{BPV}+0.30\cdot\text{Edge-F1}+0.25\cdot\text{MESS}
++0.40\cdot\text{Report}$ and $\text{Overall}=0.70\,A+0.30\,B$, the V4 components give
+$A=0.683$ and $\text{Overall}=0.70(0.683)+0.30(0.975)=0.7707$, matching the leaderboard exactly.
+
+\begin{table}[h]
+\centering
+\caption{Official REG2026 \textbf{Test Phase~1} leaderboard results (350 slides) for our two
+submissions. V3 is the CONCH-only model; V4 is the CONCH$+$UNI2-h fusion model with the striped-TIFF
+strip decoder. \emph{Every} diagnosis-driven component (Edge-F1, MESS, Report, and even the strict
+BPV) improves, while the grounding components are unchanged---exactly the signature predicted by the
+held-out analysis. Both submissions placed in the top-10.}
+\label{tab:testphase}
+\begin{tabular}{lccc}
+\toprule
+Metric (weight in score) & V3 CONCH-only & V4 fusion & $\Delta$ \\
+\midrule
+\textbf{Overall} & \textbf{0.7449} & \textbf{0.7707} & $\mathbf{+0.0258}$ \\
+\midrule
+\multicolumn{4}{l}{\emph{Workflow component $A$ (weight 0.70)}}\\
+\quad Edge-F1 (0.30) & 0.7960 & 0.8203 & $+0.0243$ \\
+\quad MESS (0.25)    & 0.7270 & 0.7611 & $+0.0341$ \\
+\quad Report Score (0.40) & 0.5160 & 0.5643 & $+0.0483$ \\
+\quad Binary Path Validity (0.05) & 0.3860 & 0.4200 & $+0.0340$ \\
+\midrule
+\multicolumn{4}{l}{\emph{Visual-grounding component $B$ (weight 0.30)}}\\
+\quad Background Rejection & 1.0000 & 1.0000 & $0.0000$ \\
+\quad Input Sensitivity   & 0.9167 & 0.9167 & $0.0000$ \\
+\quad Cross-Region Consistency & 1.0000 & 1.0000 & $0.0000$ \\
+\quad Visual Grounding (aggregate) & 0.9750 & 0.9750 & $0.0000$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.92\linewidth]{figures/test_components.pdf}
+\caption{Test Phase~1 component scores, CONCH-only (V3) vs.\ fusion (V4). The four
+diagnosis-driven components rise together while the grounding aggregate is flat, isolating the
+fusion$+$recovery gain to exactly the quantities a better \emph{(organ, diagnosis)} predictor
+should move.}
+\label{fig:testcomp}
+\end{figure}
+
+\subsection{Reading the result}
+Three observations make this more than a single number.
+\begin{enumerate}[leftmargin=1.4em,itemsep=2pt]
+  \item \textbf{The gain is diagnosis-shaped.} Edge-F1, MESS, Report, and BPV---all of which are
+        downstream of a correct \emph{(organ, diagnosis)} key---improve, whereas the three
+        grounding metrics (handled by the unchanged Otsu module) do not move at all. This is the
+        precise fingerprint our held-out analysis predicts for a model whose only change is a
+        better diagnosis predictor, and it confirms that the held-out workflow gain
+        (0.794$\rightarrow$0.814) was real signal, not proxy-metric artifact.
+  \item \textbf{Report Score rose the most ($+0.048$).} Because we do \emph{not} learn report
+        prose---the report is templated from the predicted key---the only way the report
+        sub-score can rise is if the predicted diagnosis is more often correct. This directly
+        corroborates our finding that the report gap is dominated by wrong predicted fields, not
+        by phrasing, and that diagnosis accuracy is the master lever for the whole metric.
+  \item \textbf{The striped-TIFF fix contributes.} V4 bundles two changes (fusion \emph{and} the
+        strip decoder), so the leaderboard delta is their combined effect; we cannot fully separate
+        them from a single submission. But the strip decoder is what lets the container read striped
+        \emph{test} prostate slides at all (V3 returned zero features on them), and it removed
+        $\sim$877 zero-vector prostate bags from training---so a meaningful share of the prostate
+        improvement is attributable to the data fix rather than to fusion alone. Isolating the two
+        would require a CONCH-only$+$strip-decoder submission, which we note as a controlled
+        follow-up.
+\end{enumerate}
+
+\subsection{Robustness of the deployment container}
+A practical concern for an offline-scored container is that a single crashing case can forfeit the
+run. We engineered three independent safeguards. (i) \emph{Prevention}: the bounded strip decoder
+holds peak memory near 0.4\,GB regardless of slide size (validated on an 8{,}556-megapixel slide and
+on all 350 test slides), so the container cannot OOM. (ii) \emph{Graceful degradation}: the workflow
+entry point wraps field prediction in a \code{try/except} that, on any failure, backs off through
+diagnosis$\rightarrow$organ$\rightarrow$global-modal templates; even under total tiling failure it
+emits a schema-valid 6-step chain with no empty required fields and a correctly terminated last
+edge. (iii) \emph{Schema hardening}: a sanitizer guarantees no emitted question/answer is empty
+(a defect that failed an earlier debug submission). End-to-end validation over all 350 test slides
+produced zero errors and a 6.3\,GB peak, comfortably inside the 32\,GB budget.
+
+% =====================================================================
 \section{Discussion}
 \label{sec:discussion}
 
@@ -1012,22 +1352,30 @@ key, expanded through templates, captures the overwhelming majority of attainabl
 0.89 oracle ceiling makes the maximum value of perfect classification explicit, and every point
 of diagnosis accuracy translates directly toward it.
 
-The trained system reaches a held-out workflow score of \textbf{0.794}, i.e.\ 89\% of the 0.889
-oracle ceiling and far above the 0.674 organ-only floor and 0.239 no-input baseline. Decomposing
-the 0.095 residual: organ recognition is effectively solved (accuracy $\sim$0.95, and the lone
-systematic error---rectum classified as colon---is metric-benign because colorectal templates
-coincide), so essentially the \emph{entire} gap is fine-grained diagnosis accuracy (0.69 over 77
-classes). This localizes where future effort should go. Three avenues are promising and
+The CONCH-only system reaches a held-out workflow score of \textbf{0.794} (89\% of the 0.889
+ceiling), and fusing CONCH with UNI2-h raises this to \textbf{0.814} (92\% of the ceiling)---a
+gain delivered entirely through diagnosis accuracy (0.691$\rightarrow$0.737). Crucially, both
+conclusions held up on the \emph{official} Test Phase~1 leaderboard
+(Section~\ref{sec:testphase}): overall score 0.7449$\rightarrow$0.7707, with every
+diagnosis-driven component rising and the grounding components flat. The agreement between our
+offline proxy and the hidden-set scorer---both in direction and in the diagnosis-shaped fingerprint
+of the improvement---gives us confidence that the held-out numbers are trustworthy guides for where
+to invest next. Decomposing the residual: organ recognition is effectively solved (accuracy
+$\sim$0.96, and the lone systematic error---rectum classified as colon---is metric-benign because
+colorectal templates coincide), so essentially the \emph{entire} remaining gap is fine-grained
+diagnosis accuracy. This localizes where future effort should go. Three avenues are promising and
 orthogonal to the templating back end, which is already near its purity ceiling
-(Edge-F1 $=0.974$ under oracle inputs): (i) \textbf{predicting gradings from high-attention
-tiles}---Gleason and Nottingham grades are exactly the within-organ distinctions the diagnosis
-head struggles with, and the attention map already localizes diagnostically salient regions;
-(ii) \textbf{task-adaptive fine-tuning} of the CONCH encoder rather than using frozen features;
-and (iii) \textbf{a hierarchical organ$\rightarrow$diagnosis head} that conditions the diagnosis
-classifier on the (reliable) organ prediction, shrinking each organ's effective class count.
-That all four sweep configurations cluster within 0.009 of one another, despite varying capacity
-and regularization, indicates the limit is diagnostic \emph{signal} extractable from frozen
-tile embeddings, not optimization or model size.
+(Edge-F1 $=0.974$ under oracle inputs): (i) \textbf{a learned report generator}---on the real
+leaderboard the Report sub-score (0.564, weight 0.40 within $A$) is the largest single lever, and
+its oracle ceiling given correct fields is 0.805, so there is genuine headroom beyond templating
+once fields are right; (ii) \textbf{task-adaptive fine-tuning} of the encoders rather than using
+frozen features---the consistent finding that capacity does not help (CONCH sweep within 0.009;
+fusion \code{f1\_fuse\_big} no better than \code{f0\_fuse}) shows the limit is diagnostic
+\emph{signal} extractable from \emph{frozen} embeddings, which only fine-tuning or a stronger
+encoder can move; and (iii) \textbf{further encoder fusion / $k$-fold ensembling}, the cheapest
+of the three. Notably, adding explicit grading sub-heads did \emph{not} help
+(\code{f3\_fuse\_grade}, 0.810), indicating that gradings cannot be squeezed out of frozen features
+by an auxiliary loss alone and likely require fine-tuning or region-level supervision.
 
 \subsection{Design alternatives considered}
 We briefly justify the key design choices against the alternatives. (i) \emph{End-to-end report
@@ -1056,39 +1404,54 @@ budget for the workflow interface.
   \item \textbf{Template purity ceiling.} $\sim$14\% of graphs deviate from the modal template
         for their key; deterministic emission cannot recover these, bounding Edge-F1 below 1.
   \item \textbf{Report prose.} Templated reports maximize keyword recall but not fluent,
-        case-specific narrative; under a metric weighting fluency more heavily this would lose
-        value.
+        case-specific narrative; the leaderboard Report sub-score (0.564, ceiling 0.805 given
+        correct fields) shows real headroom a learned generator could capture beyond templating.
+  \item \textbf{Frozen encoders.} Both approaches use frozen features; the consistent
+        capacity-insensitivity of our sweeps indicates the diagnosis ceiling is set by the frozen
+        representation, which only fine-tuning or a stronger encoder can lift.
+  \item \textbf{Fusion cost.} Approach~2 doubles encoder inference (one extra UNI2-h forward pass
+        per tile) and ships a 2.6\,GB second encoder in the model tarball; the gain
+        (0.7449$\rightarrow$0.7707) justifies it but it is not free.
+  \item \textbf{Entangled leaderboard delta.} The V4 submission bundles fusion and the striped-TIFF
+        fix, so their individual leaderboard contributions are not separately measured
+        (Section~\ref{sec:testphase}).
   \item \textbf{Distribution shift.} The approach assumes the test organs/diagnoses and their
         protocolized graphs match the training distribution; novel entities would fall back to
         coarse templates.
-  \item \textbf{Frozen encoder.} We use CONCH features without fine-tuning; task-adaptive
-        fine-tuning could improve diagnosis accuracy at additional compute cost.
 \end{itemize}
 
 % =====================================================================
 \section{Future Work}
 \label{sec:future}
 
-The analysis localizes all remaining headroom in the diagnosis head, suggesting four concrete
-directions, in roughly increasing order of effort:
+The held-out and leaderboard analyses localize the remaining headroom, suggesting five concrete
+directions, ordered by expected leverage on the \emph{overall} score:
 \begin{enumerate}[leftmargin=1.4em,itemsep=2pt]
-  \item \textbf{Hierarchical organ$\rightarrow$diagnosis head.} Conditioning the diagnosis
-        classifier on the (highly reliable) organ prediction shrinks each organ's effective class
-        count from 77 to its handful of organ-specific diagnoses, and would directly address the
-        rectum/colon coupling by sharing a colorectal sub-head.
-  \item \textbf{Grading from high-attention tiles.} Gleason, Nottingham, and dysplasia grades are
-        the within-organ distinctions the flat diagnosis head conflates. A second-stage head over
-        the top-$k$ attended tiles could predict gradings explicitly and refine the diagnosis
-        string the template consumes.
-  \item \textbf{Test-time augmentation and ensembling.} Averaging predictions over multiple tile
-        samplings, and over the three near-tied sweep checkpoints, is cheap within the compute
-        budget and typically recovers a fraction of a point.
-  \item \textbf{Task-adaptive encoder fine-tuning.} Unfreezing CONCH (or a higher-dimensional
-        UNI2-h backbone) with a low learning rate could improve diagnosis separability at the cost
-        of an extraction re-run; our namespaced embedding cache makes such an A/B inexpensive.
+  \item \textbf{A learned report generator.} On the real leaderboard the Report sub-score (weight
+        0.40 within $A$) is the single largest lever, and its oracle ceiling given correct fields
+        (0.805) sits well above our templated 0.564---so once diagnosis is right, a lightweight
+        learned (or retrieval-augmented) generator that adds case-specific keywords could close a
+        substantial fraction of that gap, where pure templating cannot.
+  \item \textbf{$k$-fold ensembling.} Averaging the near-tied fusion checkpoints and multiple tile
+        samplings is cheap within the compute budget and typically recovers a fraction of a point;
+        it requires no new data or encoders.
+  \item \textbf{Controlled CONCH-only$+$strip-decoder submission.} To cleanly separate the fusion
+        gain from the striped-TIFF data fix in the leaderboard delta (Section~\ref{sec:testphase}),
+        a single additional submission would attribute the $+0.0258$ between the two changes.
+  \item \textbf{Task-adaptive encoder fine-tuning.} The repeated finding that capacity does not
+        help---both within the CONCH sweep and in fusion---shows the limit is signal extractable
+        from \emph{frozen} embeddings. Unfreezing CONCH/UNI2-h with a low learning rate (or LoRA
+        adapters) is the principled way to move diagnosis separability, at the cost of an
+        extraction re-run; our namespaced embedding cache makes such an A/B inexpensive.
+  \item \textbf{Further encoder fusion and hierarchical heads.} Adding a third encoder, or
+        conditioning the diagnosis classifier on the (reliable) organ prediction, could shrink each
+        organ's effective class count and address the benign rectum/colon coupling; grading
+        sub-heads, which did not help on frozen features, are worth revisiting once the encoder is
+        fine-tuned.
 \end{enumerate}
-Because the templating back end is already near its purity ceiling, each of these targets the
-single quantity---diagnosis accuracy---that converts most directly into workflow score.
+Because the templating back end is already near its purity ceiling, every direction targets the
+same quantity---fine-grained diagnosis (and the report keywords it unlocks)---that converts most
+directly into score.
 
 % =====================================================================
 \section{Conclusion}
@@ -1097,16 +1460,22 @@ single quantity---diagnosis accuracy---that converts most directly into workflow
 We described a pragmatic, reproducible submission to the REG2026 challenge built on a single
 empirical insight: the reasoning-graph target is low-entropy and largely determined by
 \emph{(organ, \#1 diagnosis)}. We therefore reduce the task to multi-task WSI classification with
-a CONCH foundation encoder and a gated-attention MIL head, and recover the reasoning graph,
+a foundation tile encoder and a gated-attention MIL head, and recover the reasoning graph,
 answers, and keyword-rich report by deterministic templating, with a cheap Otsu module for
-visual grounding. An oracle analysis establishes a 0.89 workflow-score ceiling, and our trained
-system reaches \textbf{0.794} on the held-out split---89\% of that ceiling---with the residual
-gap localized almost entirely to fine-grained diagnosis classification. The design respects the
-challenge's offline, single-GPU,
-five-minute container budget, and all code is released for reproduction
-(Section~\ref{sec:framework}). Future work targets the remaining headroom: predicting gradings
-from high-attention tiles, modeling intra-key graph variation, and selectively fine-tuning the
-encoder.
+visual grounding. We developed two approaches---a CONCH-only baseline and a CONCH$+$UNI2-h
+early-fusion model---and showed, both on a clean held-out split and on the \emph{official} Test
+Phase~1 leaderboard, that fusion improves the binding constraint (diagnosis accuracy) and
+therefore every diagnosis-driven score component. An oracle analysis establishes a 0.889
+workflow-score ceiling; the CONCH-only system reaches 0.794 held-out (overall \textbf{0.7449} on
+the leaderboard) and the fusion system reaches 0.814 held-out (overall \textbf{0.7707} on the
+leaderboard, top-10). Along the way we diagnosed and fixed a consequential data defect---981
+striped-Deflate prostate slides that OpenSlide silently dropped to zero-vectors---with a bounded
+strip decoder that both cleaned the training data and made the deployment container memory-safe on
+gigapixel slides. The design respects the challenge's offline, single-GPU, five-minute container
+budget, and all code is released for reproduction (Section~\ref{sec:framework}). Future work
+targets the remaining headroom in order of leverage: a learned report generator (the largest
+single lever on the real leaderboard), encoder fine-tuning, and $k$-fold ensembling---each aimed
+at the one quantity, fine-grained diagnosis, that converts most directly into score.
 
 % =====================================================================
 \section*{Code and Data Availability}

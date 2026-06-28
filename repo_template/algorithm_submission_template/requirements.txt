@@ -7,7 +7,12 @@ imagecodecs
 openslide-python
 # CONCH tile encoder (the `conch` package is vendored under ./conch; these are its deps)
 open_clip_torch
-timm
+# REQUIRED PIN: the fusion model also loads UNI2-h via timm.create_model(
+# "vit_giant_patch14_reg4_dinov2", ...) using SwiGLUPacked + reg_tokens kwargs.
+# An older timm lacks that arch/kwargs -> UNI2-h build raises, the model load is
+# swallowed, and inference silently falls back to baseline (~0.25). Pinned to the
+# version validated end-to-end on all 350 test slides (0 errors, 0 bad schema).
+timm==1.0.27
 einops
 ftfy
 regex

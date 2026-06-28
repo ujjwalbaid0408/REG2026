@@ -41,8 +41,17 @@ def main():
     files = [f for i, f in enumerate(files) if i % args.num_shards == args.shard]
     if args.limit:
         files = files[:args.limit]
-    todo = [f for f in files if not os.path.exists(
-        os.path.join(out_dir, os.path.basename(f).replace(".tiff", ".npy")))]
+    def _is_done(f):
+        # A slide counts as done only if its .npy exists AND holds a REAL embedding
+        # (>1 tile). Placeholder zeros (shape[0]==1) from past read-failures are redone.
+        p = os.path.join(out_dir, os.path.basename(f).replace(".tiff", ".npy"))
+        if not os.path.exists(p):
+            return False
+        try:
+            return np.load(p, mmap_mode="r").shape[0] > 1
+        except Exception:
+            return False
+    todo = [f for f in files if not _is_done(f)]
     print(f"[shard {args.shard}/{args.num_shards}] split={args.split} "
           f"assigned={len(files)} todo={len(todo)}", flush=True)
     if not todo:
@@ -68,11 +77,16 @@ def main():
                 f = fq.get_nowait()
             except queue.Empty:
                 break
-            try:
-                tiles = sample_tiles(f, tile=224, max_tiles=args.max_tiles)
-            except Exception as e:
-                print(f"[tile-fail] {os.path.basename(f)}: {e}", flush=True)
-                tiles = None
+            tiles, err = None, None
+            for attempt in range(3):                      # retry transient FS/read errors
+                try:
+                    tiles = sample_tiles(f, tile=224, max_tiles=args.max_tiles)
+                    break
+                except Exception as e:
+                    err = e
+                    time.sleep(0.5 * (attempt + 1))
+            if tiles is None:
+                print(f"[tile-fail] {os.path.basename(f)}: {err} (after 3 tries)", flush=True)
             out_q.put((f, tiles))
         with lock:
             done_workers[0] += 1
@@ -91,7 +105,8 @@ def main():
         cid = os.path.basename(f).replace(".tiff", "")
         outp = os.path.join(out_dir, cid + ".npy")
         if tiles is None or len(tiles) == 0:
-            np.save(outp, np.zeros((1, dim), np.float16))  # placeholder, never crash
+            # Do NOT write a placeholder: leave the file absent so a resumable re-run
+            # retries this slide (placeholders previously masked ~700 read-failures as done).
             continue
         emb = embed_tiles(enc, tiles, device=device, batch=128, fp16=True)
         np.save(outp, emb.astype(np.float16))

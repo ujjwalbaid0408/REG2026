@@ -13,17 +13,28 @@ templated**: only **93 canonical questions** and **191 edges** occur, and condit
 
 > **classify (organ, diagnosis) from the WSI → emit the deterministic template graph + answers + keyword-rich report.**
 
-An oracle analysis bounds the workflow score at **0.889** given perfect (organ, diagnosis); our
-trained model reaches **0.794** on a held-out split (organ acc 0.96, diagnosis acc 0.69). The
-residual gap is fine-grained diagnosis accuracy.
+An oracle analysis bounds the workflow score at **0.889** given perfect (organ, diagnosis).
+
+## Two approaches
+
+We build and submit **two** models that differ only in the tile encoder; everything else (tiler,
+MIL head, template engine, grounding) is shared. See [`docs/APPROACHES.md`](docs/APPROACHES.md).
+
+| Approach | Encoder(s) | Held-out workflow | Held-out dx acc | **Test Phase 1 overall** |
+|---|---|---:|---:|---:|
+| **1 — CONCH-only** | CONCH (512-d) | 0.794 | 0.691 | **0.7449** (top-10) |
+| **2 — CONCH+UNI2-h fusion** | CONCH ‖ UNI2-h (2048-d) | **0.814** | **0.737** | **0.7707** (top-10) |
+
+Fusion improves the binding constraint — fine-grained **diagnosis** accuracy — and therefore every
+diagnosis-driven score component. The gain held up on the official leaderboard.
 
 ## Pipeline
 
 ```
-WSI ─► bounded-budget tiler ─► CONCH encoder (512-d) ─► gated-attention MIL
-        (~1.4 s/slide)            (frozen)               ├─ organ head (10)
-                                                         └─ diagnosis head (77, organ-conditioned)
-                                                              │
+WSI ─► bounded-budget tiler ─► encoder(s) ─────────────► gated-attention MIL
+        (+ striped-TIFF        Approach 1: CONCH 512-d    ├─ organ head (10)
+         strip decoder)        Approach 2: CONCH‖UNI2-h   └─ diagnosis head (77, organ-conditioned)
+                               = 2048-d (frozen)               │
                                           deterministic template engine ◄┘
                                                               │
                                  CoT graph + answers + keyword-rich report
@@ -34,10 +45,12 @@ ROI ─► Otsu tissue/background ─► visual-grounding response (Interface B)
 
 | Doc | Contents |
 |---|---|
+| [`docs/APPROACHES.md`](docs/APPROACHES.md) | **Both approaches** (CONCH-only & CONCH+UNI2-h fusion): design, configs, ablations, leaderboard |
 | [`DATASET.md`](DATASET.md) | Dataset structure, splits, organ distribution, reasoning-graph + report statistics |
 | [`RESULTS.md`](RESULTS.md) | Leaderboard breakdown, oracle ceilings, MIL ablations, training curves (figures) |
 | [`docs/CONTAINER_BUILD.md`](docs/CONTAINER_BUILD.md) | Build/test/upload the submission container on a local Docker host |
-| `report/main.pdf` | Full scientific report (analysis, TikZ diagrams, confusion, qualitative) |
+| [`docs/ISSUES.md`](docs/ISSUES.md) | Known issues, root causes & fixes (striped-TIFF reader, placeholder masking, scheduling) |
+| `report/main.pdf`, `report/REG2026_report.docx` | Full scientific report (analysis, network diagrams, confusion, qualitative) — PDF and Word |
 
 ## Repository layout
 
@@ -48,15 +61,20 @@ reg2026/                 core package
   templates.py           build_templates / apply_template (deterministic back end)
   metrics.py             offline workflow-score proxy for model selection
   encoder.py             CONCH / UNI2-h tile encoders (per-encoder normalization)
-  mil.py                 gated-attention MIL + hierarchical dx head
+  mil.py                 gated-attention MIL + hierarchical dx head + fusion (2048-d) + grading heads
+  gradings.py            categorical grading fields (Gleason/Nottingham/…) for the aux heads
+  report_metric.py       faithful offline replica of the report sub-metric (BLEU/ROUGE/keyword/embed)
 scripts/
-  extract_embeddings.py  WSI -> CONCH tile embeddings (sharded, resumable)
-  train_mil.py           train MIL head; hierarchical eval + abstention; --full mode
+  extract_embeddings.py  WSI -> CONCH/UNI2-h tile embeddings (sharded, resumable, strip-decoder)
+  train_mil.py           train CONCH-only MIL head; hierarchical eval + abstention; --full mode
+  train_fusion_mil.py    train CONCH+UNI2-h early-fusion MIL head (Approach 2)
   eval_mil.py            per-organ + sample-prediction evaluation
   eval_oracle.py         oracle workflow-score ceilings
+  diag_report.py         report-metric diagnostic (held-out report sub-score breakdown)
 slurm/                   SLURM job scripts (extraction, training)
 repo_template/           offline submission container (Docker)
-report/                  scientific report (LaTeX source + PDF)
+report/                  scientific report (LaTeX source + PDF + DOCX)
+artifacts/mil/<run>/     trained MIL-head weights (mil_head.pt) + metrics/history/label_maps
 requirements.txt         Python dependencies
 ```
 
@@ -95,13 +113,23 @@ python scripts/eval_oracle.py
 python scripts/extract_embeddings.py --split train --shard 0 --num-shards 4 --encoder conch
 #    -> artifacts/embeddings/conch/train/<id>.npy   (fp16, (<=160, 512))
 
-# 3. Train the MIL head (sweep of 4 configs; or a single config)
+# 3a. Approach 1 — train the CONCH-only MIL head (sweep of 4 configs; or one config)
 python scripts/train_mil.py --config 1            # held-out 80/20, hierarchical eval + abstention
 python scripts/train_mil.py --config 1 --full     # deployment model on all data
+
+# 3b. Approach 2 — extract UNI2-h embeddings too, then train the fusion head
+python scripts/extract_embeddings.py --split train --shard 0 --num-shards 4 --encoder uni2h
+python scripts/train_fusion_mil.py --config f2_fuse_dxw          # best fusion config (held-out)
+python scripts/train_fusion_mil.py --config f2_fuse_dxw --full   # fusion deployment model
 
 # 4. Detailed evaluation (per-organ + sample predictions)
 python scripts/eval_mil.py --name r1_reg_hier
 ```
+
+> **Trained weights** are committed in-tree under `artifacts/mil/<run>/mil_head.pt` (3–17 MB each).
+> Deployment heads: `r1_reg_full` (CONCH-only) and `f2_fuse_dxw_full` (fusion). The large CONCH
+> (~800 MB) and UNI2-h (~2.6 GB) *foundation* encoders are **not** redistributed here — download
+> them from Hugging Face (gated; see Setup).
 
 SLURM equivalents are in `slurm/` (set partition/account for your cluster). Key gotchas observed
 on our cluster: submit from a non-`/group` filesystem; request GPUs with `--gpus=N`.
@@ -128,27 +156,30 @@ modal template, so the image is always valid.
 | Global modal template (no inputs) | 0.239 |
 | Oracle organ only | 0.674 |
 | **Oracle organ + diagnosis (ceiling)** | **0.889** |
-| **Trained MIL (CONCH + gated attention)** | **0.794** |
+| Approach 1 — CONCH-only MIL | 0.794 |
+| **Approach 2 — CONCH+UNI2-h fusion** | **0.814** |
 
-See `report/main.pdf` for the full analysis, ablations, and figures.
+See `report/main.pdf` (and `report/REG2026_report.docx`) for the full analysis, ablations, and figures.
 
-## Leaderboard result (test phase 1)
+## Leaderboard results (test phase 1)
 
-Official overall score **0.7449** (top-10). Component breakdown and the scoring weights
-(`Overall = 0.70·A + 0.30·B`, where `A = 0.05·BPV + 0.30·EdgeF1 + 0.25·MESS + 0.40·Report`):
+Both submissions placed top-10. Scoring: `Overall = 0.70·A + 0.30·B`, where
+`A = 0.05·BPV + 0.30·EdgeF1 + 0.25·MESS + 0.40·Report` and `B = mean(grounding metrics)`.
 
-| Component | Score | | Component | Score |
-|---|---|---|---|---|
-| Visual Grounding | 0.975 | | Edge F1 | 0.796 |
-| Background Rejection | 1.000 | | MESS | 0.727 |
-| Cross-Region Consistency | 1.000 | | Report Score | 0.516 |
-| Input Sensitivity | 0.917 | | Binary Path Validity | 0.386 |
+| Component (weight) | V3 CONCH-only | V4 fusion | Δ |
+|---|---:|---:|---:|
+| **Overall** | **0.7449** | **0.7707** | **+0.0258** |
+| Edge F1 (0.30) | 0.7960 | 0.8203 | +0.0243 |
+| MESS (0.25) | 0.7270 | 0.7611 | +0.0341 |
+| Report Score (0.40) | 0.5160 | 0.5643 | +0.0483 |
+| Binary Path Validity (0.05) | 0.3860 | 0.4200 | +0.0340 |
+| Visual Grounding | 0.9750 | 0.9750 | 0.0000 |
 
-**Binary Path Validity** is exact edge-set match (all-or-nothing per case, weight 0.05), so its
-absolute value is low by construction and contributes little. The highest-leverage future gain is
-**Report Score** (weight 0.40 within `A`), which currently uses the deterministic keyword template;
-a learned report generator is the main open lever, followed by fine-grained diagnosis accuracy
-(drives Edge F1 + MESS).
+Every **diagnosis-driven** component rose (Edge F1, MESS, Report, BPV) while the grounding metrics
+were unchanged — the exact signature of a better (organ, diagnosis) predictor. **Report Score** rose
+the most despite using the same deterministic template, because the report is keyed off the predicted
+diagnosis: getting the field right is what lifts it. The next levers are a learned report generator
+(largest single weight, 0.40 within `A`) and encoder fine-tuning for diagnosis accuracy.
 
 ## License / data
 

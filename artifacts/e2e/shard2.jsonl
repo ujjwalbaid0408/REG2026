@@ -1,0 +1,87 @@
+{"id": "PIT_010476", "ok": true, "schema_ok": true, "err": null, "parity": true, "organ": "Uterine cervix", "dx": null, "n_steps": 16, "sec": 154.5, "peak_gb": 6.32}
+{"id": "PIT_024897", "ok": true, "schema_ok": true, "err": null, "parity": true, "organ": "Stomach", "dx": "Adenocarcinoma, poorly differentiated with poorly cohesive carcinoma component", "n_steps": 17, "sec": 14.2, "peak_gb": 6.32}
+{"id": "PIT_039818", "ok": true, "schema_ok": true, "err": null, "parity": true, "organ": "Urinary bladder", "dx": "No tumor present", "n_steps": 9, "sec": 11.4, "peak_gb": 6.32}
+{"id": "PIT_051296", "ok": true, "schema_ok": true, "err": null, "parity": true, "organ": "Colon", "dx": "Tubular adenoma", "n_steps": 16, "sec": 12.6, "peak_gb": 6.32}
+{"id": "PIT_060521", "ok": true, "schema_ok": true, "err": null, "parity": true, "organ": "Uterine cervix", "dx": null, "n_steps": 16, "sec": 17.0, "peak_gb": 6.32}
+{"id": "PIT_064194", "ok": true, "schema_ok": true, "err": null, "parity": true, "organ": "Uterine cervix", "dx": "Low-grade squamous intraepithelial lesion (LSIL; CIN 1)", "n_steps": 16, "sec": 13.6, "peak_gb": 6.32}
+{"id": "PIT_073911", "ok": true, "schema_ok": true, "err": null, "parity": true, "organ": "Colon", "dx": "Adenocarcinoma, well differentiated", "n_steps": 14, "sec": 17.4, "peak_gb": 6.32}
+{"id": "PIT_087711", "ok": true, "schema_ok": true, "err": null, "parity": true, "organ": "Urinary bladder", "dx": "Non-invasive papillary urothelial carcinoma, high grade", "n_steps": 19, "sec": 16.4, "peak_gb": 6.32}
+{"id": "PIT_095145", "ok": true, "schema_ok": true, "err": null, "parity": true, "organ": "Urinary bladder", "dx": "No tumor present", "n_steps": 9, "sec": 13.9, "peak_gb": 6.32}
+{"id": "PIT_100650", "ok": true, "schema_ok": true, "err": null, "parity": true, "organ": "Urinary bladder", "dx": "Invasive urothelial carcinoma with involvement of subepithelial connective tissue", "n_steps": 18, "sec": 15.5, "peak_gb": 6.32}
+{"id": "PIT_110893", "ok": true, "schema_ok": true, "err": null, "parity": true, "organ": "Colon", "dx": "Adenocarcinoma, well differentiated", "n_steps": 14, "sec": 13.1, "peak_gb": 6.32}
+{"id": "PIT_114232", "ok": true, "schema_ok": true, "err": null, "parity": true, "organ": "Breast", "dx": "Fibroadenoma", "n_steps": 13, "sec": 13.2, "peak_gb": 6.32}
+{"id": "PIT_124299", "ok": true, "schema_ok": true, "err": null, "parity": true, "organ": "Stomach", "dx": null, "n_steps": 14, "sec": 12.3, "peak_gb": 6.32}
+{"id": "PIT_132156", "ok": true, "schema_ok": true, "err": null, "parity": true, "organ": "Rectum", "dx": "Tubular adenoma", "n_steps": 16, "sec": 13.1, "peak_gb": 6.32}
+{"id": "PIT_136255", "ok": true, "schema_ok": true, "err": null, "parity": true, "organ": "Lung", "dx": "Squamous cell carcinoma", "n_steps": 16, "sec": 12.8, "peak_gb": 6.32}
+{"id": "PIT_153687", "ok": true, "schema_ok": true, "err": null, "parity": true, "organ": "Uterine cervix", "dx": "High-grade squamous intraepithelial lesion (HSIL; CIN 3) with glandular involvement", "n_steps": 16, "sec": 14.6, "peak_gb": 6.32}
+{"id": "PIT_161544", "ok": true, "schema_ok": true, "err": null, "parity": true, "organ": "Prostate", "dx": "No tumor present", "n_steps": 6, "sec": 12.6, "peak_gb": 6.32}
+{"id": "PIT_173776", "ok": true, "schema_ok": true, "err": null, "parity": true, "organ": "Urinary bladder", "dx": "Invasive urothelial carcinoma with involvement of subepithelial connective tissue", "n_steps": 18, "sec": 15.1, "peak_gb": 6.32}
+{"id": "PIT_190672", "ok": true, "schema_ok": true, "err": null, "parity": true, "organ": "Uterine cervix", "dx": null, "n_steps": 16, "sec": 18.6, "peak_gb": 6.32}
+{"id": "PIT_195916", "ok": true, "schema_ok": true, "err": null, "parity": true, "organ": "Stomach", "dx": "Tubular adenoma", "n_steps": 14, "sec": 13.2, "peak_gb": 6.32}
+{"id": "PIT_203411", "ok": true, "schema_ok": true, "err": null, "parity": true, "organ": "Lung", "dx": "No evidence of malignancy or granuloma", "n_steps": 6, "sec": 11.6, "peak_gb": 6.32}
+{"id": "PIT_216105", "ok": true, "schema_ok": true, "err": null, "parity": true, "organ": "Urinary bladder", "dx": "Invasive urothelial carcinoma with involvement of subepithelial connective tissue", "n_steps": 18, "sec": 15.3, "peak_gb": 6.32}
+{"id": "PIT_230198", "ok": true, "schema_ok": true, "err": null, "parity": true, "organ": "Prostate", "dx": "Acinar adenocarcinoma", "n_steps": 25, "sec": 13.6, "peak_gb": 6.32}
+{"id": "PIT_235786", "ok": true, "schema_ok": true, "err": null, "parity": null, "organ": "Prostate", "dx": "Acinar adenocarcinoma", "n_steps": 25, "sec": 3.8, "peak_gb": 6.32}
+{"id": "PIT_254320", "ok": true, "schema_ok": true, "err": null, "parity": null, "organ": "Prostate", "dx": "No tumor present", "n_steps": 6, "sec": 3.7, "peak_gb": 6.32}
+{"id": "PIT_273823", "ok": true, "schema_ok": true, "err": null, "parity": true, "organ": "Breast", "dx": "Sclerosing adenosis", "n_steps": 13, "sec": 11.1, "peak_gb": 6.32}
+{"id": "PIT_285145", "ok": true, "schema_ok": true, "err": null, "parity": true, "organ": "Stomach", "dx": "Tubular adenoma", "n_steps": 14, "sec": 14.7, "peak_gb": 6.32}
+{"id": "PIT_299981", "ok": true, "schema_ok": true, "err": null, "parity": true, "organ": "Stomach", "dx": "Extranodal marginal zone B cell lymphoma of MALT type", "n_steps": 11, "sec": 12.7, "peak_gb": 6.32}
+{"id": "PIT_314483", "ok": true, "schema_ok": true, "err": null, "parity": true, "organ": "Stomach", "dx": "Adenocarcinoma, poorly differentiated with poorly cohesive carcinoma component", "n_steps": 17, "sec": 14.1, "peak_gb": 6.32}
+{"id": "PIT_335064", "ok": true, "schema_ok": true, "err": null, "parity": true, "organ": "Uterine cervix", "dx": null, "n_steps": 16, "sec": 14.4, "peak_gb": 6.32}
+{"id": "PIT_346221", "ok": true, "schema_ok": true, "err": null, "parity": true, "organ": "Colon", "dx": "Tubulovillous adenoma", "n_steps": 17, "sec": 14.7, "peak_gb": 6.32}
+{"id": "PIT_356527", "ok": true, "schema_ok": true, "err": null, "parity": true, "organ": "Breast", "dx": "Mucinous carcinoma", "n_steps": 13, "sec": 10.1, "peak_gb": 6.32}
+{"id": "PIT_375517", "ok": true, "schema_ok": true, "err": null, "parity": false, "organ": "Urinary bladder", "dx": "Invasive urothelial carcinoma with squamous differentiation", "n_steps": 18, "sec": 15.1, "peak_gb": 6.32}
+{"id": "PIT_390463", "ok": true, "schema_ok": true, "err": null, "parity": true, "organ": "Breast", "dx": "Columnar cell lesion", "n_steps": 14, "sec": 11.1, "peak_gb": 6.32}
+{"id": "PIT_395234", "ok": true, "schema_ok": true, "err": null, "parity": true, "organ": "Prostate", "dx": "Acinar adenocarcinoma", "n_steps": 25, "sec": 11.3, "peak_gb": 6.32}
+{"id": "PIT_408054", "ok": true, "schema_ok": true, "err": null, "parity": true, "organ": "Breast", "dx": "Intraductal papilloma", "n_steps": 14, "sec": 13.6, "peak_gb": 6.32}
+{"id": "PIT_423061", "ok": true, "schema_ok": true, "err": null, "parity": true, "organ": "Uterine cervix", "dx": "High-grade squamous intraepithelial lesion (HSIL; CIN 3) with glandular involvement", "n_steps": 16, "sec": 12.8, "peak_gb": 6.32}
+{"id": "PIT_435678", "ok": true, "schema_ok": true, "err": null, "parity": null, "organ": "Prostate", "dx": "No tumor present", "n_steps": 6, "sec": 3.6, "peak_gb": 6.32}
+{"id": "PIT_453392", "ok": true, "schema_ok": true, "err": null, "parity": true, "organ": "Breast", "dx": "Invasive carcinoma of no special type, grade III", "n_steps": 21, "sec": 12.3, "peak_gb": 6.32}
+{"id": "PIT_460103", "ok": true, "schema_ok": true, "err": null, "parity": true, "organ": "Lung", "dx": "Non-small cell carcinoma, favor squamous cell carcinoma", "n_steps": 17, "sec": 13.5, "peak_gb": 6.32}
+{"id": "PIT_470676", "ok": true, "schema_ok": true, "err": null, "parity": true, "organ": "Urinary bladder", "dx": "Urothelial carcinoma in situ", "n_steps": 17, "sec": 15.5, "peak_gb": 6.32}
+{"id": "PIT_480580", "ok": true, "schema_ok": true, "err": null, "parity": true, "organ": "Breast", "dx": "Invasive carcinoma of no special type, grade II", "n_steps": 21, "sec": 11.1, "peak_gb": 6.32}
+{"id": "PIT_502136", "ok": true, "schema_ok": true, "err": null, "parity": true, "organ": "Prostate", "dx": "Acinar adenocarcinoma", "n_steps": 25, "sec": 11.8, "peak_gb": 6.32}
+{"id": "PIT_518969", "ok": true, "schema_ok": true, "err": null, "parity": true, "organ": "Uterine cervix", "dx": "Low-grade squamous intraepithelial lesion (LSIL; CIN 1)", "n_steps": 16, "sec": 13.7, "peak_gb": 6.32}
+{"id": "PIT_525764", "ok": true, "schema_ok": true, "err": null, "parity": true, "organ": "Lung", "dx": "Invasive mucinous adenocarcinoma", "n_steps": 17, "sec": 10.5, "peak_gb": 6.32}
+{"id": "PIT_535651", "ok": true, "schema_ok": true, "err": null, "parity": true, "organ": "Urinary bladder", "dx": "Invasive urothelial carcinoma with involvement of subepithelial connective tissue", "n_steps": 18, "sec": 19.1, "peak_gb": 6.32}
+{"id": "PIT_543202", "ok": true, "schema_ok": true, "err": null, "parity": true, "organ": "Uterine cervix", "dx": null, "n_steps": 16, "sec": 24.5, "peak_gb": 6.32}
+{"id": "PIT_561186", "ok": true, "schema_ok": true, "err": null, "parity": true, "organ": "Urinary bladder", "dx": "Urothelial carcinoma in situ", "n_steps": 17, "sec": 11.9, "peak_gb": 6.32}
+{"id": "PIT_572325", "ok": true, "schema_ok": true, "err": null, "parity": true, "organ": "Colon", "dx": "Tubular adenoma", "n_steps": 16, "sec": 10.7, "peak_gb": 6.32}
+{"id": "PIT_578782", "ok": true, "schema_ok": true, "err": null, "parity": true, "organ": "Uterine cervix", "dx": "High-grade squamous intraepithelial lesion (HSIL; CIN 2)", "n_steps": 16, "sec": 14.1, "peak_gb": 6.32}
+{"id": "PIT_603035", "ok": true, "schema_ok": true, "err": null, "parity": true, "organ": "Prostate", "dx": "No tumor present", "n_steps": 6, "sec": 11.1, "peak_gb": 6.32}
+{"id": "PIT_604630", "ok": true, "schema_ok": true, "err": null, "parity": true, "organ": "Urinary bladder", "dx": "Invasive urothelial carcinoma with involvement of subepithelial connective tissue", "n_steps": 18, "sec": 18.5, "peak_gb": 6.32}
+{"id": "PIT_614805", "ok": true, "schema_ok": true, "err": null, "parity": true, "organ": "Uterine cervix", "dx": "Low-grade squamous intraepithelial lesion (LSIL; CIN 1)", "n_steps": 16, "sec": 13.8, "peak_gb": 6.32}
+{"id": "PIT_626227", "ok": true, "schema_ok": true, "err": null, "parity": true, "organ": "Colon", "dx": "Chronic nonspecific inflammation", "n_steps": 6, "sec": 11.0, "peak_gb": 6.32}
+{"id": "PIT_635824", "ok": true, "schema_ok": true, "err": null, "parity": true, "organ": "Rectum", "dx": "Chronic nonspecific inflammation", "n_steps": 6, "sec": 11.6, "peak_gb": 6.32}
+{"id": "PIT_643038", "ok": true, "schema_ok": true, "err": null, "parity": true, "organ": "Urinary bladder", "dx": "Urothelial carcinoma in situ", "n_steps": 17, "sec": 11.7, "peak_gb": 6.32}
+{"id": "PIT_653810", "ok": true, "schema_ok": true, "err": null, "parity": true, "organ": "Uterine cervix", "dx": null, "n_steps": 16, "sec": 10.4, "peak_gb": 6.32}
+{"id": "PIT_671480", "ok": true, "schema_ok": true, "err": null, "parity": false, "organ": "Breast", "dx": "Papillary neoplasm", "n_steps": 14, "sec": 9.7, "peak_gb": 6.32}
+{"id": "PIT_678968", "ok": true, "schema_ok": true, "err": null, "parity": true, "organ": "Rectum", "dx": null, "n_steps": 14, "sec": 23.5, "peak_gb": 6.32}
+{"id": "PIT_694845", "ok": true, "schema_ok": true, "err": null, "parity": true, "organ": "Prostate", "dx": "No tumor present", "n_steps": 6, "sec": 13.0, "peak_gb": 6.32}
+{"id": "PIT_702181", "ok": true, "schema_ok": true, "err": null, "parity": true, "organ": "Uterine cervix", "dx": null, "n_steps": 16, "sec": 16.5, "peak_gb": 6.32}
+{"id": "PIT_712247", "ok": true, "schema_ok": true, "err": null, "parity": null, "organ": "Prostate", "dx": "No tumor present", "n_steps": 6, "sec": 3.8, "peak_gb": 6.32}
+{"id": "PIT_730044", "ok": true, "schema_ok": true, "err": null, "parity": true, "organ": "Stomach", "dx": "Adenocarcinoma, poorly differentiated", "n_steps": 14, "sec": 13.7, "peak_gb": 6.32}
+{"id": "PIT_733502", "ok": true, "schema_ok": true, "err": null, "parity": true, "organ": "Colon", "dx": "Tubular adenoma", "n_steps": 16, "sec": 16.5, "peak_gb": 6.32}
+{"id": "PIT_737503", "ok": true, "schema_ok": true, "err": null, "parity": true, "organ": "Prostate", "dx": "Acinar adenocarcinoma", "n_steps": 25, "sec": 10.8, "peak_gb": 6.32}
+{"id": "PIT_752121", "ok": true, "schema_ok": true, "err": null, "parity": true, "organ": "Prostate", "dx": "Acinar adenocarcinoma", "n_steps": 25, "sec": 22.1, "peak_gb": 6.32}
+{"id": "PIT_758961", "ok": true, "schema_ok": true, "err": null, "parity": true, "organ": "Prostate", "dx": "Acinar adenocarcinoma", "n_steps": 25, "sec": 10.0, "peak_gb": 6.32}
+{"id": "PIT_765050", "ok": true, "schema_ok": true, "err": null, "parity": true, "organ": "Colon", "dx": "Adenocarcinoma, moderately differentiated", "n_steps": 14, "sec": 13.0, "peak_gb": 6.32}
+{"id": "PIT_773489", "ok": true, "schema_ok": true, "err": null, "parity": true, "organ": "Uterine cervix", "dx": null, "n_steps": 16, "sec": 15.2, "peak_gb": 6.32}
+{"id": "PIT_790875", "ok": true, "schema_ok": true, "err": null, "parity": true, "organ": "Lung", "dx": "Squamous cell carcinoma", "n_steps": 16, "sec": 13.0, "peak_gb": 6.32}
+{"id": "PIT_807421", "ok": true, "schema_ok": true, "err": null, "parity": true, "organ": "Uterine cervix", "dx": null, "n_steps": 16, "sec": 12.7, "peak_gb": 6.32}
+{"id": "PIT_814319", "ok": true, "schema_ok": true, "err": null, "parity": true, "organ": "Uterine cervix", "dx": "Low-grade squamous intraepithelial lesion (LSIL; CIN 1)", "n_steps": 16, "sec": 14.1, "peak_gb": 6.32}
+{"id": "PIT_821286", "ok": true, "schema_ok": true, "err": null, "parity": true, "organ": "Urinary bladder", "dx": "Invasive urothelial carcinoma with involvement of subepithelial connective tissue", "n_steps": 18, "sec": 14.8, "peak_gb": 6.32}
+{"id": "PIT_832230", "ok": true, "schema_ok": true, "err": null, "parity": true, "organ": "Lung", "dx": "Small cell carcinoma", "n_steps": 13, "sec": 23.3, "peak_gb": 6.32}
+{"id": "PIT_846692", "ok": true, "schema_ok": true, "err": null, "parity": true, "organ": "Stomach", "dx": "Adenocarcinoma, well differentiated", "n_steps": 14, "sec": 11.4, "peak_gb": 6.32}
+{"id": "PIT_859390", "ok": true, "schema_ok": true, "err": null, "parity": true, "organ": "Stomach", "dx": "Adenocarcinoma, moderately differentiated", "n_steps": 14, "sec": 10.4, "peak_gb": 6.32}
+{"id": "PIT_867557", "ok": true, "schema_ok": true, "err": null, "parity": true, "organ": "Stomach", "dx": "Adenocarcinoma, poorly differentiated", "n_steps": 14, "sec": 9.7, "peak_gb": 6.32}
+{"id": "PIT_879858", "ok": true, "schema_ok": true, "err": null, "parity": true, "organ": "Uterine cervix", "dx": null, "n_steps": 16, "sec": 11.9, "peak_gb": 6.32}
+{"id": "PIT_888002", "ok": true, "schema_ok": true, "err": null, "parity": true, "organ": "Lung", "dx": "Adenocarcinoma", "n_steps": 17, "sec": 12.1, "peak_gb": 6.32}
+{"id": "PIT_893689", "ok": true, "schema_ok": true, "err": null, "parity": true, "organ": "Stomach", "dx": "Chronic gastritis", "n_steps": 6, "sec": 24.0, "peak_gb": 6.32}
+{"id": "PIT_902815", "ok": true, "schema_ok": true, "err": null, "parity": null, "organ": "Prostate", "dx": "Acinar adenocarcinoma", "n_steps": 25, "sec": 3.5, "peak_gb": 6.32}
+{"id": "PIT_928030", "ok": true, "schema_ok": true, "err": null, "parity": true, "organ": "Uterine cervix", "dx": null, "n_steps": 16, "sec": 12.2, "peak_gb": 6.32}
+{"id": "PIT_936903", "ok": true, "schema_ok": true, "err": null, "parity": true, "organ": "Uterine cervix", "dx": "High-grade squamous intraepithelial lesion (HSIL; CIN 3) with glandular involvement", "n_steps": 16, "sec": 11.8, "peak_gb": 6.32}
+{"id": "PIT_947721", "ok": true, "schema_ok": true, "err": null, "parity": true, "organ": "Urinary bladder", "dx": "Invasive urothelial carcinoma with involvement of subepithelial connective tissue", "n_steps": 18, "sec": 15.8, "peak_gb": 6.32}
+{"id": "PIT_959107", "ok": true, "schema_ok": true, "err": null, "parity": true, "organ": "Colon", "dx": null, "n_steps": 16, "sec": 17.8, "peak_gb": 6.32}
+{"id": "PIT_981427", "ok": true, "schema_ok": true, "err": null, "parity": true, "organ": "Colon", "dx": "Adenocarcinoma, well differentiated", "n_steps": 14, "sec": 12.8, "peak_gb": 6.32}
+{"id": "PIT_993108", "ok": true, "schema_ok": true, "err": null, "parity": true, "organ": "Uterine cervix", "dx": "Low-grade squamous intraepithelial lesion (LSIL; CIN 1)", "n_steps": 16, "sec": 13.1, "peak_gb": 6.32}
