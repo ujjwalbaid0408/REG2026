@@ -28,7 +28,7 @@ are external.
 ## Key idea
 
 A data analysis of the 11,220-slide training corpus shows the reasoning target is **highly
-templated**: only **93 canonical questions** and **191 edges** occur, and conditioning on
+templated**: only **92 canonical questions** and **189 edges** occur, and conditioning on
 **(organ, #1 diagnosis)** gives ~86% graph purity and ~92% answer purity. So the task reduces to:
 
 > **classify (organ, diagnosis) from the WSI → emit the deterministic template graph + answers + keyword-rich report.**

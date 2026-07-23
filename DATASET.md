@@ -47,9 +47,18 @@ The CoT is a path through a **highly templated reasoning graph**:
 
 | Property | Value |
 |---|---|
-| Distinct canonical questions | **93** |
-| Distinct directed edges | **186** |
+| Distinct canonical questions | **92** |
+| Distinct directed edges | **189** |
 | Chain length (steps) | min 6 · median 16 · max 41 |
+
+> **On these counts.** Both numbers are recomputed directly from `train_CoT.json` under the
+> canonicalization in `analysis/explore_cot.py` (lowercase, whitespace-collapse, strip trailing
+> punctuation). Earlier revisions of this file said 186 edges and `README.md` said 191; neither was
+> right. 150 steps in the corpus carry a **blank question field**, and the analysis artifacts
+> (`analysis/outputs/questions.json`, `edges_global.json`) count that empty string as a node — which
+> is what inflates the totals to 93 questions and 191 edges. Excluding it gives the 92 / 189 above.
+> The 2-edge difference is the pair of edges whose *source* question is blank; the 11,224 blank
+> `next_question` values are simply terminal steps and were never counted as edges.
 
 Conditioning on **(organ, #1 diagnosis)** yields ~86% graph purity and ~92% answer purity — the
 core insight that lets us treat the workflow as *classify (organ, diagnosis) → emit deterministic
