@@ -163,8 +163,10 @@ python scripts/eval_mil.py --name r1_reg_hier
 > including **`f2_fuse_dxw_full` — the exact head inside the submitted 0.7707 container**. Nothing
 > needs downloading to reproduce our numbers. The large CONCH (766 MB) and UNI2-h (2.6 GB)
 > *foundation* encoders are third-party and **not** redistributed here — pull them from Hugging
-> Face (gated). The 3.3 GB pre-staged Docker build bundle is externally hosted; link and checksum
-> in `MODEL_WEIGHTS.md` §3.
+> Face (gated). The 3.3 GB pre-staged Docker build bundle is hosted on
+> [Google Drive](https://drive.google.com/file/d/1Y6uCULPwdolixwbRhqWFZXgRN0L0Q2sJ/view?usp=sharing)
+> (MD5 `bf098e0dea840048e809b23c84471e2a`) — see `MODEL_WEIGHTS.md` §3. It is a convenience for
+> offline Docker hosts and contains **no** weights that are not already in this repository.
 
 SLURM equivalents are in `slurm/` (set partition/account for your cluster). Key gotchas observed
 on our cluster: submit from a non-`/group` filesystem; request GPUs with `--gpus=N`.
@@ -188,6 +190,11 @@ REPO_ROOT=../.. MIL_RUN=f2_fuse_dxw_full SPEC_RUN=none ./prepare_model.sh
 The procedure used for the **final submission** is preserved verbatim in
 [`docs/HOST_BUILD_INSTRUCTIONS_REV4.txt`](docs/HOST_BUILD_INSTRUCTIONS_REV4.txt) (bundle MD5,
 validation evidence, upload steps, troubleshooting).
+
+If the build host has no network or cluster filesystem, skip `prepare_model.sh` and download the
+pre-staged 3.3 GB bundle instead —
+[Google Drive](https://drive.google.com/file/d/1Y6uCULPwdolixwbRhqWFZXgRN0L0Q2sJ/view?usp=sharing),
+verification steps in [`MODEL_WEIGHTS.md`](MODEL_WEIGHTS.md) §3.
 
 > **`SPEC_RUN=none` matters.** `prepare_model.sh` defaults to also staging
 > `artifacts/mil/prostate_specialist/spec_head.pt`, a post-submission (V5) addition that was

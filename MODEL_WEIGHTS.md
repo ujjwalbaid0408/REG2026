@@ -65,13 +65,15 @@ network or cluster filesystem.
 | `reg2026_submission_bundle_v4.tar.gz` | 3.3 GB | `bf098e0dea840048e809b23c84471e2a` |
 | `model.tar.gz` (produced by `do_save.sh` step 3) | ~3.0 GB | built locally |
 
-<!-- TODO(maintainer): upload reg2026_submission_bundle_v4.tar.gz to Drive/OneDrive/HF and
-     replace the placeholder below with the real link. -->
-
-**Download:** _<add hosting link here>_
+**Download:** [`reg2026_submission_bundle_v4.tar.gz` on Google Drive](https://drive.google.com/file/d/1Y6uCULPwdolixwbRhqWFZXgRN0L0Q2sJ/view?usp=sharing)
 
 ```bash
-# after downloading
+# Browser: use the link above. Command line: gdown handles Drive's
+# large-file virus-scan interstitial, which plain curl/wget do not.
+pip install gdown
+gdown 1Y6uCULPwdolixwbRhqWFZXgRN0L0Q2sJ -O reg2026_submission_bundle_v4.tar.gz
+
+# Verify before use — a truncated or interstitial-HTML download is the common failure.
 md5sum reg2026_submission_bundle_v4.tar.gz    # must equal bf098e0dea840048e809b23c84471e2a
 tar -xzf reg2026_submission_bundle_v4.tar.gz
 cd reg2026_submission && ./do_save.sh
