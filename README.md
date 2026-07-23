@@ -20,13 +20,28 @@ An oracle analysis bounds the workflow score at **0.889** given perfect (organ, 
 We build and submit **two** models that differ only in the tile encoder; everything else (tiler,
 MIL head, template engine, grounding) is shared. See [`docs/APPROACHES.md`](docs/APPROACHES.md).
 
-| Approach | Encoder(s) | Held-out workflow | Held-out dx acc | **Test Phase 1 overall** |
-|---|---|---:|---:|---:|
-| **1 — CONCH-only** | CONCH (512-d) | 0.794 | 0.691 | **0.7449** (top-10) |
-| **2 — CONCH+UNI2-h fusion** | CONCH ‖ UNI2-h (2048-d) | **0.814** | **0.737** | **0.7707** (top-10) |
+| Approach | Encoder(s) | Held-out workflow | Held-out dx acc | **Test Phase 1 overall** | Submission |
+|---|---|---:|---:|---:|---|
+| 1 — CONCH-only | CONCH (512-d) | 0.794 | 0.691 | 0.7449 (top-10) | V3 (superseded) |
+| **2 — CONCH+UNI2-h fusion** | CONCH ‖ UNI2-h (2048-d) | **0.814** | **0.737** | **0.7707** (top-10) | **V4 — FINAL** |
 
 Fusion improves the binding constraint — fine-grained **diagnosis** accuracy — and therefore every
 diagnosis-driven score component. The gain held up on the official leaderboard.
+
+> ### Final submission: **V4** (Approach 2, CONCH+UNI2-h fusion) — Overall **0.7707**
+>
+> V4 is the submitted and final entry. Its MIL head is `artifacts/mil/f2_fuse_dxw_full/mil_head.pt`
+> (committed here), and it was built with the procedure in
+> [`docs/HOST_BUILD_INSTRUCTIONS_REV4.txt`](docs/HOST_BUILD_INSTRUCTIONS_REV4.txt). It is validated
+> end to end over all 350 phase-1 test slides: **0 errors, 0 schema violations, 6.3 GB peak RAM**
+> against a 32 GB limit.
+>
+> A **V5** variant also lives in this repository — a perturbation-invariant grounding answer
+> (Interface 0) plus an optional prostate tumor/no-tumor specialist head, expected ≈ +0.009. **It
+> was evaluated and deliberately not submitted**: the gain did not justify rebuilding and
+> re-uploading a 3.3 GB container against an already-validated one. The diagnosis model is
+> identical in both. To reproduce V4 exactly, pass `SPEC_RUN=none` when staging the model
+> directory (see [Submission container](#submission-container)).
 
 ## Pipeline
 
@@ -201,7 +216,7 @@ See `report/main.pdf` (and `report/REG2026_report.docx`) for the full analysis, 
 Both submissions placed top-10. Scoring: `Overall = 0.70·A + 0.30·B`, where
 `A = 0.05·BPV + 0.30·EdgeF1 + 0.25·MESS + 0.40·Report` and `B = mean(grounding metrics)`.
 
-| Component (weight) | V3 CONCH-only | V4 fusion | Δ |
+| Component (weight) | V3 CONCH-only | **V4 fusion (FINAL)** | Δ |
 |---|---:|---:|---:|
 | **Overall** | **0.7449** | **0.7707** | **+0.0258** |
 | Edge F1 (0.30) | 0.7960 | 0.8203 | +0.0243 |
@@ -213,8 +228,16 @@ Both submissions placed top-10. Scoring: `Overall = 0.70·A + 0.30·B`, where
 Every **diagnosis-driven** component rose (Edge F1, MESS, Report, BPV) while the grounding metrics
 were unchanged — the exact signature of a better (organ, diagnosis) predictor. **Report Score** rose
 the most despite using the same deterministic template, because the report is keyed off the predicted
-diagnosis: getting the field right is what lifts it. The next levers are a learned report generator
-(largest single weight, 0.40 within `A`) and encoder fine-tuning for diagnosis accuracy.
+diagnosis: getting the field right is what lifts it.
+
+**V4 is the final submission.** Diagnosis accuracy is the binding constraint on every component
+except grounding, and it is saturated at ~0.74 against an oracle ceiling of 0.889: LoRA
+fine-tuning, full encoder unfreezing, a third foundation encoder (Virchow2), and softmax
+ensembling all landed within noise of the frozen 2048-d fusion (see
+[`docs/APPROACHES.md`](docs/APPROACHES.md)). The residual errors are diffuse adjacent-grade
+confusions — inter-observer label noise rather than recoverable signal. The remaining levers would
+be a learned report generator (0.40, the largest single weight within `A`) and the grounding fix
+staged as V5.
 
 ## License / data
 
