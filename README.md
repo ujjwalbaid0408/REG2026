@@ -45,6 +45,10 @@ ROI ─► Otsu tissue/background ─► visual-grounding response (Interface B)
 
 | Doc | Contents |
 |---|---|
+| **[`REPRODUCE.md`](REPRODUCE.md)** | **End-to-end reproduction of the submitted 0.7707 result** — every command, expected numbers per stage, runtimes |
+| **[`docs/ENVIRONMENT.md`](docs/ENVIRONMENT.md)** | **Environment setup + dependency installation** (system libs, CUDA/torch matrix, encoders, report-metric env) |
+| **[`MODEL_WEIGHTS.md`](MODEL_WEIGHTS.md)** | **Weights** — what ships in-tree, what to download from Hugging Face, hosting for the 3.3 GB build bundle |
+| [`docs/HOST_BUILD_INSTRUCTIONS_REV4.txt`](docs/HOST_BUILD_INSTRUCTIONS_REV4.txt) | The exact build/upload procedure used for the **final submitted container** (V4) |
 | [`docs/APPROACHES.md`](docs/APPROACHES.md) | **Both approaches** (CONCH-only & CONCH+UNI2-h fusion): design, configs, ablations, leaderboard |
 | [`DATASET.md`](DATASET.md) | Dataset structure, splits, organ distribution, reasoning-graph + report statistics |
 | [`RESULTS.md`](RESULTS.md) | Leaderboard breakdown, oracle ceilings, MIL ablations, training curves (figures) |
@@ -71,21 +75,29 @@ scripts/
   eval_mil.py            per-organ + sample-prediction evaluation
   eval_oracle.py         oracle workflow-score ceilings
   diag_report.py         report-metric diagnostic (held-out report sub-score breakdown)
-slurm/                   SLURM job scripts (extraction, training)
-repo_template/           offline submission container (Docker)
+slurm/                   SLURM job scripts (extraction, recovery, training, container e2e test)
+repo_template/           offline submission container (Docker) — the inference code as submitted
 report/                  scientific report (LaTeX source + PDF + DOCX)
 artifacts/mil/<run>/     trained MIL-head weights (mil_head.pt) + metrics/history/label_maps
-requirements.txt         Python dependencies
+requirements.txt         dependencies (unpinned)
+requirements-train.txt   PINNED training environment that produced the submitted model
 ```
 
 ## Setup
 
+Full instructions — including the CUDA/GPU matrix and the report-metric environment — are in
+[`docs/ENVIRONMENT.md`](docs/ENVIRONMENT.md). Short version:
+
 ```bash
+sudo apt-get install -y libopenslide0        # OpenSlide C library
+
 python -m venv venv && source venv/bin/activate
-pip install -r requirements.txt
-pip install -e .                      # installs the reg2026 package
+pip install torch==2.9.1 torchvision==0.24.1 \
+    --index-url https://download.pytorch.org/whl/cu128    # see GPU note below
+pip install -r requirements-train.txt        # pinned; or requirements.txt for latest
+pip install -e .                             # installs the reg2026 package
 # CONCH encoder (gated on Hugging Face — request access at huggingface.co/MahmoodLab/CONCH):
-git clone https://github.com/mahmoodlab/CONCH && pip install -e CONCH
+git clone https://github.com/mahmoodlab/CONCH repo_conch && pip install -e repo_conch
 huggingface-cli login                 # token with gated-repo read
 ```
 
@@ -105,6 +117,10 @@ Data/test_phase1/test1/     *.tiff (leaderboard)
 
 ## Reproduce
 
+> **[`REPRODUCE.md`](REPRODUCE.md) is the authoritative, stage-by-stage guide** to reproducing the
+> submitted **0.7707** result, with expected numbers and runtimes at every step. The snippet below
+> is the condensed version.
+
 ```bash
 # 1. Oracle ceilings (templating upper bounds)
 python scripts/eval_oracle.py
@@ -119,30 +135,49 @@ python scripts/train_mil.py --config 1 --full     # deployment model on all data
 
 # 3b. Approach 2 — extract UNI2-h embeddings too, then train the fusion head
 python scripts/extract_embeddings.py --split train --shard 0 --num-shards 4 --encoder uni2h
-python scripts/train_fusion_mil.py --config f2_fuse_dxw          # best fusion config (held-out)
-python scripts/train_fusion_mil.py --config f2_fuse_dxw --full   # fusion deployment model
+# --config takes an INDEX: 0=f0_fuse 1=f1_fuse_big 2=f2_fuse_dxw 3=f3_fuse_grade
+python scripts/train_fusion_mil.py --config 2            # best fusion config (held-out)
+python scripts/train_fusion_mil.py --config 2 --full     # fusion deployment model (SUBMITTED)
 
 # 4. Detailed evaluation (per-organ + sample predictions)
 python scripts/eval_mil.py --name r1_reg_hier
 ```
 
-> **Trained weights** are committed in-tree under `artifacts/mil/<run>/mil_head.pt` (3–17 MB each).
-> Deployment heads: `r1_reg_full` (CONCH-only) and `f2_fuse_dxw_full` (fusion). The large CONCH
-> (~800 MB) and UNI2-h (~2.6 GB) *foundation* encoders are **not** redistributed here — download
-> them from Hugging Face (gated; see Setup).
+> **Trained weights ship with this repository** — see [`MODEL_WEIGHTS.md`](MODEL_WEIGHTS.md).
+> All 23 MIL heads are committed in-tree under `artifacts/mil/<run>/mil_head.pt` (3–19 MB each),
+> including **`f2_fuse_dxw_full` — the exact head inside the submitted 0.7707 container**. Nothing
+> needs downloading to reproduce our numbers. The large CONCH (766 MB) and UNI2-h (2.6 GB)
+> *foundation* encoders are third-party and **not** redistributed here — pull them from Hugging
+> Face (gated). The 3.3 GB pre-staged Docker build bundle is externally hosted; link and checksum
+> in `MODEL_WEIGHTS.md` §3.
 
 SLURM equivalents are in `slurm/` (set partition/account for your cluster). Key gotchas observed
 on our cluster: submit from a non-`/group` filesystem; request GPUs with `--gpus=N`.
 
 ## Submission container
 
+`repo_template/algorithm_submission_template/` **is the submitted inference code** — the container
+structure exactly as built for Grand Challenge (`src/interf1/` chain-of-thought, `src/interf0/`
+visual grounding, `src/common/` shared tiler/encoders/templates).
+
 ```bash
 cd repo_template/algorithm_submission_template
-# Place trained weights + CONCH snapshot + templates in the model tarball (see do_save.sh).
+# stage head + both encoders + label maps + templates.
+# SPEC_RUN=none reproduces the SUBMITTED V4 exactly (see note below).
+REPO_ROOT=../.. MIL_RUN=f2_fuse_dxw_full SPEC_RUN=none ./prepare_model.sh
 ./do_build.sh        # build the code-only image
 ./do_test_run.sh     # run on the bundled debug case; checks the I/O contract
 ./do_save.sh         # export image + model.tar.gz for upload
 ```
+
+The procedure used for the **final submission** is preserved verbatim in
+[`docs/HOST_BUILD_INSTRUCTIONS_REV4.txt`](docs/HOST_BUILD_INSTRUCTIONS_REV4.txt) (bundle MD5,
+validation evidence, upload steps, troubleshooting).
+
+> **`SPEC_RUN=none` matters.** `prepare_model.sh` defaults to also staging
+> `artifacts/mil/prostate_specialist/spec_head.pt`, a post-submission (V5) addition that was
+> **not** part of the 0.7707 container. Pass `SPEC_RUN=none` to reproduce the submitted V4
+> exactly; omit it to build the V5 variant.
 
 The container runs **offline** (`HF_HUB_OFFLINE=1`), reads
 `/input/images/whole-slide-image/<uid>.tiff`, and writes the CoT JSON; weights are mounted from a

@@ -1,0 +1,158 @@
+==============================================================================
+ REG2026 SUBMISSION — BUILD, TEST & UPLOAD INSTRUCTIONS (Docker host / local)
+==============================================================================
+Generated: 2026-06-28  (REV 4 — CONCH+UNI2-h fusion model + striped-TIFF reader)
+Bundle:    reg2026_submission_bundle_v4.tar.gz   (~3.3 GB)
+MD5:       bf098e0dea840048e809b23c84471e2a
+
+WHAT CHANGED SINCE THE LIVE (0.7449) SUBMISSION — why you are rebuilding
+------------------------------------------------------------------------
+The container currently on Grand Challenge is REV 3: CONCH-only model, old WSI
+reader. This REV 4 bundle bakes in two scoring-relevant upgrades plus one
+safety pin. No manual edits are needed — everything is staged.
+
+  1. FUSION MODEL (the score lever). The MIL head is now the all-data
+     deployment run `f2_fuse_dxw_full`: per-tile features are CONCH(512) ‖
+     UNI2-h(1536) = 2048-d early fusion. On a held-out 20% split this lifts
+     diagnosis accuracy 0.691 -> 0.737 and workflow 0.794 -> 0.814 vs the
+     CONCH-only model. model/ now ships BOTH encoders:
+        model/conch/pytorch_model.bin   (~766 MB)
+        model/uni2h/pytorch_model.bin   (~2.6 GB)   <-- NEW
+     and model/mil_head.pt is the in_dim=2048 fusion head. predictor.py auto-
+     detects in_dim==2048 and loads the second encoder; no flags to set.
+
+  2. STRIPED-TIFF READER (recovers lost test cases, prevents OOM). ~8.7% of
+     slides — almost all PROSTATE — are striped Adobe-Deflate TIFFs that
+     OpenSlide CANNOT open. The old container read those as all-zero features
+     (wrong predictions on the most important organ) and would OOM-crash on the
+     largest ones. src/common/wsi.py now falls back to a BOUNDED, band-major
+     strip decoder (one strip at a time, ~0.4–0.6 GB peak regardless of slide
+     size — verified on an 8,556-megapixel slide and on all 350 test slides).
+     Requires tifffile + imagecodecs, both already in requirements.txt.
+
+  3. timm PIN (regression guard). requirements.txt now pins `timm==1.0.27`.
+     The UNI2-h arch (vit_giant_patch14_reg4_dinov2 + SwiGLUPacked + reg_tokens)
+     needs a recent timm; an older resolve would make the UNI2-h load throw and
+     the model would SILENTLY fall back to the ~0.25 baseline. This is the same
+     failure class as the REV-2 missing-transformers bug. 1.0.27 is the version
+     validated end-to-end (0 errors / 0 bad schema across all 350 test slides).
+
+ALSO STILL IN PLACE FROM REV 3 (do not remove):
+  - Empty-question schema fix in templates_full.json + defensive guard in
+    src/common/templates.py (the original GC "should be non-empty" blocker).
+  - transformers==4.46.3 pin (vendored CONCH hard-imports it).
+  - do_save.sh STEP 3 tar line quoted (handles paths with spaces).
+
+VALIDATION ALREADY DONE ON THE CLUSTER (so you can trust the build):
+  - Full end-to-end run of THIS code over all 350 phase-1 test slides, 4 shards:
+        ERRORS = 0,  BAD_SCHEMA = 0,  peak RAM = 6.3 GB  (GC limit is 32 GB).
+  - Fusion model confirmed loading in-process ("CONCH+UNI2-h -> 2048").
+
+You MUST rebuild the image AND re-upload BOTH artifacts (image + model.tar.gz);
+the container + model currently on Grand Challenge are the older REV 3.
+
+WHAT THIS IS
+------------
+A self-contained REG2026 algorithm submission for reg2026.grand-challenge.org.
+The container is CODE-ONLY; the trained weights ship SEPARATELY as model.tar.gz
+(built locally by do_save.sh, see STEP 2). The bundle already has model/ fully
+staged (CONCH + UNI2-h encoders + fusion MIL head + label maps + templates), so
+you do NOT need this project's cluster filesystem or any network / HuggingFace
+access. Everything needed is inside the tarball.
+
+Target inference environment (Grand Challenge): single A10G GPU (sm_86),
+<= 32 GB RAM, < 5 min/case, fully OFFLINE.
+
+PREREQUISITES ON THIS MACHINE
+-----------------------------
+- Docker installed and running            (docker --version)
+- ~12 GB free disk (3.3 GB bundle + ~3 GB model.tar.gz + image layers)
+- (Optional) NVIDIA GPU + nvidia-container-toolkit. Not required to build or to
+  run the CPU contract smoke-test, but recommended to mirror the real run.
+
+------------------------------------------------------------------------------
+STEP 0 — VERIFY THE TRANSFER
+------------------------------------------------------------------------------
+Confirm the file arrived intact (md5 must match exactly):
+
+    md5sum reg2026_submission_bundle_v4.tar.gz
+    # expect: bf098e0dea840048e809b23c84471e2a
+    # (macOS:  md5 reg2026_submission_bundle_v4.tar.gz)
+
+Then unpack:
+
+    tar -xzf reg2026_submission_bundle_v4.tar.gz
+    cd reg2026_submission
+
+------------------------------------------------------------------------------
+STEP 1 — (OPTIONAL) CONTRACT SMOKE-TEST ON ONE SLIDE
+------------------------------------------------------------------------------
+This builds the image and runs both interfaces on the bundled sample case,
+writing outputs to test/output/. It runs on CPU if no GPU is available.
+
+    chmod +x do_*.sh prepare_model.sh
+    ./do_test_run.sh
+
+Expect: a chain-of-thought.json (interf1) and a JSON string (interf0) under
+test/output/, with no Python traceback. The console should print
+    [predictor] fusion model loaded (CONCH+UNI2-h -> 2048)
+If you instead see a baseline / template-only path, a dependency failed to
+install — STOP and check STEP 1a below before submitting.
+
+STEP 1a — sanity check that the real model loaded (recommended):
+The single biggest risk is a silent fall-back to the ~0.25 baseline. Confirm
+the fusion encoders actually loaded by grepping the run log for the line above.
+If it is missing, the most likely causes are an old `timm`, missing
+`transformers`, or missing `imagecodecs` — all are pinned in requirements.txt,
+so a clean rebuild (`docker build --no-cache`) usually fixes it.
+
+------------------------------------------------------------------------------
+STEP 2 — BUILD THE IMAGE + PACK THE MODEL
+------------------------------------------------------------------------------
+You do NOT need to run prepare_model.sh — model/ is already fully staged in the
+bundle (that script only runs on the training cluster). Just run:
+
+    ./do_save.sh
+
+This does three things:
+  1. Builds the Docker image  (tag: reg2026_algorithm).
+  2. Saves it to              reg2026_algorithm_<timestamp>.tar.gz   (the IMAGE).
+  3. Packs model/ contents to model.tar.gz                          (the MODEL).
+     model.tar.gz is the contents of model/ at the archive root (./conch/,
+     ./uni2h/, ./mil_head.pt, ./label_maps.json, ./templates_full.json) — this
+     is ~3 GB because it contains both encoders.
+
+------------------------------------------------------------------------------
+STEP 3 — UPLOAD TO GRAND CHALLENGE
+------------------------------------------------------------------------------
+On reg2026.grand-challenge.org, in YOUR algorithm:
+
+  1. Container Images  ->  upload  reg2026_algorithm_<timestamp>.tar.gz
+  2. Models           ->  upload  model.tar.gz
+                          (as a SEPARATE Model on the algorithm — NOT inside
+                           the image)
+
+IMPORTANT: both must be uploaded. The image is code-only; without the matching
+model.tar.gz the container has no weights and will fall back to baseline.
+
+Then run / submit to the debug (phase-1) phase first, confirm it scores, and
+only then submit to the ranked phase.
+
+------------------------------------------------------------------------------
+TROUBLESHOOTING / NOTES
+------------------------------------------------------------------------------
+- "should be non-empty" schema error: already fixed (templates + guard). If you
+  ever see it again, you are on an old bundle.
+- Score collapses to ~0.25: a dependency didn't load -> silent baseline. Rebuild
+  with `docker build --no-cache .` and re-check STEP 1a.
+- Large striped slides: handled by the bounded strip reader; peak RAM stays well
+  under the 32 GB limit. No action needed.
+- Build is amd64 (`--platform=linux/amd64`); on Apple Silicon Docker emulates
+  this transparently for build/save (slower but fine).
+
+EXPECTED OUTCOME
+----------------
+Held-out proxy: workflow 0.794 (live REV3) -> 0.814 (this fusion model), driven
+by +4.6 pts diagnosis accuracy, plus recovery of the ~prostate striped test
+slides that the live container currently zeros out. Oracle ceiling is 0.889.
+==============================================================================

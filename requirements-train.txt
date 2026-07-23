@@ -1,0 +1,58 @@
+# =============================================================================
+# REG2026 — PINNED TRAINING / EXTRACTION ENVIRONMENT
+# =============================================================================
+# Exact versions of the environment that produced the submitted V4 fusion model
+# (`artifacts/mil/f2_fuse_dxw_full/mil_head.pt`, leaderboard Overall 0.7707).
+# Captured from the cluster venv with `pip list --format=freeze`.
+#
+# This file is for REPRODUCING TRAINING on a GPU host. It is NOT the container
+# dependency set — the submission image installs
+# `repo_template/algorithm_submission_template/requirements.txt` on top of the
+# pytorch/pytorch:2.9.1-cuda12.6-cudnn9-runtime base image. The two differ on
+# purpose; see docs/ENVIRONMENT.md.
+#
+# Install torch FIRST, from the CUDA 12.8 index (see docs/ENVIRONMENT.md):
+#     pip install torch==2.9.1 torchvision==0.24.1 \
+#         --index-url https://download.pytorch.org/whl/cu128
+# then `pip install -r requirements-train.txt`.
+# -----------------------------------------------------------------------------
+
+# --- deep learning ---
+# NOTE: cu128 wheels. A cu124 build has no Blackwell (sm_100/sm_120) kernels and
+# dies with "no kernel image is available for execution on the device" on
+# RTX PRO 6000 / B200. Any recent build is fine on A10G/L4 (sm_86/sm_89).
+torch==2.9.1+cu128
+torchvision==0.24.1+cu128
+
+# --- tile encoders ---
+# timm carries the UNI2-h arch (vit_giant_patch14_reg4_dinov2 + SwiGLUPacked +
+# reg_tokens). Older timm cannot build it. Same pin as the container.
+timm==1.0.27
+open_clip_torch==3.3.0
+einops==0.8.1
+ftfy==6.3.1
+regex==2026.2.28
+huggingface_hub==1.21.0
+safetensors==0.5.3
+# CONCH additionally hard-imports transformers (custom_tokenizer.py).
+# Training used 5.12.1; the CONTAINER pins 4.46.3 — the version validated
+# end-to-end in the image. Either works for feature extraction.
+transformers==5.12.1
+
+# --- WSI I/O ---
+# openslide-python needs the OpenSlide C library (openslide-bin ships it as a
+# wheel; or install libopenslide0 from the system package manager).
+openslide-python==1.4.2
+openslide-bin==4.0.0.8
+# tifffile + imagecodecs are REQUIRED, not optional: ~8.7% of slides (almost all
+# prostate) are striped Adobe-Deflate TIFFs that OpenSlide cannot open, and the
+# bounded strip decoder in src/common/wsi.py falls back to them.
+tifffile==2024.12.12
+imagecodecs==2024.9.22
+pillow==12.0.0
+
+# --- numerics / utils ---
+numpy==1.26.4
+scikit-learn==1.8.0
+h5py==3.15.1
+tqdm==4.67.3
