@@ -35,8 +35,10 @@ ROOT = "/group/anantm-g00/REG2026"
 DATA = f"{ROOT}/Data/train_CoT.json"
 EMB_CONCH = f"{ROOT}/artifacts/embeddings/conch/train"
 EMB_UNI2H = f"{ROOT}/artifacts/embeddings/uni2h/train"
+EMB_VIRCHOW2 = f"{ROOT}/artifacts/embeddings/virchow2/train"
 OUT_ROOT = f"{ROOT}/artifacts/mil"
-IN_DIM = 2048  # 512 (CONCH) + 1536 (UNI2-h)
+IN_DIM = 2048  # 512 (CONCH) + 1536 (UNI2-h); -> 4608 when --virchow2 adds 2560 (Virchow2)
+USE_V2 = False  # set by --virchow2: early-fuse a 3rd encoder (Virchow2, 2560-d)
 
 # Fusion configs. Richer 2048-d input -> a bit more capacity than the CONCH-only r1_reg.
 CONFIGS = [
@@ -81,24 +83,27 @@ def collate_grade(batch):
 
 def emb_paths(cid):
     base = cid[:-5] if cid.endswith(".tiff") else cid
-    return os.path.join(EMB_CONCH, base + ".npy"), os.path.join(EMB_UNI2H, base + ".npy")
+    paths = [os.path.join(EMB_CONCH, base + ".npy"), os.path.join(EMB_UNI2H, base + ".npy")]
+    if USE_V2:
+        paths.append(os.path.join(EMB_VIRCHOW2, base + ".npy"))
+    return paths
 
 
 def load_fusion_cache(ids):
-    """Per-tile concat of CONCH and UNI2-h. Includes a slide only if BOTH .npy exist and
-    have matching tile counts (deterministic tiling guarantees alignment when both present)."""
+    """Per-tile concat of CONCH + UNI2-h (+ Virchow2 if USE_V2). Includes a slide only if
+    ALL required .npy exist with matching tile counts (deterministic tiling guarantees
+    alignment when present)."""
     cache, n_skip_missing, n_skip_mismatch = {}, 0, 0
     for cid in ids:
-        pc, pu = emb_paths(cid)
-        if not (os.path.exists(pc) and os.path.exists(pu)):
+        paths = emb_paths(cid)
+        if not all(os.path.exists(p) for p in paths):
             n_skip_missing += 1
             continue
-        c = np.load(pc).astype(np.float32)
-        u = np.load(pu).astype(np.float32)
-        if c.shape[0] != u.shape[0]:
+        arrs = [np.load(p).astype(np.float32) for p in paths]
+        if len({a.shape[0] for a in arrs}) != 1:
             n_skip_mismatch += 1
             continue
-        cache[cid] = np.concatenate([c, u], axis=1)   # (N, 2048)
+        cache[cid] = np.concatenate(arrs, axis=1)   # (N, 2048) or (N, 4608) with Virchow2
     return cache, n_skip_missing, n_skip_mismatch
 
 
@@ -107,11 +112,21 @@ def main():
     ap.add_argument("--config", type=int, default=0)
     ap.add_argument("--full", action="store_true", help="train on ALL data (deployment model)")
     ap.add_argument("--name", default=None)
+    ap.add_argument("--seed", type=int, default=0,
+                    help="random seed for init/shuffle/tile-drop (split stays fixed). "
+                         "Vary it to build a decorrelated ensemble of the same config.")
+    ap.add_argument("--virchow2", action="store_true",
+                    help="early-fuse a 3rd encoder (Virchow2, 2560-d) -> 4608-d bags")
     args = ap.parse_args()
     cfg = CONFIGS[args.config]
-    name = args.name or (cfg["name"] + ("_full" if args.full else ""))
+    global USE_V2, IN_DIM
+    if args.virchow2:
+        USE_V2 = True
+        IN_DIM = 4608  # 512 (CONCH) + 1536 (UNI2-h) + 2560 (Virchow2)
+    name = args.name or (cfg["name"] + ("_v2" if args.virchow2 else "")
+                         + (f"_s{args.seed}" if args.seed else "") + ("_full" if args.full else ""))
     dev = "cuda" if torch.cuda.is_available() else "cpu"
-    torch.manual_seed(0); np.random.seed(0)
+    torch.manual_seed(args.seed); np.random.seed(args.seed)
     out_dir = os.path.join(OUT_ROOT, name); os.makedirs(out_dir, exist_ok=True)
     print(f"[{name}] FUSION config={cfg} full={args.full} device={dev}", flush=True)
 
