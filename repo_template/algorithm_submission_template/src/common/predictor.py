@@ -16,7 +16,7 @@ import json
 from pathlib import Path
 
 _STATE = {"loaded": False, "model": None, "labels": None, "encoder": None,
-          "encoder2": None, "fusion": False, "device": None}
+          "encoder2": None, "fusion": False, "device": None, "spec": None}
 
 
 def _try_load_model(model_path: Path):
@@ -45,6 +45,21 @@ def _try_load_model(model_path: Path):
         if _STATE["fusion"]:
             _STATE["encoder2"] = load_uni2h_encoder(model_path, _STATE["device"])  # UNI2-h (1536)
             print("[predictor] fusion model loaded (CONCH+UNI2-h -> 2048)")
+        # Optional prostate tumor-detection specialist (overrides the main head's
+        # prostate No-tumor<->Acinar call). Fully optional: absence leaves spec=None.
+        try:
+            spec_path = model_path / "spec_head.pt"
+            if _STATE["fusion"] and spec_path.exists():
+                from .mil import ProstateSpecialist
+                sck = torch.load(spec_path, map_location=_STATE["device"])
+                spec = ProstateSpecialist(in_dim=int(sck.get("in_dim", 2048)))
+                spec.load_state_dict(sck["state_dict"])
+                spec.to(_STATE["device"]).eval()
+                _STATE["spec"] = spec
+                print("[predictor] prostate specialist loaded")
+        except Exception as e:
+            print(f"[predictor] prostate specialist not loaded ({e}); skipping override")
+            _STATE["spec"] = None
         return True
     except Exception as e:  # never crash inference on load failure -> use baseline
         print(f"[predictor] model load failed ({e}); using baseline prior")
@@ -111,6 +126,18 @@ def predict_fields(wsi_path, model_path: Path, templates) -> dict:
     organ_list, dx_list = labels["organ"], labels["dx"]
     organ_str = organ_list[po] if 0 <= po < len(organ_list) else None
     _, dx_str = dx_label_to_organ_dx(dx_list[pd]) if 0 <= pd < len(dx_list) else (None, None)
+    # prostate tumor-detection specialist override: the main head's single most
+    # concentrated error is the prostate No-tumor<->Acinar adenocarcinoma boundary.
+    # When a specialist is bundled and the main head lands on one of those two, let
+    # the focused binary detector decide. Fully guarded -> any failure is a no-op.
+    _PROSTATE_BIN = ("No tumor present", "Acinar adenocarcinoma")
+    if _STATE.get("spec") is not None and organ_str == "Prostate" and dx_str in _PROSTATE_BIN:
+        try:
+            with torch.no_grad():
+                tumor = int(_STATE["spec"](feats.unsqueeze(0)).argmax(-1).item())
+            dx_str = "Acinar adenocarcinoma" if tumor == 1 else "No tumor present"
+        except Exception as e:
+            print(f"[predictor] prostate specialist override skipped ({e})")
     # confidence-based abstention: low-confidence dx backs off to the organ template
     tau = float(labels.get("abstain_tau", 0.0))
     if conf < tau:

@@ -76,6 +76,35 @@ def dx_label_to_organ_dx(dx_label):
     return organ, (None if dx == "other" else dx)
 
 
+class ProstateSpecialist(nn.Module):
+    """Binary prostate tumor detector (no-tumor vs tumor) over the SAME 2048-d fused
+    CONCH+UNI2-h tiles. Used ONLY to override the main head's prostate
+    {No tumor present <-> Acinar adenocarcinoma} call, the single most concentrated
+    error bucket. Gated-attention pool + top-k instance-max branch (tumor = any focal
+    tumor tile). Mirror of scripts/train_prostate_specialist.ProstateSpecialist."""
+
+    def __init__(self, in_dim=2048, hidden=256, attn_dim=128, dropout=0.25, topk=8):
+        super().__init__()
+        self.mil = GatedAttentionMIL(in_dim, hidden, attn_dim, dropout)
+        self.inst = nn.Sequential(nn.Linear(in_dim, hidden), nn.GELU(),
+                                  nn.Dropout(dropout), nn.Linear(hidden, 1))
+        self.trunk = nn.Sequential(nn.Dropout(dropout), nn.Linear(hidden, hidden), nn.GELU(),
+                                   nn.Dropout(dropout))
+        self.head = nn.Linear(hidden + 1, 2)
+        self.topk = topk
+
+    def forward(self, x, mask=None):
+        pooled, _ = self.mil(x, mask)
+        z = self.trunk(pooled)
+        s = self.inst(x).squeeze(-1)
+        if mask is not None:
+            s = s.masked_fill(~mask, float("-inf"))
+        k = min(self.topk, s.shape[1])
+        topk = torch.topk(s, k, dim=1).values
+        topk = topk.masked_fill(torch.isinf(topk), 0.0).mean(dim=1, keepdim=True)
+        return self.head(torch.cat([z, topk], dim=1))
+
+
 def load_encoder(model_path, device):
     """Load the bundled CONCH encoder. Returns a callable: (B,3,224,224) in [0,1] -> (B,512)."""
     from conch.open_clip_custom import create_model_from_pretrained

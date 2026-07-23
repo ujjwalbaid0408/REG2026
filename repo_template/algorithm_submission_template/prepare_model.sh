@@ -16,6 +16,7 @@ SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 # --- configure these for your environment ---
 REPO_ROOT="${REPO_ROOT:-/group/anantm-g00/REG2026}"
 MIL_RUN="${MIL_RUN:-f2_fuse_dxw_full}"   # deployment model: CONCH+UNI2-h fusion, all 11,220 slides
+SPEC_RUN="${SPEC_RUN:-prostate_specialist}"   # optional prostate tumor/no-tumor override head
 CONCH_BIN="${CONCH_BIN:-$(find "$HOME/.cache/huggingface" -name pytorch_model.bin -path '*onch*' 2>/dev/null | head -1)}"
 UNI2H_BIN="${UNI2H_BIN:-$(find "$HOME/.cache/huggingface" -name pytorch_model.bin -path '*UNI2-h*' 2>/dev/null | head -1)}"
 
@@ -26,6 +27,15 @@ echo "[prepare_model] MIL run = ${MIL_RUN}"
 cp "${REPO_ROOT}/artifacts/mil/${MIL_RUN}/mil_head.pt"     "${MODEL_DIR}/mil_head.pt"
 cp "${REPO_ROOT}/artifacts/mil/${MIL_RUN}/label_maps.json" "${MODEL_DIR}/label_maps.json"
 cp "${REPO_ROOT}/artifacts/templates_full.json"           "${MODEL_DIR}/templates_full.json"
+
+# Optional prostate specialist (small head). Absence is harmless: predictor skips override.
+SPEC_PT="${REPO_ROOT}/artifacts/mil/${SPEC_RUN}/spec_head.pt"
+if [ -f "${SPEC_PT}" ]; then
+  cp "${SPEC_PT}" "${MODEL_DIR}/spec_head.pt"
+  echo "[prepare_model] prostate specialist = ${SPEC_PT}"
+else
+  echo "[prepare_model] no prostate specialist at ${SPEC_PT} (override disabled)"
+fi
 
 if [ -z "${CONCH_BIN}" ] || [ ! -f "${CONCH_BIN}" ]; then
   echo "ERROR: CONCH weights not found. Set CONCH_BIN=/path/to/pytorch_model.bin" >&2

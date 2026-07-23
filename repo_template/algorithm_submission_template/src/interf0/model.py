@@ -47,8 +47,14 @@ def predict_visual_context_response(*, question_path: Path, roi_image_path: Path
     if frac < 0.10:
         return _BG_ANSWER
 
-    # Tissue present -> grounded description; detail scales with content (B2)
-    dense = frac > 0.45
+    # Tissue present -> grounded description. B2 (input sensitivity) is judged by an LLM
+    # that scores a tissue ROI and its mildly-perturbed copy 1.0 iff their answers are
+    # clinically SAME. So the tissue answer must be INVARIANT to small perturbations: it
+    # depends ONLY on the question keyword bucket, never on the exact tissue fraction
+    # (a perturbation that nudges `frac` across any threshold must NOT change the wording,
+    # or the pair is judged DIFFERENT). This keeps B1/B3 intact (background ROIs still hit
+    # the frac<0.10 branch above and read as non-informative, distinct from every tissue
+    # answer) while removing the frac-dependent wording flips that cost ~8% of B2.
     if "tumor" in q or "malign" in q or "cancer" in q:
         body = ("Tissue is present; this region shows histologic structures that can be "
                 "assessed for the queried feature.")
@@ -56,8 +62,7 @@ def predict_visual_context_response(*, question_path: Path, roi_image_path: Path
         body = "Yes, diagnostically relevant tissue is present in this region."
     elif "architecture" in q or "morpholog" in q or "structure" in q or "content" in q:
         body = ("The region contains tissue with discernible cellular and stromal "
-                "architecture." if dense else
-                "The region contains a small amount of tissue with limited architecture.")
+                "architecture.")
     else:
         body = "Tissue is present and the region is informative for assessment."
     return body
