@@ -5,6 +5,26 @@ Submission to the **REG² (REG2026) Pathologist Reasoning-Guided Report Generati
 chain-of-thought (CoT) reasoning graph, the intermediate answers, and a final pathology report,
 and serves a visual-grounding interface.
 
+## Team
+
+| | |
+|---|---|
+| **Team name** | **TeamTiger** |
+| **Members** | Ujjwal Baid, Bhakti Baheti, Tilak Pathak, Anant Madabhushi |
+| **Grand Challenge profile** | https://grand-challenge.org/users/baidujjwal/ |
+| **Grand Challenge username** | `baidujjwal` |
+
+**Method (brief).** A single H&E WSI is tiled and encoded with two frozen pathology foundation
+encoders (CONCH ‖ UNI2-h, 2048-d concatenated), aggregated by an attention MIL head that predicts
+**organ** and **diagnosis**, and the predicted pair keys a deterministic template engine that emits
+the CoT graph, intermediate answers, and final report. Full description submitted to the organizers
+via OpenReview; see [`docs/APPROACHES.md`](docs/APPROACHES.md) for the extended version.
+
+**Reproducing inference:** [`REPRODUCE.md`](REPRODUCE.md) — end-to-end, with expected numbers per
+stage. **Downloading model weights:** [`MODEL_WEIGHTS.md`](MODEL_WEIGHTS.md) — every head we trained
+is committed in-tree; only the third-party foundation encoders and the optional 3.3 GB build bundle
+are external.
+
 ## Key idea
 
 A data analysis of the 11,220-slide training corpus shows the reasoning target is **highly
@@ -230,7 +250,21 @@ Both submissions placed top-10. Scoring: `Overall = 0.70·A + 0.30·B`, where
 | MESS (0.25) | 0.7270 | 0.7611 | +0.0341 |
 | Report Score (0.40) | 0.5160 | 0.5643 | +0.0483 |
 | Binary Path Validity (0.05) | 0.3860 | 0.4200 | +0.0340 |
-| Visual Grounding | 0.9750 | 0.9750 | 0.0000 |
+| Visual Grounding (`B`, aggregate) | 0.9750 | 0.9750 | 0.0000 |
+
+Grounding sub-metrics reported for the final V4 entry:
+
+| Grounding component | V4 |
+|---|---:|
+| Background Rejection | 1.0000 |
+| Input Sensitivity | 0.9167 |
+| Cross Region Consistency | 1.0000 |
+| **Visual Grounding (aggregate `B`)** | **0.9750** |
+
+> The aggregate `B = 0.9750` is the value that reproduces the official Overall:
+> `0.70 · 0.683085 + 0.30 · 0.9750 = 0.7707`. Note the three components above average **0.9722**,
+> not 0.9750, so `B` is not a plain mean of these three alone — treat the aggregate as authoritative
+> and the decomposition as indicative.
 
 Every **diagnosis-driven** component rose (Edge F1, MESS, Report, BPV) while the grounding metrics
 were unchanged — the exact signature of a better (organ, diagnosis) predictor. **Report Score** rose
